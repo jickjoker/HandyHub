@@ -1,2 +1,125 @@
-<h1>Welcome to HandyHub</h1>
-<p>Tools, calculators and games coming soon.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HandyHub</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0f1115;
+    color: #ffffff;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #111827;
+    padding: 20px;
+    border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #22c55e;
+    letter-spacing: 1px;
+}
+
+.nav-section {
+    margin-bottom: 25px;
+}
+
+.nav-title {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-item {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #e5e7eb;
+    transition: 0.2s;
+}
+
+.nav-item:hover {
+    background: #1f2937;
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+}
+
+.welcome-box h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.welcome-box p {
+    color: #9ca3af;
+    font-size: 16px;
+}
+
+/* Optional accent */
+.highlight {
+    color: #22c55e;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <div class="nav-item">Welcome</div>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Tools</div>
+        <div class="nav-item">Speed / Distance / Time</div>
+        <div class="nav-item">Percentages</div>
+        <div class="nav-item">Fractions</div>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Financial Tools</div>
+        <div class="nav-item" style="opacity:0.5; cursor:default;">Coming soon</div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+    <div class="welcome-box">
+        <h1>Welcome to <span class="highlight">HandyHub</span></h1>
+        <p>A simple collection of tools and calculators</p>
+    </div>
+</div>
+
+</body>
+</html>
