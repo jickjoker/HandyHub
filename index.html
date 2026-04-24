@@ -1,124 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HandyHub</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-body {
-    background: #0f1115;
-    color: #ffffff;
-    display: flex;
-    min-height: 100vh;
+body{
+    background:#0f1115;
+    color:#ffffff;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 260px;
-    background: #111827;
-    padding: 20px;
-    border-right: 1px solid #1f2937;
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
 }
 
-.sidebar h2 {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #22c55e;
-    letter-spacing: 1px;
+.sidebar h2{
+    font-size:18px;
+    margin-bottom:20px;
+    color:#22c55e;
+    letter-spacing:1px;
 }
 
-.nav-section {
-    margin-bottom: 25px;
+.nav-section{
+    margin-bottom:25px;
 }
 
-.nav-title {
-    font-size: 12px;
-    color: #9ca3af;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }
 
-.nav-item {
-    padding: 10px 12px;
-    margin-bottom: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: #e5e7eb;
-    transition: 0.2s;
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
 }
 
-.nav-item:hover {
-    background: #1f2937;
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
 }
 
-/* Main Content */
-.main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px;
+.active-page{
+    background:#22c55e;
+    color:#111827;
+    font-weight:bold;
 }
 
-.welcome-box h1 {
-    font-size: 40px;
-    margin-bottom: 10px;
-    color: #ffffff;
+/* MAIN CONTENT - FIXED CENTERING */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;   /* IMPORTANT: stack vertically */
+    align-items:center;
+
+    text-align:center;
+    padding:40px;
+}
+.welcome-box h1{
+    font-size:40px;
+    margin-bottom:12px;
 }
 
-.welcome-box p {
-    color: #9ca3af;
-    font-size: 16px;
+.welcome-box p{
+    color:#9ca3af;
+    font-size:16px;
 }
 
-/* Optional accent */
-.highlight {
-    color: #22c55e;
+.highlight{
+    color:#22c55e;
 }
 
+.tool-grid{
+    display:flex;
+    gap:20px;
+    margin-top:40px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.tool-card{
+    width:260px;
+    background:#111827;
+    border-radius:12px;
+    overflow:hidden;
+    text-decoration:none;
+    color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+    transition:0.2s;
+}
+
+.tool-card:hover{
+    transform:scale(1.03);
+}
+
+.tool-card img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    display:block;
+}
+
+.tool-title{
+    padding:12px;
+    font-size:16px;
+    text-align:center;
+    background:#0f172a;
+}
+
+
+/* IMAGE ROW */
+.card-row{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+/* EACH CARD */
+.card{
+    width:340px;
+    text-decoration:none;
+    color:white;
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:12px;
+    overflow:hidden;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    display:block;
+}
+
+.card-title{
+    padding:12px;
+    text-align:center;
+    font-weight:bold;
+    color:#e5e7eb;
+}
+
+.card-row{
+    margin-top:30px;   /* increase this to push images down */
+}
+.recent-label{
+    margin-top:80px;
+    margin-bottom:0px;
+    font-size:25px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:red;
+    font-weight:bold;
+}
+.card-row{
+    margin-bottom:200px;   /* adjust this number */
+}
 </style>
 </head>
 
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
     <h2>HandyHub</h2>
 
     <div class="nav-section">
         <div class="nav-title">Home</div>
-        <div class="nav-item">Welcome</div>
+        <a href="index.html" class="nav-item active-page">Welcome</a>
     </div>
 
     <div class="nav-section">
         <div class="nav-title">Math Tools</div>
-        <div class="nav-item">Speed / Distance / Time</div>
-        <div class="nav-item">Percentages</div>
-        <div class="nav-item">Fractions</div>
+        <a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
+        <a href="#" class="nav-item">Fractions</a>
+        <a href="#" class="nav-item">Speed / Distance / Time</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Games</div>
+        <a href="percentage-game.html" class="nav-item">Percentage Game</a>
     </div>
 
     <div class="nav-section">
         <div class="nav-title">Financial Tools</div>
-        <div class="nav-item" style="opacity:0.5; cursor:default;">Coming soon</div>
+        <a href="#" class="nav-item">Coming soon</a>
     </div>
 </div>
 
-<!-- Main Content -->
 <div class="main">
+
+    <!-- TOP TEXT -->
     <div class="welcome-box">
         <h1>Welcome to <span class="highlight">HandyHub</span></h1>
         <p>A simple collection of tools and calculators</p>
     </div>
+<!-- RECENT LABEL -->
+<div class="recent-label">Recently Added</div>
+    <!-- IMAGE GRID -->
+    <div class="card-row">
+
+        <a href="percentage-game.html" class="card">
+            <img src="percentage-game.png" alt="Percentage Game">
+            <div class="card-title"></div>
+        </a>
+
+        <a href="percentage-solver.html" class="card">
+            <img src="percentage-solver.png" alt="Percentage Solver">
+            <div class="card-title"></div>
+        </a>
+
+    </div>
+
 </div>
 
 </body>
