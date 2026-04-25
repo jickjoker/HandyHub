@@ -283,6 +283,79 @@ h1{
     border-radius:12px;
     box-shadow:0 5px 20px rgba(0,0,0,0.5);
 }
+
+/* ---- Math Help Box ---- */
+.math-help-box {
+  font-family: Arial, sans-serif; /* match your page font */
+  line-height: 1.6;
+  max-width: 600px;      /* match your game width */
+  margin: 80px auto 20px auto; /* top margin increased from 20px → 40px */
+  padding: 25px;
+  background-color: #fcfcfc;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  color: black;
+}
+
+.math-help-box h2 {
+  color: #2c3e50;
+  margin-top: 0;
+  text-align: center;
+  font-size:25px;
+}
+
+.math-help-box p {
+    font-size: 19px;       /* makes text larger */
+    color: #2c3e50;        /* dark gray/blue color */
+    margin-bottom: 20px;   /* space after the paragraph */
+	text-align: center;
+}
+
+.math-help-box h3 {
+  color: #800020;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  font-size:30px;
+  text-align: center;
+}
+
+.formula-card {
+  background: #fff;
+  border-left: 5px solid #27ae60;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+.formula-card code {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.medal-badge {
+  font-weight: bold;
+  display: block;
+  margin: 5px 0;
+}
+
+.info-box ol,
+.info-box li {
+    margin-left: 20px; /* indent list items */
+    color: black;       /* text color */
+    font-size: 18px;    /* readable size */
+    line-height: 1.6;
+}
+
+.math-help-box .main-title {
+    font-size: 3rem; /* bigger size */
+    font-weight: bold;
+    color: black; /* optional, same as h2 or different */
+}
 </style>
 </head>
 
@@ -333,28 +406,66 @@ h1{
 <button class="start-btn" onclick="start()">Start</button>
 </div>
 
-<h2 class="section-title">Think You're Good at Math?</h2>
+<section class="math-help-box">
+  <h2>
+  <span class="main-title">Test Your Skills:</span> <br>The 10-Question Percentages Challenge
+</h2>
+  <br>
+  <p>Think you’re a math pro? Solve for the missing part, whole, or percentage in our interactive quiz!</p>
+<br>
+  <h3>How to Play</h3>
+  <ol>
+  <br>
+    <li>Click <strong>Start</strong> to begin.</li>
+    <li>Choose the correct answer from 3 options.</li>
+    <li>Aim for the <strong>Gold Medal!</strong>:<br><br>
+      <span class="medal-badge">Score 8/10 = Bronze 🥉</span>
+      <span class="medal-badge">Score 9/10 = Silver 🥈</span>
+      <span class="medal-badge">Score 10/10 = Gold 🥇</span>
+    </li>
+  </ol>
+<br>
+<br>
+  <h3>Percentage Formula Cheat Sheet</h3>
+  
+  <div class="formula-card">
+    <strong>1. To find the Part:</strong>
+    <code>Part = Whole × (Percentage / 100)</code>
+    <em>Example: 30% of 150? → 150 × 0.3 = <strong>45</strong></em>
+  </div>
 
-<div class="info-box">
-<p style="text-align:center;">
-Test yourself with this 10-question percentages game.<br>
-Each question has one missing value to solve: whole number, part, or percentage.<br><br>
-Score 8/10 = Bronze 🥉<br>
-Score 9/10 = Silver  🥈<br>
-Score 10/10 = Gold   🥇
-</p>
-</div>
+  <div class="formula-card" style="border-left-color: #f39c12;">
+    <strong>2. To find the Percentage:</strong>
+    <code>% = (Part ÷ Whole) × 100</code>
+    <em>Example: 24 is what % of 80? → (24 ÷ 80) × 100 = <strong>30%</strong></em>
+  </div>
 
-<h2 class="section-title">Why Learn Percentages?</h2>
+  <div class="formula-card" style="border-left-color: #c0392b;">
+    <strong>3. To find the Whole:</strong>
+    <code>Whole = Part ÷ (Percentage / 100)</code>
+    <em>Example: 40 is 80% of what? → 40 ÷ 0.8 = <strong>50</strong></em>
+  </div>
+<br>
+<br>
+  <h3>Why Master Percentages?</h3>
+  <p>Percentage problems appear everywhere in daily life. Whether you are calculating <strong>retail discounts</strong>, checking <strong>test grades</strong>, or determining <strong>tips and budgets</strong>, mental math skills give you an advantage.</p>
+</section>
 
-<div class="info-box">
-<p>
-Percentages are used in shopping discounts, sports stats, interest rates, tax and probability.
-This game improves speed, accuracy and mental maths.
-</p>
-</div>
+<!-- Existing sections above -->
 
-<h2 class="section-title">The Percentage Solution Pyramid</h2>
+<!-- Pyramid Method Info Box -->
+<!-- Pyramid Method Info Box -->
+<section class="math-help-box">
+  <h2>How to Solve with the Pyramid Method</h2><br>
+  <ol>
+    <li><b>Memorise the pyramid image.</b></li>
+    <li><b>Imagine placing your hand over the missing value.</b> This helps you visualize which part is unknown.</li>
+    <li><b>Select the correct arithmetic operation.</b>
+      <br>Example: If <b>Part</b> is covered, <b>(%)</b> and <b>(Whole)</b> remain, which tells you <b>multiplication</b> is used.
+    </li>
+  </ol>
+</section>
+
 
 <div class="pyramid">
 <img src="how-it-works.png" alt="Solution Pyramid">
