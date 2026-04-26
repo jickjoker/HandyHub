@@ -362,29 +362,29 @@ h1{
 <body>
 
 <div class="sidebar">
-<h2>HandyHub</h2>
+    <h2>HandyHub</h2>
 
-<div class="nav-section">
-<div class="nav-title">Home</div>
-<a href="index.html" class="nav-item">Welcome</a>
-</div>
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <a href="index.html" class="nav-item">Welcome</a>
+    </div>
 
-<div class="nav-section">
-<div class="nav-title">Math Tools</div>
-<a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
-<a href="#" class="nav-item">Fractions</a>
-<a href="#" class="nav-item">Speed / Distance / Time</a>
-</div>
+    <div class="nav-section">
+        <div class="nav-title">Math Tools</div>
+        <a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
+        <a href="#" class="nav-item">Fractions</a>
+    </div>
 
-<div class="nav-section">
-<div class="nav-title">Math Games</div>
-<a href="percentage-game.html" class="nav-item active-page">Percentage Game</a>
-</div>
+    <div class="nav-section">
+        <div class="nav-title">Math Games</div>
+        <a href="percentage-game.html" class="nav-item active-page">Percentage Game</a>
+        <a href="speed-game.html" class="nav-item">Speed Distance Time Game</a>
+    </div>
 
-<div class="nav-section">
-<div class="nav-title">Financial Tools</div>
-<a href="#" class="nav-item">Coming soon</a>
-</div>
+    <div class="nav-section">
+        <div class="nav-title">Financial Tools</div>
+        <a href="#" class="nav-item">Coming soon</a>
+    </div>
 </div>
 
 <div class="main">
@@ -534,7 +534,7 @@ function next(){
         startBtn.disabled=false;
 
         if(score===10){
-            confetti({particleCount:120,spread:80,origin:{y:0.6}});
+            confetti({particleCount:500,spread:160,origin:{y:0.9}});
             screen.innerHTML=`<div class="high-score gold flash-medal">🏆 High Score! 10/10</div>`;
             box.classList.add("gold-rim");
         }else if(score===9){

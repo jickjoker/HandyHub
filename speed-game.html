@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:black;
+    color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+    overflow-y:auto;
+}
+
+.sidebar h2{
+    font-size:18px;
+    margin-bottom:20px;
+    color:#22c55e;
+    letter-spacing:1px;
+}
+
+.nav-section{
+    margin-bottom:25px;
+}
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.active-page{
+    background:#22c55e;
+    color:#111827;
+    font-weight:bold;
+}
+
+/* MAIN */
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* GAME */
+.game {
+    width: 700px;
+    height: 315px;
+    background: #111827;
+    border: 4px solid #2b2f3a;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    margin-bottom: 60px;
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+h1{
+    text-align:center;
+    color:#FFAA17;
+    font-size:35px;
+    margin:0 0 10px 0;
+}
+
+.screen-wrapper{
+    flex:1;
+    background:black;
+    border-radius:12px;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.counter{
+    position:absolute;
+    top:10px;
+    left:12px;
+    font-size:18px;
+    color:#9ca3af;
+}
+
+.question{
+    font-size:22px;
+    text-align:center;
+    padding:20px;
+}
+
+.answers{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.answers button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#02080F;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.answers button:hover{
+    background:#374151;
+}
+
+.correct-btn{
+    background:#22c55e !important;
+    color:black;
+}
+
+.start-btn{
+    background:#22c55e;
+    color:black;
+    font-weight:bold;
+    margin-top:10px;
+    padding:10px 22px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    align-self:center;
+}
+
+.start-btn:disabled{
+    opacity:0.4;
+    cursor:not-allowed;
+}
+
+/* STATES */
+.correct-box #screen{
+    color:#22c55e;
+    font-weight:bold;
+    text-shadow:0 0 8px #22c55e;
+}
+
+.wrong-box #screen{
+    color:#ef4444;
+    font-weight:bold;
+    text-shadow:0 0 8px #ef4444;
+    animation:shake .3s;
+}
+
+@keyframes shake{
+0%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+50%{transform:translateX(5px);}
+75%{transform:translateX(-5px);}
+100%{transform:translateX(0);}
+}
+
+/* CELEBRATION RIM */
+#box::before{
+    content:"";
+    position:absolute;
+    inset:-4px;
+    border-radius:inherit;
+    padding:4px;
+    opacity:0;
+    pointer-events:none;
+}
+
+.gold-rim::before{
+    background:conic-gradient(
+        transparent 0deg,
+        transparent 300deg,
+        #ffd700 330deg,
+        #fff8a8 345deg,
+        #ffd700 360deg
+    );
+    opacity:1;
+    animation:spinRim .8s linear 5;
+}
+
+.silver-rim::before{
+    background:conic-gradient(
+        transparent 0deg,
+        transparent 300deg,
+        #c0c0c0 330deg,
+        white 345deg,
+        #c0c0c0 360deg
+    );
+    opacity:1;
+    animation:spinRim 1s linear 4;
+}
+
+.bronze-rim::before{
+    background:conic-gradient(
+        transparent 0deg,
+        transparent 300deg,
+        #cd7f32 330deg,
+        #f0b37e 345deg,
+        #cd7f32 360deg
+    );
+    opacity:1;
+    animation:spinRim 1.2s linear 3;
+}
+
+@keyframes spinRim{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+}
+
+/* INFO BOX */
+.info-box {
+    width: 700px;
+    margin: 30px auto;
+    padding: 16px;
+    background: white;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+.info-box h2,
+.info-box h3,
+.info-box h4 {
+    color: black;
+}
+
+.info-box h2 {
+    margin-top: 10px;
+}
+
+.info-box h3 {
+    margin-top: 20px;
+}
+
+.info-box h4 {
+    margin-top: 16px;
+}
+
+.info-box p {
+    font-size: 18px;
+    color: black;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.triangle-img {
+    display: block;
+    margin: 15px auto;
+    max-width: 50%;
+}
+
+/* OPTIONAL (kept consistent sizing) */
+.game, .info-box{
+    width:700px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <a href="index.html" class="nav-item">Welcome</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Tools</div>
+        <a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
+        <a href="#" class="nav-item">Fractions</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Games</div>
+        <a href="percentage-game.html" class="nav-item">Percentage Game</a>
+        <a href="speed-game.html" class="nav-item active-page">Speed Distance Time Game</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Financial Tools</div>
+        <a href="#" class="nav-item">Coming soon</a>
+    </div>
+</div>
+
+<div class="main">
+
+<div class="game" id="box">
+<h1>Speed Distance Time Quiz</h1>
+
+<div class="screen-wrapper">
+<div id="counter" class="counter">0 / 10</div>
+<div id="screen" class="question">Press Start</div>
+</div>
+
+<div class="answers">
+<button onclick="check(0)" id="a0" disabled></button>
+<button onclick="check(1)" id="a1" disabled></button>
+<button onclick="check(2)" id="a2" disabled></button>
+</div>
+
+<button class="start-btn" onclick="start()">Start</button>
+</div>
+
+<!-- ✅ INFO BOX MOVED INSIDE MAIN -->
+<div class="info-box">
+
+<h2 style="text-align:center; font-size: 36px;">
+  Speed Distance Time Game 🚦
+</h2>
+
+<h3 style="text-align:center;">How to Play & Formula Guide</h3>
+
+<p>
+Test your skills with our Speed Distance Time game! Practice solving problems involving speed, distance, and time, and earn fun rewards for correct answers.
+</p>
+
+<h3>How to Play the Speed Distance Time Game 🕹️</h3>
+<p>
+Click Start to begin the game.<br>
+Choose the correct answer from 3 multiple-choice options.<br>
+Aim to score 10/10 and win a Gold medal 🥇
+</p>
+
+<h3>Game Rewards:</h3>
+<p>
+Score 8/10 = Bronze 🥉 <br>
+Score 9/10 = Silver 🥈 <br>
+Score 10/10 = Gold 🥇
+</p>
+
+<h3>Learn to Use the Formula Triangle 🔺</h3>
+<p>
+The Speed Distance Time formula triangle is a simple method to quickly determine which arithmetic operation to use.
+</p>
+
+<p>
+<strong>Try this trick:</strong> cover the missing value with your hand. The uncovered parts will reveal which arithmetic operations you need.
+</p>
+
+<img class="triangle-img" src="triangle.png">
+
+<h4>How to Use the Triangle</h4>
+<p>
+• D (Distance): Multiply S × T<br>
+• S (Speed): Divide D ÷ T<br>
+• T (Time): Divide D ÷ S
+</p>
+
+<h3>Speed, Distance, and Time Formulas 📝</h3>
+<p>
+Speed = Distance ÷ Time<br>
+Distance = Speed × Time<br>
+Time = Distance ÷ Speed
+</p>
+
+<h3>Why Learn These Formulas?</h3>
+<p>
+These formulas help you quickly solve real-world problems involving travel, speed, and time. From exams to everyday situations, understanding them makes calculations faster and easier. And a bit of brain 🧠 training is never a bad thing!
+</p>
+
+
+</div>
+
+
+
+</body>
+<script>
+// ======== VARIABLES ========
+let questionBag = [];
+        let correct = 0;
+        let answers = [];
+        let qCount = 0;
+        let score = 0;
+        let usedQuestions = new Set();
+        let questionType = "";
+        let streak = 0;
+
+        const screen = document.getElementById("screen");
+        const box = document.getElementById("box");
+        const counter = document.getElementById("counter");
+        const startBtn = document.querySelector(".start-btn");
+        const answerButtons = ["a0", "a1", "a2"].map(id => document.getElementById(id));
+
+        disableButtons();
+
+        function start() {
+            qCount = 0;
+            score = 0;
+            streak = 0;
+            usedQuestions.clear();
+            questionBag = shuffle([0,0,0,0, 1,1,1,1, 2,2,2,2]); 
+            startBtn.disabled = true;
+            counter.innerText = "0 / 10";
+            next();
+        }
+
+        function next() {
+    // Remove all state/rim classes before new question
+    box.classList.remove("correct-box", "wrong-box", "gold-rim", "silver-rim", "bronze-rim");
+
+    if (qCount >= 10) {
+        disableButtons();
+        startBtn.disabled = false;
+
+        if (score === 10) {
+    confetti({
+    particleCount: 250,
+    spread: 140,
+    origin: { x: 0.2, y: 0.9 }
+});
+
+confetti({
+    particleCount: 250,
+    spread: 140,
+    origin: { x: 0.8, y: 0.9 }
+});
+    screen.innerHTML = `<div class="gold flash-medal">🏆 PERFECT 10/10</div>`;
+    
+    void box.offsetWidth;
+    box.classList.add("gold-rim");
+
+} else if (score === 9) {
+    screen.innerHTML = `🥈 9/10<br>So close to perfect!`;
+    void box.offsetWidth;
+    box.classList.add("silver-rim");
+
+} else if (score === 8) {
+    screen.innerHTML = `🥉 8/10<br>So close!`;
+    void box.offsetWidth;
+    box.classList.add("bronze-rim");
+
+} else {
+    screen.innerHTML = `Score: ${score}/10<br>Can you beat it?`;
+}
+
+counter.innerText = "10 / 10";
+return;
+    }
+
+    enableButtons();
+    generateQuestion();
+    qCount++;
+    counter.innerText = `${qCount} / 10`;
+}
+
+        function generateQuestion() {
+            let type = questionBag.pop();
+            const speeds = [5,10,15,20,25,30,40,50,60,80];
+            let speed, distance, time, targetMins, qKey;
+
+            if (type === 0) {
+                questionType = "speed";
+                time = Math.floor(Math.random() * 5) + 1;
+                speed = speeds[Math.floor(Math.random() * speeds.length)];
+                distance = speed * time;
+                correct = speed;
+                qKey = `s${distance}${time}`;
+            } else if (type === 1) {
+                questionType = "distance";
+                speed = speeds[Math.floor(Math.random() * speeds.length)];
+                time = Math.floor(Math.random() * 5) + 1;
+                distance = speed * time;
+                correct = distance;
+                qKey = `d${speed}${time}`;
+            } else {
+                questionType = "time";
+                speed = speeds[Math.floor(Math.random() * speeds.length)];
+                targetMins = (Math.floor(Math.random() * 11) + 1) * 10;
+                distance = (speed * targetMins) / 60;
+                correct = targetMins;
+                qKey = `t${speed}${distance}`;
+            }
+
+            if (distance % 0.5 !== 0 || usedQuestions.has(qKey)) {
+                questionBag.push(type);
+                return generateQuestion();
+            }
+
+            usedQuestions.add(qKey);
+            if (type === 0) screen.innerHTML = `What speed covers ${distance} miles in ${time} hours?`;
+            if (type === 1) screen.innerHTML = `At ${speed} mph, how far do you travel in ${time} hours?`;
+            if (type === 2) screen.innerHTML = `At ${speed} mph, how long does it take to travel ${distance} miles?`;
+
+            generateAnswers(correct);
+        }
+
+        function formatLabel(val) {
+            if (questionType === "speed") return `${val} mph`;
+            if (questionType === "distance") return `${val} miles`;
+            if (questionType === "time") {
+                if (val >= 60) {
+                    let h = Math.floor(val / 60);
+                    let m = val % 60;
+                    return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
+                }
+                return `${val} mins`;
+            }
+            return val;
+        }
+
+        function generateAnswers(c) {
+            answers = [c];
+            while (answers.length < 3) {
+                let offset = (Math.floor(Math.random() * 3) + 1) * 5;
+                let fake = Math.random() > 0.5 ? c + offset : c - offset;
+                if (fake > 0 && !answers.includes(fake)) answers.push(fake);
+            }
+            answers = shuffle(answers);
+            answerButtons.forEach((btn, idx) => { btn.innerText = formatLabel(answers[idx]); });
+        }
+
+        function check(i) {
+            let chosen = answers[i];
+            disableButtons();
+
+            if (chosen === correct) {
+                score++;
+                box.classList.add("correct-box");
+                screen.innerHTML = "✔ Correct!";
+            } else {
+                box.classList.add("wrong-box");
+                screen.innerHTML = "✖ Incorrect";
+                answers.forEach((a, idx) => {
+                    if (a === correct) answerButtons[idx].classList.add("correct-btn");
+                });
+            }
+            setTimeout(next, 1200);
+        }
+
+        function enableButtons() {
+            answerButtons.forEach(btn => { btn.disabled = false; btn.classList.remove("correct-btn"); });
+        }
+        function disableButtons() {
+            answerButtons.forEach(btn => btn.disabled = true);
+        }
+        function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+    </script>
+
+
+</body>
+</html>
