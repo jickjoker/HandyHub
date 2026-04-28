@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Speed Distance Time Calculator | HandyHub</title>
+
+<meta name="description" content="Quickly solve speed, distance, and time problems with this interactive calculator. Enter any two values and get the third instantly with detailed explanations.">
+
+<meta name="keywords" content="speed calculator, distance calculator, time calculator, speed distance time, online calculator, solve speed problems, travel time, physics calculator">
+
+<meta name="author" content="HandyHub">
+
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jickjoker.github.io/HandyHub/speed-distance-time-calculator.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Speed Distance Time Calculator | HandyHub">
+<meta property="og:description" content="Solve speed, distance, and time problems instantly. Enter any two values and get the third automatically with step-by-step explanations.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
+<meta property="og:site_name" content="HandyHub">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Speed Distance Time Calculator | HandyHub">
+<meta name="twitter:description" content="Interactive speed, distance, and time calculator with instant answers and explanations.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
+
+
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
+.sidebar h2{
+    font-size:18px;
+    margin-bottom:20px;
+    color:#22c55e;
+    letter-spacing:1px;
+}
+
+.nav-section{
+    margin-bottom:25px;
+}
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.active-page{
+    background:#66ff00;
+    color:#111827;
+    font-weight:bold;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:30px;
+}
+
+/* CALCULATOR WITH NICE GAME FINISH */
+/* CALCULATOR WITH NICE GAME FINISH */
+.calculator{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    padding:30px;
+    border-radius:22px;
+    background:#111827;
+    border:2px solid rgba(255,255,255,0.06);
+    box-shadow:0 10px 25px rgba(0,0,0,0.45);
+    align-items:center;
+    width:750px;
+    min-height:350px;  /* Reduced the height */
+    position:relative;
+    overflow:hidden;
+}
+
+.calculator::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+    background:linear-gradient(to bottom,rgba(255,255,255,0.10),transparent);
+    pointer-events:none;
+}
+
+.calculator::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:22px;
+    box-shadow:inset 0 0 25px rgba(255,255,255,0.03);
+    pointer-events:none;
+}
+
+h1{
+    font-size:40px;
+    color:orange;
+    text-align:center;
+    position:relative;
+    z-index:2;
+    margin-bottom:30px;  /* Added margin to push it down */
+}
+
+/* LIVE HINT */
+.learning-hint{
+    background:#0b1220;
+    padding:18px 20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    width:500px;
+    height:110px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,0.06);
+    position:relative;
+    z-index:2;
+	
+}
+
+.problem-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:12px;
+    color:#ffffff;
+}
+
+.problem-eq{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    color:#22c55e;
+}
+
+/* INPUTS */
+.inputs{
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+    position:relative;
+    z-index:2;
+}
+
+input{
+    width:120px;
+    height:55px;
+    border:none;
+    border-radius:8px;
+    background:#000;
+    color:white;
+    font-size:22px;
+    text-align:center;
+
+    appearance:textfield;
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+input::placeholder{
+    color:#888;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+.input-group{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+label{
+    font-weight:bold;
+    font-size:20px;
+    margin-bottom:6px;
+}
+
+
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+input::placeholder{
+    color:#888;
+}
+
+#result{
+    width:160px;
+    height:55px;
+    background:#000;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:23px;
+    font-weight:bold;
+    color: #FFD700; /* bright yellow */
+}
+
+button.reset-btn{
+    margin-top:10px;
+    padding:12px 25px;
+    background:#22c55e;
+    color:#111827;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    position:relative;
+    z-index:2;
+}
+
+button.reset-btn:hover{
+    background:#16a34a;
+}
+
+/* IMAGE */
+.how-it-works{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin-top:60px;
+}
+
+.how-it-works img{
+    max-width:700px;
+    width:100%;
+    border-radius:12px;
+}
+
+/* EXPLANATIONS */
+.explanations{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    margin-top:80px;
+    width:700px;
+}
+
+.explanation-box{
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:12px;
+    font-size:25px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.5);
+    min-height:100px;
+    margin-bottom:80px;
+}
+
+.gap{
+    display:inline-block;
+    width:20px;
+}
+
+.end{
+    margin-bottom:800px;
+}
+
+.info-box{
+    width:700px;
+    background:#f9fafb;
+    color:#111;
+    padding:24px;
+    border-radius:14px;
+    margin-top:70px;
+    text-align:left;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    font-size:18px;
+    line-height:1.6;
+	padding-left: 40px;  /* adds space inside the box */
+    padding-right: 40px; /* optional for symmetry */
+    margin-left: 20px; /* moves the entire box to the right */
+}
+
+
+.info-box ul {
+    padding-left: 60px;           /* aligns bullets with box shift */
+    margin-top: 10px;             /* spacing above list */
+    margin-bottom: 10px;          /* spacing below list */
+    list-style-position: outside; /* keeps bullets outside the text */
+}
+.info-box h2{
+    font-size:34px;
+    margin-bottom:14px;
+    color:#800020;
+    text-align:center;
+}
+.main{
+    margin-left:260px; /* pushes content past sidebar */
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:calc(100% - 260px);
+}
+.problem-eq{
+    font-size:20px;
+    color:#22c55e;
+    opacity:0.9;
+}
+.info-box h3 {
+    text-align: center;
+}
+
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;          /* allow horizontal scrolling on small screens */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.table-responsive table {
+    width: 100%;
+    min-width: 400px;          /* prevent collapsing too much */
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table-responsive th,
+.table-responsive td {
+    padding: 8px 12px;
+}
+
+.table-responsive tr:nth-child(even) {
+    background: #f1f5f9;       /* alternating row colors */
+}
+
+/* Optional: small screen tweaks */
+@media (max-width: 480px) {
+    .info-box {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: 10px;
+    }
+    .info-box ul {
+        padding-left: 30px;
+    }
+    .table-responsive table {
+        font-size: 14px;        /* smaller font on tiny screens */
+    }
+}
+
+.mini-formula {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #555;
+    min-height: 20px; /* Reserves space so the box doesn't jump */
+    visibility: hidden; /* Hides it without removing the space */
+}
+
+
+/* Container for the toggle - now at the top left */
+.unit-toggle {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    margin-bottom: 25px;
+    width: fit-content; /* Only takes up as much space as the buttons need */
+}
+
+/* Hide the radio circles */
+.unit-toggle input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Style the labels as small clickable tabs */
+.unit-toggle label {
+    padding: 6px 12px;
+    background: #4a4a4a;
+	color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 0.9rem; /* Smaller font for a corner toggle */
+    transition: background 0.2s;
+}
+
+/* Rounded corners for the group */
+.unit-toggle label:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+.unit-toggle label:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+
+/* Active state */
+.unit-toggle input[type="radio"]:checked + label {
+    background:#4194FA;
+    color: black;
+    border-color: black;
+}
+
+.triangle-img {
+    display: block;
+    margin: 15px auto;
+    max-width: 50%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <a href="index.html" class="nav-item">Welcome</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Tools</div>
+        <a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
+		<a href="speed-distance-time-calculator.html" class="nav-item active-page">Speed Distance Time calculator</a>
+        <a href="#" class="nav-item">Fractions</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math Games</div>
+        <a href="percentage-game.html" class="nav-item">Percentage Game</a>
+        <a href="speed-distance-time-game.html" class="nav-item">Speed Distance Time Game</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Financial Tools</div>
+        <a href="#" class="nav-item">Coming soon</a>
+    </div>
+</div>
+</div>
+<div class="main">
+
+<div class="calculator">
+
+<div class="unit-toggle">
+    <input type="radio" name="unit" id="miles" value="miles" checked onchange="calculateSDT()">
+    <label for="miles">Miles/MPH</label>
+    
+    <input type="radio" name="unit" id="km" value="km" onchange="calculateSDT()">
+    <label for="km">KM/KPH</label>
+</div>
+
+<h1>Speed Distance Time Calculator</h1>
+
+
+<div class="inputs">
+
+
+
+    <div class="input-group">
+        <label for="distance">Distance</label>
+        <input type="number" id="distance" placeholder=":">
+    </div>
+
+    <div class="input-group">
+        <label for="speed">Speed</label>
+        <input type="number" id="speed" placeholder=":">
+    </div>
+
+    <div class="input-group">
+    <label>(hrs)&nbsp;&nbsp;&nbsp;Time&nbsp;&nbsp;&nbsp;(min)</label>
+    <div style="display: flex; gap: 5px;">
+        <input type="number" id="hours" placeholder="Hrs">
+        <input type="number" id="minutes" placeholder="Min">
+    </div>
+</div>
+
+    <div class="input-group">
+        <label>Result</label>
+        <div id="result"></div>
+    </div>
+
+</div>
+
+<button class="reset-btn" onclick="resetSDT()">Reset</button>
+<div class="mini-formula" id="miniFormula">Formula: --</div>
+
+</div> <!-- ✅ calculator closes -->
+
+
+<!-- Unified Explanation Box -->
+<!-- Unified Explanation Box -->
+<div class="info-box">
+    <h2 style="text-align:center;">Speed Distance Time Calculator</h2>
+
+    <p>Enter any two values to find the missing third. The calculator solves the missing value instantly.</p> <br>
+    
+	 <h3 style="text-align:center;">Bonus Features:</h3>
+  
+    <ul>
+        <li>The calculator shows the specific arithmetic operation and formula used underneath the reset button.</li>
+        <li>Toggle between <b>MPH</b> and <b>KPH</b>.</li>
+    </ul>
+    <br>
+	<br>
+
+    <h3 style="text-align:center;">What to Enter: (Choose two)</h3>
+    <ul>
+        <li><b>Distance:</b></li>
+        <li><b>Speed:</b></li>
+        <li><b>Time:</b> Time is split into 2 sections, <b>hours (hrs)</b> and <b>minutes (min)</b>.</li>
+    </ul>
+    <br>
+    <br>
+    <h3 style="text-align:center;">Speed, Distance, and Time Formulas</h3>
+    <ul>
+        <li><b>Speed = Distance ÷ Time</b>  
+        <br>What speed covers 150 miles in 5 hours?</li>
+
+        <li><b>Distance = Speed × Time</b>  
+        <br>At 25 mph, how far do you travel in 4 hours?</li>
+
+        <li><b>Time = Distance ÷ Speed</b>  
+        <br>At 60 mph, how long does it take to travel 10 miles?</li>
+    </ul>
+    <br>
+<br>
+    <h3 style="text-align:center;">Learn to Use the Formula Triangle 🔺</h3>
+    <p>The Speed Distance Time formula triangle is a simple method to quickly determine which arithmetic operation to use.</p>
+	<br>
+    <p><strong>Try this trick:</strong> cover the missing value with your hand. The uncovered parts will reveal which arithmetic operations you need.</p>
+     <br>
+	  <br>
+    <img class="triangle-img" src="triangle.png">
+
+    
+    <br><br>
+    
+    <h3 style="text-align:center;">Example Uses:</h3>
+    <ul>
+        <li><b>Planning a road trip?</b> Use this calculator to figure out how long it’ll take to get from point A to point B.</li>
+        <li><b>Running a 5K?</b> Find out what speed you need to maintain to hit your goal time.</li>
+        <li><b>Exam preparation:</b> Check the accuracy of your answers.</li>
+		<li><b>Education:</b> Helps with exam questions or practical lessons in physics and mathematics.</li>
+        <li><b>For parents!</b> A sneaky way to check you've remembered the formulas!</li>
+    </ul>
+    <br>
+
+    <p style="text-align:center; margin-top:20px;">
+        <b>Ready to level up?</b> <a href="speed-distance-time-game.html" style="color:#22c55e; text-decoration:none; font-weight:bold;">Play our free Speed Distance Time game! ➔</a>
+    </p>
+</div>
+
+
+
+<script>
+function calculateSDT() {
+    let distance = parseFloat(document.getElementById("distance").value);
+    let speed = parseFloat(document.getElementById("speed").value);
+    let h = parseFloat(document.getElementById("hours").value) || 0;
+    let m = parseFloat(document.getElementById("minutes").value) || 0;
+
+    let timeInputExists = document.getElementById("hours").value !== "" || document.getElementById("minutes").value !== "";
+    let decimalTime = h + (m / 60);
+
+    // 1. Get the selected unit (Miles vs KM)
+    let unitType = document.querySelector('input[name="unit"]:checked').value;
+    let distUnit = unitType === "miles" ? " miles" : " km";
+    let speedUnit = unitType === "miles" ? " mph" : " kph";
+
+    let result = "";
+    let formulaText = ""; 
+
+    // Calculate Distance
+    if (isNaN(distance) && !isNaN(speed) && timeInputExists) {
+        let resDistance = speed * decimalTime;
+        result = resDistance.toFixed(2) + distUnit;
+        formulaText = "Distance = Speed × Time → " + speed.toFixed(2) + " × " + decimalTime.toFixed(2);
+    }
+
+    // Calculate Speed
+    else if (!isNaN(distance) && isNaN(speed) && timeInputExists) {
+        let resSpeed = distance / decimalTime;
+        result = resSpeed.toFixed(2) + speedUnit;
+        formulaText = "Speed = Distance ÷ Time → " + distance.toFixed(2) + " ÷ " + decimalTime.toFixed(2);
+    }
+
+    // Calculate Time
+    else if (!isNaN(distance) && !isNaN(speed) && !timeInputExists) {
+        let totalHours = distance / speed;
+        let resH = Math.floor(totalHours);
+        let resM = Math.round((totalHours - resH) * 60);
+        result = resH + "h " + resM + "m";
+        formulaText = "Time = Distance ÷ Speed → " + distance.toFixed(2) + " ÷ " + speed.toFixed(2);
+    } else {
+        result = "Enter 2 values";
+        formulaText = "--"; 
+    }
+
+    document.getElementById("result").innerText = result;
+
+    // 2. Updated Visibility Logic (Ensures it hides on reset or error)
+            const miniFormula = document.getElementById("miniFormula");
+
+    // If formulaText has actual math (not just "--"), show it
+    if (formulaText && formulaText !== "--") {
+        miniFormula.innerText = "Formula: " + formulaText;
+        miniFormula.style.visibility = "visible"; // Uses visibility instead of display
+    } else {
+        miniFormula.style.visibility = "hidden"; // Keeps the box height but hides text
+    }
+
+
+}
+
+// Ensure the listener catches the new IDs
+document.querySelectorAll(".inputs input").forEach(input => {
+    input.addEventListener("input", calculateSDT);
+});
+
+// reset
+// Reset function
+function resetSDT() {
+    document.getElementById("distance").value = "";
+    document.getElementById("speed").value = "";
+    document.getElementById("hours").value = "";
+    document.getElementById("minutes").value = "";
+    document.getElementById("result").innerText = "";
+
+    const miniFormula = document.getElementById("miniFormula");
+    miniFormula.innerText = "";
+    miniFormula.style.visibility = "hidden"; // Reset to hidden but keep space
+}
+
+
+</script>
+
+</body>
+</html>
