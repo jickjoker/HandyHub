@@ -460,20 +460,27 @@ button.reset-btn:hover{
         font-size:18px;
     }
 
-    /* INPUT AREA STAYS IN ROW */
+    /* KEEP INPUTS SIDE BY SIDE */
     .inputs{
-        display:flex;
-        flex-direction:row;
-        flex-wrap:wrap;
-        justify-content:center;
+        display:grid;
+        grid-template-columns:repeat(3, 1fr);
         gap:10px;
         width:100%;
+        justify-items:center;
+        align-items:end;
+    }
+
+    .input-group{
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
     }
 
     input,
     #result{
-        width:110px;
-        max-width:none;
+        width:100%;
+        max-width:110px;
     }
 
     /* IMAGE */
@@ -514,22 +521,6 @@ button.reset-btn:hover{
 
     .info-box ul{
         padding-left:25px;
-    }
-
-    .welcome-box{
-        width:100%;
-        padding:10px 0;
-        text-align:center;
-    }
-
-    .welcome-box h1{
-        font-size:28px;
-        margin-bottom:10px;
-    }
-
-    .welcome-box p{
-        font-size:14px;
-        padding:0 10px;
     }
 }
 </style>
