@@ -112,7 +112,8 @@ body{
 
 /* GAME */
 .game{
-    width:600px;
+    width:100%;
+    max-width:600px;
     height:315px;
     background:#111827;
     border:4px solid #2b2f3a;
@@ -130,9 +131,10 @@ h1{
     color:#FFAA17;
     font-size:35px;
     margin:0 0 10px 0;
-	font-family:'Trebuchet MS', sans-serif;
+    font-family:'Trebuchet MS', sans-serif;
 }
 
+/* SCREEN */
 .screen-wrapper{
     flex:1;
     background:black;
@@ -155,16 +157,20 @@ h1{
     font-size:28px;
     text-align:center;
     padding:20px;
+    word-wrap:break-word;
 }
 
+/* ANSWERS */
 .answers{
     display:flex;
     gap:10px;
     margin-top:15px;
+    flex-wrap:wrap;
 }
 
 .answers button{
     flex:1;
+    min-width:120px;
     padding:15px;
     border:none;
     border-radius:10px;
@@ -183,6 +189,7 @@ h1{
     color:black;
 }
 
+/* BUTTON */
 .start-btn{
     background:#22c55e;
     color:black;
@@ -222,42 +229,6 @@ h1{
 100%{transform:translateX(0);}
 }
 
-.high-score{
-    font-size:36px;
-    font-weight:bold;
-    text-align:center;
-}
-
-.gold{color:gold;}
-.silver{color:#c0c0c0;}
-.bronze{color:#cd7f32;}
-
-.flash-medal{
-    animation:medalFlash .8s ease-in-out 6;
-}
-
-@keyframes medalFlash{
-0%,100%{opacity:1;transform:scale(1);}
-50%{opacity:.4;transform:scale(1.08);}
-}
-
-.gold-rim{animation:goldflash .6s ease-in-out 5;}
-.silver-rim{animation:silverflash .6s ease-in-out 5;}
-.bronze-rim{animation:bronzeflash .6s ease-in-out 5;}
-
-@keyframes goldflash{
-0%,50%,100%{border-color:#2b2f3a;}
-25%,75%{border-color:gold;}
-}
-@keyframes silverflash{
-0%,50%,100%{border-color:#2b2f3a;}
-25%,75%{border-color:#c0c0c0;}
-}
-@keyframes bronzeflash{
-0%,50%,100%{border-color:#2b2f3a;}
-25%,75%{border-color:#cd7f32;}
-}
-
 /* LOWER CONTENT */
 .section-title{
     color:#FFAA17;
@@ -268,12 +239,14 @@ h1{
 }
 
 .info-box{
-    width:600px;
+    width:100%;
+    max-width:600px;
     margin:20px auto;
     padding:16px;
     background:white;
     border:1px solid #333;
     border-radius:10px;
+    box-sizing:border-box;
 }
 
 .info-box p{
@@ -283,7 +256,8 @@ h1{
 }
 
 .pyramid{
-    width:600px;
+    width:100%;
+    max-width:600px;
     margin:20px auto 800px auto;
     text-align:center;
 }
@@ -295,88 +269,28 @@ h1{
     box-shadow:0 5px 20px rgba(0,0,0,0.5);
 }
 
-/* ---- Math Help Box ---- */
-.math-help-box {
-  font-family: Arial, sans-serif; /* match your page font */
-  line-height: 1.6;
-  max-width: 600px;      /* match your game width */
-  margin: 60px auto 12px auto; /* top margin increased from 20px → 40px */
-  padding: 25px;
-  background-color: #fcfcfc;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-  color: black;
-}
-
-.math-help-box h2 {
-  color: #2c3e50;
-  margin-top: 0;
-  text-align: center;
-  font-size:25px;
-}
-
-.math-help-box p {
-    font-size: 19px;       /* makes text larger */
-    color: #2c3e50;        /* dark gray/blue color */
-    margin-bottom: 10px;   /* space after the paragraph */
-	text-align: center;
-}
-
-.math-help-box h3 {
-  color: #800020;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
-  margin-top: 20px;
-  font-size:30px;
-  text-align: center;
-}
-
-.formula-card {
-  background: #fff;
-  border-left: 5px solid #27ae60;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 4px;
-}
-
-.formula-card code {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.medal-badge {
-  font-weight: bold;
-  display: block;
-  margin: 5px 0;
-}
-
-.info-box ol,
-.info-box li {
-    margin-left: 20px; /* indent list items */
-    color: black;       /* text color */
-    font-size: 18px;    /* readable size */
+/* MATH BOX */
+.math-help-box{
+    font-family: Arial, sans-serif;
     line-height: 1.6;
+    max-width: 600px;
+    margin: 60px auto 12px auto;
+    padding: 25px;
+    background-color: #fcfcfc;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    color: black;
 }
 
-.math-help-box .main-title {
-    font-size: 3rem; /* bigger size */
-    font-weight: bold;
-    color: black; /* optional, same as h2 or different */
-}
-
-img, input, button {
+/* GLOBAL RESPONSIVE SAFETY */
+img, input, button{
     max-width:100%;
 }
 
-
-
+/* MOBILE */
 @media (max-width: 768px){
 
-    /* TURN SIDEBAR INTO TOP BAR */
     .sidebar{
         position:relative;
         width:100%;
@@ -385,33 +299,24 @@ img, input, button {
         padding:10px;
     }
 
-    /* MAIN CONTENT */
     .main{
         margin-left:0;
         width:100%;
         padding:10px;
     }
 
-    /* CALCULATORS */
-    .calculator{
-        width:95%;
+    .game{
+        height:auto;
+        padding:15px;
     }
 
-    /* HOME PAGE */
-    .welcome-box{
-        width:100%;
-        padding:10px 0;
-        text-align:center;
+    .question{
+        font-size:22px;
     }
 
-    .welcome-box h1{
-        font-size:28px;
-        margin-bottom:10px;
-    }
-
-    .welcome-box p{
-        font-size:14px;
-        padding:0 10px;
+    .answers button{
+        font-size:16px;
+        padding:12px;
     }
 }
 </style>
