@@ -415,7 +415,7 @@ button.reset-btn:hover{
 
 @media (max-width: 768px){
 
-    /* TURN SIDEBAR INTO TOP BAR */
+    /* SIDEBAR TO TOP */
     .sidebar{
         position:relative;
         width:100%;
@@ -424,33 +424,87 @@ button.reset-btn:hover{
         padding:10px;
     }
 
-    /* MAIN CONTENT */
+    body{
+        display:block;
+    }
+
+    /* MAIN */
     .main{
         margin-left:0;
         width:100%;
         padding:10px;
     }
 
-    /* CALCULATORS */
+    /* CALCULATOR */
     .calculator{
         width:95%;
+        min-height:auto;
+        padding:20px;
     }
 
-    /* HOME PAGE */
-    .welcome-box{
+    h1{
+        font-size:30px;
+    }
+
+    .learning-hint{
         width:100%;
-        padding:10px 0;
-        text-align:center;
+        height:auto;
+        padding:15px;
     }
 
-    .welcome-box h1{
+    .problem-title{
+        font-size:22px;
+    }
+
+    .problem-eq{
+        font-size:18px;
+    }
+
+    /* INPUTS STACK NICELY */
+    .inputs{
+        flex-direction:column;
+        align-items:center;
+        gap:12px;
+        width:100%;
+    }
+
+    input,
+    #result{
+        width:100%;
+        max-width:260px;
+    }
+
+    /* LOWER CONTENT */
+    .how-it-works img,
+    .explanations,
+    .explanation-box,
+    .info-box{
+        width:95%;
+        max-width:95%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .explanations{
+        margin-top:40px;
+    }
+
+    .explanation-box{
+        font-size:20px;
+        margin-bottom:30px;
+    }
+
+    .info-box{
+        padding:20px;
+        font-size:16px;
+    }
+
+    .info-box h2{
         font-size:28px;
-        margin-bottom:10px;
     }
 
-    .welcome-box p{
-        font-size:14px;
-        padding:0 10px;
+    .info-box ul{
+        padding-left:25px;
     }
 }
 </style>
