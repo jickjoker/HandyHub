@@ -415,7 +415,7 @@ button.reset-btn:hover{
 
 @media (max-width: 768px){
 
-    /* SIDEBAR TO TOP */
+    /* TURN SIDEBAR INTO TOP BAR */
     .sidebar{
         position:relative;
         width:100%;
@@ -428,7 +428,7 @@ button.reset-btn:hover{
         display:block;
     }
 
-    /* MAIN */
+    /* MAIN CONTENT */
     .main{
         margin-left:0;
         width:100%;
@@ -460,42 +460,51 @@ button.reset-btn:hover{
         font-size:18px;
     }
 
-    /* INPUTS STACK NICELY */
+    /* INPUT AREA STAYS IN ROW */
     .inputs{
-        flex-direction:column;
-        align-items:center;
-        gap:12px;
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
         width:100%;
     }
 
     input,
     #result{
-        width:100%;
-        max-width:260px;
+        width:110px;
+        max-width:none;
     }
 
-    /* LOWER CONTENT */
-    .how-it-works img,
-    .explanations,
-    .explanation-box,
-    .info-box{
+    /* IMAGE */
+    .how-it-works{
+        margin-top:40px;
+    }
+
+    .how-it-works img{
         width:95%;
         max-width:95%;
-        margin-left:auto;
-        margin-right:auto;
     }
 
+    /* EXPLANATIONS */
     .explanations{
+        width:95%;
         margin-top:40px;
     }
 
     .explanation-box{
+        width:100%;
         font-size:20px;
         margin-bottom:30px;
     }
 
+    /* INFO BOX */
     .info-box{
+        width:95%;
+        max-width:95%;
         padding:20px;
+        margin-left:auto;
+        margin-right:auto;
         font-size:16px;
     }
 
@@ -505,6 +514,22 @@ button.reset-btn:hover{
 
     .info-box ul{
         padding-left:25px;
+    }
+
+    .welcome-box{
+        width:100%;
+        padding:10px 0;
+        text-align:center;
+    }
+
+    .welcome-box h1{
+        font-size:28px;
+        margin-bottom:10px;
+    }
+
+    .welcome-box p{
+        font-size:14px;
+        padding:0 10px;
     }
 }
 </style>
