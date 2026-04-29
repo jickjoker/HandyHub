@@ -130,6 +130,7 @@ h1{
     color:#FFAA17;
     font-size:35px;
     margin:0 0 10px 0;
+	font-family:'Trebuchet MS', sans-serif;
 }
 
 .screen-wrapper{
@@ -365,6 +366,24 @@ h1{
     font-size: 3rem; /* bigger size */
     font-weight: bold;
     color: black; /* optional, same as h2 or different */
+}
+
+img, input, button {
+    max-width:100%;
+}
+
+@media (max-width: 768px){
+    .sidebar{ display:none; }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:10px;
+    }
+
+    .calculator{
+        width:95%;
+    }
 }
 </style>
 </head>

@@ -47,9 +47,11 @@
     font-family:Arial,sans-serif;
 }
 
-body{
+body {
     background:black;
-    color:#ffffff;
+    color:white;
+    display:flex;
+    min-height:100vh;
 }
 
 /* SIDEBAR */
@@ -220,6 +222,27 @@ body{
 .card-row{
     margin-bottom:500px;   /* adjust this number */
 }
+
+img, input, button {
+    max-width:100%;
+}
+
+
+@media (max-width: 768px){
+    .sidebar{ display:none; }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:10px;
+    }
+
+    .calculator{
+        width:95%;
+    }
+}
+
+
 </style>
 </head>
 
