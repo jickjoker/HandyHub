@@ -404,7 +404,17 @@ button.reset-btn:hover{
 .table-responsive tr:nth-child(even) {
     background: #f1f5f9;       /* alternating row colors */
 }
+/* SAFE RESPONSIVE BASE FOR ALL TOOLS */
+.calculator,
+.game-box{
+    width:100%;
+    max-width:520px;
+    margin:0 auto;
+}
 
+input, button{
+    max-width:100%;
+}
 @media (max-width: 768px){
 
     /* TURN SIDEBAR INTO TOP BAR */
