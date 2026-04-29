@@ -120,22 +120,26 @@ body{
     padding:30px;
 }
 
-/* CALCULATOR WITH NICE GAME FINISH */
-/* CALCULATOR WITH NICE GAME FINISH */
 .calculator{
     display:flex;
     flex-direction:column;
     gap:15px;
-    padding:30px;
-    border-radius:22px;
-    background:#111827;
-    border:2px solid rgba(255,255,255,0.06);
-    box-shadow:0 10px 25px rgba(0,0,0,0.45);
-    align-items:center;
+    padding:20px 25px 0px 25px;
+
     width:750px;
-    min-height:350px;  /* Reduced the height */
+    min-height:350px;
+
+    background:#111827;
+    border:4px solid #2b2f3a;   /* 👈 SAME AS GAME */
+    border-radius:18px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+
+    align-items:center;
     position:relative;
     overflow:hidden;
+
+    transition:border-color 0.3s;
 }
 
 .calculator::before{
@@ -277,6 +281,7 @@ input::placeholder{
 }
 
 button.reset-btn{
+    margin-bottom:0px;
     margin-top:10px;
     padding:12px 25px;
     background:#22c55e;
