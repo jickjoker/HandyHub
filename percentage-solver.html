@@ -405,36 +405,44 @@ button.reset-btn:hover{
     background: #f1f5f9;       /* alternating row colors */
 }
 
-/* Optional: small screen tweaks */
-@media (max-width: 480px) {
-    .info-box {
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-left: 10px;
-    }
-    .info-box ul {
-        padding-left: 30px;
-    }
-    .table-responsive table {
-        font-size: 14px;        /* smaller font on tiny screens */
-    }
-}
-
-img, input, button {
-    max-width:100%;
-}
-
 @media (max-width: 768px){
-    .sidebar{ display:none; }
 
+    /* TURN SIDEBAR INTO TOP BAR */
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+        border-right:none;
+        padding:10px;
+    }
+
+    /* MAIN CONTENT */
     .main{
         margin-left:0;
         width:100%;
         padding:10px;
     }
 
+    /* CALCULATORS */
     .calculator{
         width:95%;
+    }
+
+    /* HOME PAGE */
+    .welcome-box{
+        width:100%;
+        padding:10px 0;
+        text-align:center;
+    }
+
+    .welcome-box h1{
+        font-size:28px;
+        margin-bottom:10px;
+    }
+
+    .welcome-box p{
+        font-size:14px;
+        padding:0 10px;
     }
 }
 </style>
