@@ -9,7 +9,9 @@
         location.hostname === "127.0.0.1";
 
     if (location.protocol === "file:" || !allowed) {
-        document.documentElement.innerHTML = "";
+        document.open();
+        document.write("");
+        document.close();
         throw new Error("");
     }
 })();
