@@ -20,36 +20,32 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
 body{
     background:black;
     color:white;
+    display:flex;
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
 /* SIDEBAR */
 .sidebar{
     position:fixed;
-    top:0;
     left:0;
+    top:0;
     width:260px;
     height:100vh;
     background:#111827;
     padding:20px;
     border-right:1px solid #1f2937;
-    overflow-y:auto;
 }
 
 .sidebar h2{
-    font-size:18px;
-    margin-bottom:20px;
     color:#22c55e;
-    letter-spacing:1px;
-}
-
-.nav-section{
-    margin-bottom:25px;
+    margin-bottom:30px;
 }
 
 .nav-title{
@@ -57,7 +53,6 @@ body{
     color:#9ca3af;
     margin-bottom:10px;
     text-transform:uppercase;
-    letter-spacing:1px;
 }
 
 .nav-item{
@@ -73,9 +68,9 @@ body{
     background:rgba(255,255,255,0.08);
 }
 
-.active-page{
+.nav-item.active-page{
     background:#66ff00;
-    color:#111827;
+    color:#111827 !important;
     font-weight:bold;
 }
 
@@ -354,30 +349,23 @@ img, input, button {
 <div class="sidebar">
     <h2>HandyHub</h2>
 
-    <div class="nav-section">
-        <div class="nav-title">Home</div>
-        <a href="index.html" class="nav-item">Welcome</a>
-    </div>
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
 
-    <div class="nav-section">
-        <div class="nav-title">Math Tools</div>
-        <a href="percentage-solver.html" class="nav-item">Percentage Solver</a>
-		<a href="speed-distance-time-calculator.html" class="nav-item">Speed Distance Time calculator</a>
-        <a href="#" class="nav-item">Fractions</a>
-    </div>
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+       <a href="math-games.html" class="nav-item active-page">Math Games</a>
 
-    <div class="nav-section">
-        <div class="nav-title">Math Games</div>
-        <a href="percentage-game.html" class="nav-item">Percentage Game</a>
-        <a href="speed-game.html" class="nav-item active-page">Speed Distance Time Game</a>
-    </div>
 
-    <div class="nav-section">
-        <div class="nav-title">Financial Tools</div>
-        <a href="#" class="nav-item">Coming soon</a>
-    </div>
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
 </div>
-
+</div>
 <div class="main">
 
 <div class="game" id="box">
@@ -458,10 +446,14 @@ These formulas help you quickly solve real-world problems involving travel, spee
         <b>Try our free speed distance and time calculator</b> <br><a href="speed-distance-time-calculator.html" style="color:#22c55e; text-decoration:none; font-weight:bold;">Speed Distance Time calculator! ➔</a>
     </p>
 </div>
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
 
 
 
-</body>
 <script>
 // ======== VARIABLES ========
 let questionBag = [];

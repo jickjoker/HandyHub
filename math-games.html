@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Page</title>
+
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+body {
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
+.sidebar h2{
+    color:#22c55e;
+    margin-bottom:30px;
+}
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:40px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;       /* keeps layout centered */
+    justify-content:flex-start;
+    text-align:center;
+}
+
+.main h1{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.main p{
+    color:#9ca3af;
+    margin-bottom:30px;
+}
+
+/* CARDS */
+.grid{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+	margin-top:60px;
+}
+
+
+.card-img{
+    width:70%;
+    max-height:120px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+}
+
+.card{
+    width:260px;
+    background:#111827;
+    border-radius:12px;
+    padding:20px;
+    text-decoration:none;
+    color:white;
+    border:1px solid #1f2937;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.card-title{
+    font-size:15px;
+    font-weight:600;
+    text-align:center;
+}
+
+.card-desc{
+    font-size:13px;
+    color:#9ca3af;
+    margin-top:8px;
+}
+
+
+@media (max-width: 768px){
+
+    /* TURN SIDEBAR INTO TOP BAR */
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+        border-right:none;
+        padding:10px;
+    }
+
+    /* MAIN CONTENT */
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:10px;
+    }
+
+    /* CALCULATORS */
+    .calculator{
+        width:95%;
+    }
+
+    /* HOME PAGE */
+    .welcome-box{
+        width:100%;
+        padding:10px 0;
+        text-align:center;
+    }
+
+    .welcome-box h1{
+        font-size:28px;
+        margin-bottom:10px;
+    }
+
+    .welcome-box p{
+        font-size:14px;
+        padding:0 10px;
+    }
+
+    /* GENERAL MOBILE FIXES */
+    .how-it-works img{
+        width:100%;
+        height:auto;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+       <a href="math-games.html" class="nav-item active-page">Math Games</a>
+
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+
+</div>
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <h1>Math Games</h1>
+    <p>Test your maths skills through interactive games.</p>
+
+    <div class="grid">
+        <a class="card" href="percentage-game.html">
+            <div class="card-title">Percentage Game</div>
+            <img class="card-img" src="percentage-game.png" alt="Percentage Game">
+        </a>
+
+        <a class="card" href="speed-distance-time-game.html">
+    <div class="card-title">Speed Distance Time Game</div>
+<img class="card-img" src="speedy-game.png" alt="Speed Distance Time Calculator">
+</a>
+    </div>
+
+</div>
+
+</body>
+</html>
