@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+(function () {
+    const allowed =
+        location.hostname.endsWith("jickjoker.github.io") ||
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1";
+
+    if (location.protocol === "file:" || !allowed) {
+        document.documentElement.innerHTML = "";
+        throw new Error("");
+    }
+})();
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
 <script>
@@ -420,7 +433,6 @@ h1{
 
     <div class="nav-section">
         <div class="nav-title">Financial Tools</div>
-        <a href="#" class="nav-item">Coming soon</a>
     </div>
 </div>
 
