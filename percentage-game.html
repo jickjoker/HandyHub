@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-(function () {
-    const allowed =
-        location.hostname.endsWith("jickjoker.github.io") ||
-        location.hostname === "localhost" ||
-        location.hostname === "127.0.0.1";
 
-    if (location.protocol === "file:" || !allowed) {
-        document.open();
-        document.write("");
-        document.close();
-        throw new Error("");
-    }
-})();
-</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
 <script>
@@ -526,7 +512,11 @@ h1{
 <div class="pyramid">
 <img src="how-it-works.png" alt="Solution Pyramid">
 </div>
-
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
 </div>
 
 <script>
