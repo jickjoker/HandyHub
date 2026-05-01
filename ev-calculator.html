@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expected Value Calculator | Betting EV, Edge & Profit Tool | HandyHub</title>
+
+<meta name="description" content="Compare your win probability with bookmaker odds to calculate expected value (EV), edge, and projected profit. Identify value bets quickly and accurately.">
+
+<meta name="author" content="HandyHub">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Expected Value Calculator | HandyHub">
+<meta property="og:description" content="Calculate betting EV, edge, and projected profit from your win probability and bookmaker odds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/ev-calculator.html">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/ev-calculator.png">
+<meta property="og:site_name" content="HandyHub">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Expected Value Calculator | HandyHub">
+<meta name="twitter:description" content="Find EV, edge, and value bets instantly using bookmaker odds and your probability estimate.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/ev-calculator.png">
+
+</head>
+<style>
+
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* BODY */
+body{
+    background:#0b1220;
+    color:#e5e7eb;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
+.sidebar h2 {
+    color: #22c55e;
+    margin-bottom: 30px;
+    text-align: left; /* Add this line */
+}
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* GRID CARDS */
+.grid{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card{
+    width:200px;
+    background:#111827;
+    border-radius:12px;
+    padding:10px;
+    color:white;
+    border:1px solid #1f2937;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.card-title{
+    text-align:center;
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.card-desc{
+    font-size:13px;
+    color:#9ca3af;
+    margin-top:8px;
+}
+
+.card-row{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card img{
+    width:60%;
+    max-height:70px;
+    object-fit:contain;
+}
+
+/* CALCULATOR */
+.wrap{
+    display:grid;
+    grid-template-columns:345px 345px;
+    gap:14px;
+    margin-bottom:60px;
+    justify-content:center;
+    align-items:start;
+    margin-top:25px;
+}
+
+.panel{
+    background:#000;
+    border-radius:18px;
+    padding:12px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+/* HEADINGS (FIXED SYSTEM) */
+h1{
+    text-align:center;
+    color:black;
+    font-size:30px;
+}
+
+.panel h1{
+    font-size:22px;
+    margin-bottom:12px;
+    text-align:center;
+    font-weight:900;
+}
+
+/* INPUTS */
+label{
+    display:block;
+    margin:8px 0 4px;
+    font-size:14px;
+    font-weight:700;
+    color:#ffffff;
+}
+
+input{
+    width:100%;
+    padding:9px;
+    font-size:22px;
+    border-radius:11px;
+    border:1px solid #374151;
+    background:#1f2937;
+    color:#fff;
+    outline:none;
+}
+
+input:focus{
+    border-color:#22c55e;
+}
+
+/* RESULT */
+.result{
+    margin-top:12px;
+    padding:10px;
+    border-radius:14px;
+    text-align:center;
+    font-size:20px;
+    font-weight:900;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.result.neutral{color:#d1d5db;}
+.result.good{color:#22c55e;}
+.result.bad{color:#ff5c5c;}
+
+/* STATS */
+.stat{
+    background:#1f2937;
+    border-radius:13px;
+    padding:10px;
+    margin-bottom:10px;
+    text-align:center;
+    font-size:16px;
+    font-weight:700;
+}
+
+.big{
+    display:block;
+    margin-top:5px;
+    font-size:19px;
+    font-weight:900;
+}
+
+.green{color:#22c55e;}
+.red{color:#ef4444;}
+.cyan{color:#22d3ee;}
+.orange{color:#f59e0b;}
+
+/* EXPLANATION BOX */
+.ev-container{
+    background:#ffffff;
+    padding:28px;
+    border-radius:18px;
+    max-width:900px;
+    margin:30px auto;
+    color:black;
+}
+
+h2{
+    margin-top:10px;
+    color:#22c55e;
+    font-size:20px;
+    text-align:center;
+}
+
+h5{
+    color:white;
+    font-size:28px;
+    text-align:center;
+    font-family:"Arial Black", system-ui;
+}
+
+/* CONTENT BOXES */
+.box{
+    background:#ffffff;
+    color:#000;
+    padding:14px;
+    border-radius:12px;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.box--white{
+    background:#ffffff;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.center{text-align:center;}
+
+.small{
+    font-size:13px;
+    color:#9ca3af;
+}
+
+/* BUTTON */
+.reset-btn{
+    margin-top:15px;
+    padding:6px 10px;
+    font-size:13px;
+    font-weight:600;
+    border-radius:6px;
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
+    width:100%;
+}
+
+.reset-btn:hover{
+    background:#dc2626;
+}
+
+/* TITLES */
+.calc-title{
+    color:#22c55e;
+    font-family:"Arial Black", system-ui;
+}
+
+.insight-title{
+    color:orange;
+    font-family:"Arial Black", system-ui;
+}
+
+.top-title{
+    margin-top:-25px;
+}
+
+/* RESPONSIVE */
+@media (max-width:1100px){
+    .sidebar{
+        position:static;
+        width:100%;
+        height:auto;
+    }
+
+    .wrap{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media (max-width: 780px) {
+    .wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .reset-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .sidebar h2 {
+        text-align: left !important;
+    }
+} /* Make sure this closing brace exists */
+
+</style>
+
+
+<body>
+
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <a href="index.html" class="nav-item active-page">Welcome</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math</div>
+        <a href="math-tools.html" class="nav-item">Math Tools</a>
+        <a href="math-games.html" class="nav-item">Math Games</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Poker</div>
+        <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+        <a href="poker-training.html" class="nav-item">Poker Training</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Betting</div>
+        <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+        <a href="betting-training.html" class="nav-item">Betting Training</a>
+    </div>
+
+    
+</div>
+
+
+<div class="main">
+
+    <div class="top-title">
+        <h5>Expected Value Calculator</h5>
+    </div>
+
+    <!-- CALCULATOR AREA -->
+    <div class="wrap">
+        <!-- CALCULATOR -->
+        <div class="panel">
+            <h1 class="calc-title">Bet Value Checker</h1>
+            <label>Stake (£)</label>
+            <input id="stake" type="number" min="0" step="0.01">
+            
+            <label>Odds (Decimal)</label>
+            <input id="odds" type="number" min="1.01" step="0.01">
+            
+            <label>Win Probability (%) <span style="color:#9ca3af;font-weight:400;">(Your Opinion)</span></label>
+            <input id="prob" type="number" min="0" max="100" step="0.1">
+
+            <div id="resultBox" class="result neutral">
+                <span class="label">EV:</span>
+                <span id="evValue">--</span>
+            </div>
+
+            <button class="reset-btn" onclick="resetFields()">Clear</button>
+        </div>
+
+        <!-- INSIGHTS -->
+        <div class="panel">
+            <h1 class="insight-title">Bet Insights</h1>
+            <div class="stat">Bookie vs You <span id="compare" class="big cyan">--</span></div>
+            <div class="stat">Expected Value (EV %) <span id="edge" class="big">--</span></div>
+            <div class="stat">Projected Return (50 Bets) <span id="fifty" class="big">--</span></div>
+            <div class="stat">Minimum Value Odds <span id="breakeven" class="big orange">--</span></div>
+        </div>
+    </div> <!-- END WRAP -->
+
+    <!-- ================= EXPLANATION BOX ================= -->
+    <div class="ev-container">
+
+<h1>Understanding EV & Betting Concepts</h1>
+<br>
+<br>
+<h2>Understanding EV</h2>
+
+<div class="box">
+<strong>Imagine placing the same bet 100 times.</strong><br><br>
+
+<strong>Stake:</strong> £10<br>
+<strong>Odds:</strong> 5.0 (4/1)<br>
+<strong>Win Chance:</strong> 30%<br><br>
+
+<strong>Wins:</strong> 30 × £40 = £1,200<br>
+<strong>Losses:</strong> 70 × £10 = £700<br><br>
+
+<strong>Net Profit:</strong> +£500<br>
+<br>
+<strong>Average EV</strong>  
+<br>
+<br>
+£500 ÷ 100 bets = <strong>+£5 per bet</strong> <br>
+<br>
+<strong>Even though many bets lose, over time this would be profitable if your 30% estimate is accurate.</strong>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>Implied Probability</h2>
+<br>
+<div class="box">
+<center><strong>Implied probability converts betting odds into a percentage that represents the 
+bookmaker’s estimated<br> chance of an outcome happening.</strong></center>
+<br>
+<br>
+<br>
+<strong>Example:</strong>
+<br>
+<br>
+If the bookmaker’s decimal odds are <strong>5.0</strong> , divide <strong>1 ÷ 5.0 = 0.20.</strong>
+<br>
+<br>
+Then convert to a percentage by multiplying by 100:
+<br>
+<br>
+0.20 × 100 = <strong>20%</strong> implied probability
+
+</div>
+
+<div class="box--white">
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<h2>Value Bet</h2>
+<br>
+<div class="box">
+ <center><strong>A value bet is when your estimated chance of winning is higher than the bookmaker’s implied probability.</strong></center>
+</div>
+
+<div class="box">
+<strong>Example:</strong>
+<br>
+<br>
+<strong>Bookmaker odds</strong> = <strong>5.0</strong>   (20% implied probability)
+<br>
+<br>
+<strong>Your estimated chance</strong> = <strong>30%</strong>
+<br>
+<br>
+<strong> 30% </strong> is higher than <strong> 20% </strong> , so this may be a value bet.
+
+
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<h2>Expected Value (EV %)</h2>
+
+<div class="box">
+
+<center><strong>Expected Value (EV %) shows the average percentage return or loss per bet based on your estimated probability compared to the bookmaker’s odds.</strong></center>
+<br>
+<br>
+<strong>Example:</strong>
+
+<br>
+<br>
+<strong>Wager:</strong> £1
+<br>
+<br>
+<strong>Bookmaker odds:</strong> 5.0
+<br>
+<br>
+<strong>Your estimated chance:</strong> 30%
+<br>
+<br>
+<strong>Profit if you win:</strong> (5.0 − 1) × £1 = £4
+<br>
+<br>
+<strong>Expected Value:</strong>
+<br>
+<br>
+0.30 × £4 = £1.20
+<br>
+<br>
+0.70 × (−£1) = −£0.70
+<br>
+<br>
+<strong>EV</strong> = £1.20 − £0.70 = <strong>+£0.50</strong>
+<br>
+<br>
+<br>
+<strong>Meaning:</strong>
+<br>
+For every £1 bet, you expect an average profit of £0.50 in the long run. This is equivalent to a 50% return on investment (ROI)
+
+<br>
+<br>
+<br>
+<br>
+
+</div>
+
+<div class="box--white">
+
+</div>
+
+<h2>Projected Return</h2>
+
+<div class="box">
+
+
+<center><strong>This shows your estimated total profit or loss if you placed the same bet 50 times.</strong></center>
+<br>
+<br>
+<br>
+<strong>Example:</strong>
+<br>
+<br>
+<strong>Wager:</strong> £1
+<br>
+<br>
+<strong>Bookmaker odds:</strong> 5.0
+<br>
+<br>
+<strong>Your estimated chance:</strong> 30%
+<br>
+<br>
+<strong>Expected Value (per £1 bet):</strong> +£0.50
+<br>
+<br>
+<strong>Projected Return (50 bets):</strong>
+<br>
+<br>
+£0.50 × 50 bets = <strong>£25 profit</strong>
+
+
+
+
+
+
+
+
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<h2>Minimum Value Odds</h2>
+<div class="box">
+<center><strong>The lowest odds at which a bet becomes profitable based on your estimated probability.</strong></center>
+<br>
+<br>
+<strong>Tennis Example:</strong>
+<br>
+<br>
+Bookmaker offers <strong>5.0</strong> on Emma Raducanu winning a match.
+<br>
+<br>
+You estimate she has a <strong>25%</strong> chance of winning.
+<br>
+<br>
+<strong>Stake</strong> = £1
+<br>
+<br>
+<strong>If she wins:</strong>
+<br>
+<br>
+<strong>Profit</strong> = (5.0 − 1) × £1 = £4
+<br>
+<br>
+<strong>Expected Value:</strong>
+<br>
+<br>
+0.25 × £4 = £1.00
+<br>
+<br>
+0.75 × (−£1) = −£0.75
+<br>
+<br>
+<strong>EV</strong> = <strong>+£0.25</strong> (profitable bet)
+<br>
+<br>
+The calculator will display 4.00 as the minimum odds to look for.
+Any odds above this value may represent a value bet (based on your estimate).
+<br>
+<br>
+<strong>Meaning:</strong>
+<br>
+<br>
+Any odds above 4.00 would be a value bet.
+<br>
+<br>
+<strong>For example:</strong> 4.01, 4.10, 4.50 etc.
+<br>
+<br>
+
+This assumes your 25% win probability estimate is accurate.
+</div>
+<br>
+<br>
+<br>
+<br>
+
+
+
+<h2>Strategy</h2>
+<br>
+<br>
+<div class="box">
+<strong>• Bet on sports you understand<br>
+• Compare odds<br>
+• Think long-term<br>
+• Avoid emotion<br>
+• Track results</strong>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<h2>Why EV Matters</h2>
+<br>
+<br>
+<div class="box">
+<strong>• Finds hidden value bets<br>
+• Removes emotion<br>
+• Focuses on long-term profit<br>
+• Makes decisions objective</strong>
+</div>
+<br>
+<br>
+<h2>How to Use</h2>
+<br>
+<br>
+<div class="box">
+<strong>1. Enter stake<br>
+2. Enter odds<br>
+3. Enter probability<br>
+4. View results</strong>
+</div>
+<br>
+<br>
+<h2>Output Explanation</h2>
+<br>
+<br>
+<div class="box">
+<strong>EV = profit per bet<br>
+Edge = advantage %<br>
+Bookie vs You = probability comparison<br>
+Projected Return = long-term estimate<br>
+Minimum Odds = break-even point</strong>
+</div>
+
+<div class="box">
+<br>
+<br>
+<br>
+<br>
+<center><strong>This calculator is for educational purposes only. Betting involves risk.</strong></center>
+</div>
+
+</div>
+
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
+
+<script>
+const $ = id => document.getElementById(id);
+
+['stake','odds','prob'].forEach(id=>{
+    $(id).addEventListener('input', calc);
+});
+
+function money(n){
+    return (n>=0?'+':'-') + '£' + Math.abs(n).toFixed(2);
+}
+
+function calc(){
+
+    const stake = parseFloat($('stake').value);
+    const odds = parseFloat($('odds').value);
+    const prob = parseFloat($('prob').value) / 100;
+
+    if(!(stake>0 && odds>1 && prob>=0 && prob<=1)){
+        $('evValue').textContent='--';
+        $('compare').textContent='-- | --';
+        $('edge').textContent='--';
+        $('fifty').textContent='--';
+        $('breakeven').textContent='--';
+        $('resultBox').className='result neutral';
+        return;
+    }
+
+    const ev = prob*(stake*(odds-1)) - (1-prob)*stake;
+    const edge = (ev/stake)*100;
+    const implied = 100/odds;
+    const userProb = prob*100;
+
+    $('evValue').textContent = money(ev);
+    $('compare').textContent = implied.toFixed(1)+'% | '+userProb.toFixed(1)+'%';
+    $('edge').textContent = (edge>=0?'+':'')+edge.toFixed(1)+'%';
+    $('edge').className='big '+(edge>=0?'green':'red');
+    $('fifty').textContent = money(ev*50);
+    $('fifty').className='big '+(ev*50>=0?'green':'red');
+    $('breakeven').textContent = (1/prob).toFixed(2);
+
+    if(ev>0){
+        $('resultBox').className='result good';
+    } else if(ev<0){
+        $('resultBox').className='result bad';
+    } else {
+        $('resultBox').className='result neutral';
+    }
+}
+
+/* ✅ FIXED — now global */
+function resetFields(){
+    $('stake').value = "";
+    $('odds').value = "";
+    $('prob').value = "";
+
+    $('evValue').textContent = '--';
+    $('compare').textContent='-- | --';
+    $('edge').textContent='--';
+    $('fifty').textContent='--';
+    $('breakeven').textContent='--';
+    $('resultBox').className='result neutral';
+}
+</script>
+
+</body>
+</html>
