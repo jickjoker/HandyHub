@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelly Criterion Calculator</title>
+
+
+</head>
+<style>
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
+.sidebar-brand {
+    color: #22c55e !important;
+    font-size: 24px !important; /* Matches the 'good' sidebar size */
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+    font-weight: bold !important;
+    margin-bottom: 30px !important;
+    text-align: left !important;
+    display: block !important;
+}
+.sidebar-logo {
+    /* Font Size */
+    font-size: 22px !important;
+    
+    /* Font Stack matching standard EV tools */
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+    
+    /* Weight and Colors */
+    font-weight: 800 !important;
+    color: #22c55e !important;
+    
+    /* Layout */
+    margin: 0 0 30px 0 !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.5px !important;
+}
+
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* MAIN */
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.main h1{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.main p{
+    color:#9ca3af;
+    margin-bottom:30px;
+}
+
+
+
+
+
+
+
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f172a,#111);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:25px;
+    min-height:100vh;
+
+}
+
+.page-title{
+    text-align:center;
+    font-size:30px;
+    margin:0 0 18px 0;
+    font-weight:800;
+}
+
+.container{
+    display:flex;
+    gap:24px;
+    width:100%;
+    max-width:600px;
+    flex-wrap:wrap;
+	margin: 0 auto;
+}
+
+/* =========================
+   DARK CALCULATOR PANELS
+========================= */
+.panel{
+    flex: 1;
+    min-width: 0; /* IMPORTANT fix */
+    background:#000;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.05);
+}
+
+h2{
+    margin:0 0 12px 0;
+    font-size:22px;
+    text-align:center;
+    color:#facc15;
+}
+
+label{
+    display:block;
+    margin-top:10px;
+    margin-bottom:4px;
+    font-size:16px;
+    font-weight:700;
+}
+
+input{
+    width:100%;
+    height:38px;
+    padding:0 12px;
+    border:none;
+    border-radius:10px;
+    box-sizing:border-box;
+    background:#111827;
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    outline:none;
+}
+
+input:focus{
+    box-shadow:0 0 0 2px #60a5fa;
+}
+
+.output-title{
+    margin-top:14px;
+    margin-bottom:6px;
+    font-size:15px;
+    font-weight:700;
+    color:#cbd5e1;
+    text-align:center;
+}
+
+.output-box{
+    width:100%;
+    height:45px;
+    padding:0 12px;
+    border-radius:10px;
+    box-sizing:border-box;
+    background:#111827;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.output-value{
+    font-size:30px;
+    font-weight:800;
+}
+
+.green{color:#00ff88;}
+.red{
+    color:#ff1a1a;
+    font-weight:900;
+    text-shadow:0 0 8px rgba(255,0,0,.45);
+}
+.yellow{color:#facc15;}
+
+.info {
+    margin-top: 20px;
+    padding: 16px;
+    background: #0f172a;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.ev-label-permanent {
+    font-size: 12px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.ev-value {
+    font-size: 1.6em;
+    font-weight: 900;
+}
+
+.disclaimer-box{
+    margin-top:40px;
+    padding:18px 20px;
+    border-radius:12px;
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,0.08);
+    max-width:800px;
+    color:#cbd5e1;
+    text-align:center;
+	font-weight:700;
+}
+
+.disclaimer-box h3{
+    margin:0 0 10px 0;
+    font-size:18px;
+    color:#facc15;
+    font-weight:800;
+}
+
+.disclaimer-box p{
+    margin:6px 0;
+    font-size:14px;
+    line-height:1.5;
+}
+
+
+/* =========================
+   LIGHT EXPLANATION PANELS
+========================= */
+.panel-light{
+    background:#ffffff;
+    color:#111;
+    padding:22px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    flex:1;
+    min-width:320px;
+    border:1px solid rgba(0,0,0,.08);
+}
+
+.panel-light h2{
+    color:#111;
+    text-align:center;
+    margin:0 0 12px 0;
+    font-size:30px;
+    font-weight:800;
+}
+
+.panel-light p,
+.panel-light b{
+    color:black;
+    line-height:1.5;
+}
+
+.center-bold {
+    text-align: center;
+    font-weight: 700; /* makes it bold */
+}
+
+.info {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* left | center | right */
+    align-items: center;
+    margin-top: 20px;
+    padding: 12px 18px;
+    background: #0f172a;
+    border-radius: 12px;
+}
+
+/* Reset button (LEFT) */
+.reset-btn{
+    margin-top:15px;
+    padding:10px;
+    font-size:14px;
+    font-weight:700;
+    border-radius:10px;
+    background:#22c55e;
+    color:#111;
+    border:none;
+    cursor:pointer;
+    width:100%;
+    transition: all 0.2s ease;
+}
+
+.reset-btn:hover{
+    background:#16a34a;
+    transform: translateY(-1px);
+}
+
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.currency-mini select{
+    background:#111827;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:6px 10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.currency-mini select{
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.center-bold{
+    text-align:center;
+    font-weight:700;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* layout */
+/* layout */
+@media (max-width: 768px){
+
+    .game,
+    .info-box,
+    .panel,
+    .container{
+        width:95%;
+        max-width:100%;
+    }
+
+    .main{
+        align-items:stretch; /* IMPORTANT */
+    }
+}
+
+</style>
+
+
+<body>
+<!-- SIDEBAR -->
+<div class="sidebar">
+ <h2 class="sidebar-brand">HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+       <a href="math-games.html" class="nav-item">Math Games</a>
+
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item active-page">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+
+</div>
+
+
+<h1 class="page-title">Kelly Criterion Calculator</h1>
+
+<div class="container">
+
+<!-- CALCULATOR -->
+<div class="panel">
+<div class="panel-header">
+    <h2>Currency</h2>
+
+    <div class="currency-mini">
+        <select id="currency" onchange="setCurrency()">
+            <option value="£">£</option>
+            <option value="$">$</option>
+            <option value="€">€</option>
+        </select>
+    </div>
+</div>
+
+<label>Bankroll</label>
+<input type="number" id="bankroll" oninput="calc()">
+
+<label>Decimal Odds</label>
+<input type="number" step="0.01" id="odds" oninput="calc()">
+
+<label>Win Probability (%)</label>
+<input type="number" step="0.1" id="prob" oninput="calc()">
+
+<!-- The Info Bar inside the first panel -->
+<div class="info">
+    <div class="ev-label-permanent">EV</div>
+    <div class="ev-value">
+        <span id="insight"></span>
+    </div>
+</div>
+
+<button onclick="resetAll()" class="reset-btn">Reset</button>
+
+</div> <!-- THIS DIV CLOSES THE INPUT PANEL - DO NOT DELETE -->
+
+<!-- OUTPUTS PANEL (Now sits side-by-side correctly) -->
+<div class="panel">
+    <h2>Outputs</h2>
+    <!-- rest of your output boxes here -->
+
+
+<div class="output-title">Kelly Stake (% of bankroll)</div>
+<div class="output-box"><div class="output-value" id="edge"></div></div>
+
+<div class="output-title">Full Kelly Stake</div>
+<div class="output-box"><div class="output-value yellow" id="full"></div></div>
+
+<div class="output-title">Half Kelly Stake</div>
+<div class="output-box"><div class="output-value" id="half"></div></div>
+
+<div class="output-title">Quarter Kelly Stake</div>
+<div class="output-box"><div class="output-value" id="quarter"></div></div>
+
+</div>
+</div>
+
+<p style="text-align:center; margin-top:20px;">
+<br>
+<br>
+<a href="ev-calculator.html" class="kelly-link">
+    Try our Betting EV Calculator →
+</a>
+
+<style>
+.kelly-link {
+    display: inline-block;
+    margin-top: -10px;
+	margin-bottom: 20px;
+    padding: 10px 18px;
+    background: #22c55e;       /* bright green button */
+    color: black;
+    font-weight: 900;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.kelly-link:hover {
+    background: #16a34a;       /* slightly darker green on hover */
+    transform: translateY(-2px); /* subtle lift effect */
+}
+</style>
+</p>
+
+<!-- EXPLANATION SECTION -->
+<div class="container">
+
+<div class="panel-light">
+
+<h2>What is the Kelly Criterion</h2>
+<p>
+The Kelly Criterion is a mathematical formula used to calculate the optimal bet size to maximise long-term bankroll growth.
+</p>
+<p>
+It tells you what percentage of your bankroll to stake based on your estimated probability of winning and the decimal odds offered.
+</p>
+<p>
+It is only valid when you believe there is a <b>positive expected value (EV)</b>. If there is no edge, the result is zero, meaning no bet.
+</p>
+
+</div>
+
+<div class="panel-light">
+
+<h2>How it works</h2>
+<br>
+<p><b>Example:</b> If you estimate a <b>55%</b> chance at decimal <b>2.00</b> odds, Kelly calculates a positive stake. If your estimate is <b>45%</b>, it suggests no bet.</p>
+<br>
+<p>
+The Kelly formula compares your estimated probability with the bookmaker’s implied probability.
+</p>
+<p>
+If your probability is higher, you have an edge and the stake increases. If it is lower, the stake becomes zero.
+</p>
+<br>
+<p>
+<center><b>A bigger edge results in a higher recommended stake</b></center>
+</p>
+
+</div>
+
+<div class="panel-light">
+
+<h2>Full Kelly vs Half Kelly</h2>
+
+<p><b>Full Kelly</b></p>
+<p>Uses the full calculated stake. Maximises growth but increases volatility.</p>
+<br>
+<p><b>Half Kelly</b></p>
+<p>Uses 50% of the calculated stake. Reduces risk and smooths swings.</p>
+
+<p>
+Most bettors use fractional Kelly for more stable results.
+</p>
+
+</div>
+
+<div class="panel-light">
+
+<h2>Why it matters</h2>
+<p>
+The Kelly Criterion helps you avoid overbetting on small edges and underbetting on strong ones.
+</p>
+
+<p>
+It automatically adjusts your stake size based on your advantage instead of emotion or guesswork.
+</p>
+
+</div>
+
+<div class="panel-light">
+
+<h2>⚠️ Important ⚠️</h2>
+<br>
+<p class="center-bold">
+The accuracy of the Kelly is highly sensitive to probability estimates, so accuracy matters.
+</p>
+<br>
+<p class="center-bold">
+If your probability is wrong, the staking recommendation will also be wrong.
+</p>
+
+
+</div>
+<div class="disclaimer-box">
+    <h3>Disclaimer</h3>
+    <p>
+        This calculator is for educational purposes only and does not guarantee betting outcomes.
+        All results are based on user-provided estimates and mathematical models.
+    </p>
+    <p>
+        Betting involves risk. You should never stake more than you can afford to lose.
+    </p>
+</div>
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
+<script>
+let currencySymbol = "£";
+
+function calc() {
+    // 1. Fetch Inputs
+    const bankroll = parseFloat(document.getElementById("bankroll").value);
+    const odds = parseFloat(document.getElementById("odds").value);
+    const probInput = parseFloat(document.getElementById("prob").value);
+
+    // Configurable Thresholds
+    const MAX_STAKE_THRESHOLD = 50000; 
+    const MAX_BANKROLL = 100000000;
+
+    // 2. Guard: Missing or invalid numbers
+    if (isNaN(bankroll) || isNaN(odds) || isNaN(probInput)) {
+        clearResults();
+        return;
+    }
+
+    // 3. Guard: Unrealistic Input Bounds
+    if (
+        bankroll <= 0 || bankroll > MAX_BANKROLL || 
+        odds <= 1.0 || odds > 1000 ||           
+        probInput <= 0 || probInput >= 100      
+    ) {
+        document.getElementById("insight").innerHTML = "Invalid Input";
+        clearResults();
+        return;
+    }
+
+    // 4. Kelly Math
+    const b = odds - 1;
+    const p = probInput / 100;
+    const q = 1 - p;
+
+    let kelly = ((b * p) - q) / b;
+    if (kelly < 0) kelly = 0;
+
+    const percent = kelly * 100;
+    const full = bankroll * kelly;
+    const evEdge = ((p * odds) - 1) * 100;
+
+    // 5. Display: Kelly Percentage
+    let kellyText = (kelly === 0) ? "No value bet" : percent.toFixed(2) + "%";
+    let kellyClass = (kelly === 0) ? "red" : "green";
+    document.getElementById("edge").innerHTML =
+        `<span class="${kellyClass}">${kellyText}</span>`;
+
+    // 6. Currency formatting (FIXED)
+    const formatStake = (val) => {
+        let warning = val > MAX_STAKE_THRESHOLD
+            ? " <small style='color:orange;'>(High Stake!)</small>"
+            : "";
+
+        return currencySymbol + val.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + warning;
+    };
+
+    document.getElementById("full").innerHTML = formatStake(full);
+    document.getElementById("half").innerHTML = formatStake(full / 2);
+    document.getElementById("quarter").innerHTML = formatStake(full / 4);
+
+    // 7. EV display
+    let evText = (evEdge < 0) ? "-EV" : evEdge.toFixed(2) + "%";
+    let evClass = (evEdge < 0) ? "red" : "green";
+
+    let finalInsight = `<span class="${evClass}">${evText}</span>`;
+
+    if (full > MAX_STAKE_THRESHOLD) {
+        finalInsight += " <br><small style='color:orange;'>⚠️ Exceeds typical limits</small>";
+    }
+
+    document.getElementById("insight").innerHTML = finalInsight;
+}
+
+// Currency toggle
+function setCurrency(){
+    currencySymbol = document.getElementById("currency").value;
+    calc();
+}
+
+// Reset
+function resetAll() {
+    document.getElementById("bankroll").value = "";
+    document.getElementById("odds").value = "";
+    document.getElementById("prob").value = "";
+
+    clearResults();
+    document.getElementById("insight").innerHTML = "-";
+}
+
+// Clear outputs
+function clearResults() {
+    ["edge", "full", "half", "quarter"].forEach(id => {
+        document.getElementById(id).innerHTML = "-";
+    });
+}
+
+
+</script>
+</body>
+</html>

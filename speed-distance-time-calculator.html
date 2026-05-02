@@ -489,42 +489,58 @@ img, input, button {
 
 @media (max-width: 768px){
 
-    /* TURN SIDEBAR INTO TOP BAR */
+    /* SIDEBAR → TOP BAR */
     .sidebar{
         position:relative;
         width:100%;
         height:auto;
         border-right:none;
-        padding:10px;
+        padding:12px 16px;
     }
 
-    /* MAIN CONTENT */
+    .sidebar h2{
+        font-size:22px;
+        margin-bottom:15px;
+        text-align:left;
+    }
+
+    /* MAIN */
     .main{
         margin-left:0;
         width:100%;
-        padding:10px;
+        padding:12px;
+        align-items:center;
     }
 
-    /* CALCULATORS */
+    /* CALCULATOR FIX (IMPORTANT) */
     .calculator{
-        width:95%;
-    }
-
-    /* HOME PAGE */
-    .welcome-box{
         width:100%;
-        padding:10px 0;
-        text-align:center;
+        max-width:500px;   /* keeps it clean on mobile */
+        min-height:auto;
+        padding:16px;
     }
 
-    .welcome-box h1{
-        font-size:28px;
-        margin-bottom:10px;
+    /* WRAP LAYOUT FIX (if using 2 panels) */
+    .wrap{
+        grid-template-columns:1fr;
+        width:100%;
     }
 
-    .welcome-box p{
+    /* INPUT FIX */
+    input{
+        font-size:18px;
+        height:48px;
+    }
+
+    /* TEXT SCALE DOWN */
+    h1{
+        font-size:26px;
+    }
+
+    /* BUTTON */
+    .reset-btn{
         font-size:14px;
-        padding:0 10px;
+        padding:10px;
     }
 }
 </style>
@@ -671,7 +687,7 @@ if (window.location.hostname !== "jickjoker.github.io") {
     document.body.innerHTML = "<h1></h1><p></p>";
 }
 </script>
-</div>
+
 
 <script>
 function calculateSDT() {
