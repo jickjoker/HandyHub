@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0CBQ3FWL4T');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Speed Distance Time Calculator | HandyHub</title>
+
+<meta name="description" content="Quickly solve speed, distance, and time problems with this interactive calculator. Enter any two values and get the third instantly with detailed explanations.">
+
+<meta name="keywords" content="speed calculator, distance calculator, time calculator, speed distance time, online calculator, solve speed problems, travel time, physics calculator">
+
+<meta name="author" content="HandyHub">
+
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jickjoker.github.io/HandyHub/speed-distance-time-calculator.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Speed Distance Time Calculator | HandyHub">
+<meta property="og:description" content="Solve speed, distance, and time problems instantly. Enter any two values and get the third automatically with step-by-step explanations.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
+<meta property="og:site_name" content="HandyHub">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Speed Distance Time Calculator | HandyHub">
+<meta name="twitter:description" content="Interactive speed, distance, and time calculator with instant answers and explanations.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
+
+
+
+
+
+<style>
+@import url('https://googleapis.com');
+
+
+        /* BASE RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+
+body {
+    background: black;
+    color: white;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    padding: 20px;
+    border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+    color: #22c55e;
+    margin-bottom: 30px;
+}
+
+/* NAV */
+.nav-title {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #e5e7eb;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page {
+    background: #66ff00;
+    color: #111827 !important;
+    font-weight: bold;
+}
+
+/* MAIN CONTENT SHIFT (required for sidebar spacing) */
+/* MAIN CONTENT SHIFT */
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 40px;
+    display: flex;
+    flex-direction: column; /* This forces the stack */
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        padding: 10px;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px 10px 80px 10px;
+    }
+}
+
+
+
+
+/* MAIN CALCULATOR */
+.calculator {
+    margin: 0 auto;
+    width: 95%;          /* On small screens, take up most of the width */
+    max-width: 520px;    /* On desktop, LOCK it at your original size */
+    background: #111827;
+    border-radius: 22px;
+    padding: 15px 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.45);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #1f2937;
+    height: fit-content;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: orange;
+    margin-bottom: 20px;
+}
+
+/* TOGGLE */
+.unit-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    background: #000; /* Black track for the buttons */
+    padding: 4px;
+    border-radius: 12px;
+    width: fit-content;
+    border: 1px solid #1f2937;
+}
+
+.unit-toggle input { display: none; }
+
+.unit-toggle label {
+    padding: 8px 20px;
+    background: transparent; /* No background when not selected */
+    color: #9ca3af; /* Dimmer text for inactive */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none; /* Removed the ugly black borders */
+    border-radius: 8px; /* Rounded corners for the "pill" */
+    transition: all 0.2s ease;
+}
+
+.unit-toggle input:checked + label {
+    background: #22c55e; /* Bright green for active */
+    color: #111827;      /* Dark text on green background */
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.3);
+}
+.unit-toggle label:hover:not(.unit-toggle input:checked + label) {
+    color: white; /* Glow slightly on hover */
+}
+
+.unit-toggle label:active {
+    transform: scale(0.98); /* Very subtle shrink */
+}
+/* INPUT AREA */
+.inputs {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+/* FRACTIONS */
+.fraction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    position: relative;
+}
+
+.fraction input {
+    font-family: 'Roboto Mono', monospace;
+	letter-spacing: -1px; /* Keeps it tight */
+    width: 80px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background: #000;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+.fraction-line {
+    width: 85px;
+    height: 2px;
+    background: white;
+    margin: 5px 0;
+}
+
+.math-symbol {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #22c55e;
+    width: 45px;
+}
+
+/* RESULT BOX */
+/* RESULT BOX - FIXED & CLEANED */
+.answer-box {
+    font-family: 'Roboto Mono', monospace; /* Single, clean font choice */
+    font-weight: 700;
+    width: 110px;
+    height: 38px;
+    border-radius: 8px;
+    background: #050505;
+    color: #FFD700;
+    font-size: 20px; 
+    text-align: center;
+    line-height: 38px;
+    overflow: hidden; 
+    white-space: nowrap; 
+}
+
+
+
+/* DECIMAL OUTPUT */
+.decimal-answer {
+    position: absolute;
+    top: 122px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    text-align: center;
+    color: #FFD700;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* RESET BUTTON */
+.reset-btn {
+    margin-top: -25px;
+	margin-bottom: -25px;
+    padding: 8px 20px;
+    background: #22c55e;
+    color: #111827;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background: #16a34a;
+}
+
+.reset-btn:active {
+    transform: scale(0.95); /* Shrinks slightly */
+    background: #15803d;    /* Gets a bit darker green */
+    transition: transform 0.1s; /* Makes the squish feel snappy */
+}
+
+
+/* REMOVE NUMBER SPINNERS */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.explanation {
+    margin-top: 65px;
+    width: 95%;          /* Responsive for mobile */
+    max-width: 520px;    /* Locked for desktop */
+    background: white;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+}
+
+.explanation h2 {
+    text-align:center;
+    color: black;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.explanation p {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.explanation .formula {
+    text-align:center;
+    background: #111827; /* Dark blue-black */
+    color: #22c55e;      /* Green text */
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+}
+
+.explanation ul {
+    margin-top: 20px;
+    padding-left: 18px;
+}
+
+.explanation li {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+/* Real Stacked Fractions for Text */
+.inline-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    align-items: center;
+    padding: 0 4px;
+}
+
+/* This forces the spans inside to act like blocks so they stack */
+.inline-fraction span {
+    display: block;
+    line-height: 1.1;
+}
+
+.inline-line {
+    width: 100%;
+    height: 1px;
+    background: black;
+    margin: 2px 0;
+}
+
+
+@media (max-width: 768px) {
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px 10px; /* Reduced padding so calculator has room */
+    }
+}
+
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== ORIGINAL SIDEBAR ===== -->
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item active-page">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+</div>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<!-- ===== MAIN ===== -->
+<div class="main">
+    <div class="calculator">
+        <h1>Fractions Calculator</h1>
+
+        <div class="unit-toggle">
+    <input type="radio" name="op" id="add" value="+" checked onclick="calculate()">
+    <label for="add">+</label>
+    
+    <input type="radio" name="op" id="sub" value="-" onclick="calculate()">
+    <label for="sub">−</label>
+    
+    <input type="radio" name="op" id="mul" value="*" onclick="calculate()">
+    <label for="mul">×</label>
+    
+    <input type="radio" name="op" id="div" value="/" onclick="calculate()">
+    <label for="div">÷</label>
+</div>
+
+       <div class="inputs">
+    <!-- Left Fraction -->
+    <div class="fraction">
+        <input type="text" id="n1" inputmode="numeric" placeholder="-" 
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); calculate();">
+        <div class="fraction-line"></div>
+        <input type="text" id="d1" inputmode="numeric" placeholder="-" 
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); calculate();">
+    </div>
+
+    <div class="math-symbol" id="symbol">+</div>
+
+    <!-- Right Fraction -->
+    <div class="fraction">
+        <input type="text" id="n2" inputmode="numeric" placeholder="-" 
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); calculate();">
+        <div class="fraction-line"></div>
+        <input type="text" id="d2" inputmode="numeric" placeholder="-" 
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3); calculate();">
+    </div>
+
+    <div class="math-symbol">=</div>
+
+    <!-- Result Box -->
+    <div class="fraction">
+        <div id="topAnswer" class="answer-box">?</div>
+        <div class="fraction-line"></div>
+        <div id="bottomAnswer" class="answer-box">?</div>
+        <div id="decimalAnswer" class="decimal-answer"></div>
+    </div>
+</div>
+
+
+<button class="reset-btn" onclick="resetCalc()">Reset</button>
+
+<!-- CONTROLS -->
+<div style="
+    width:100%;
+    max-width:520px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+">
+
+    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:#9ca3af;">
+        <input type="checkbox" id="showSteps" onchange="calculate()">
+        Show Steps
+    </label>
+
+    
+</div>
+
+<!-- STEPS OUTPUT -->
+<div id="stepsBox" style="
+    margin-top:15px;
+    width:100%;
+    max-width:520px;
+    background:#ffffff;
+    border:1px solid #1f2937;
+    border-radius:10px;
+    padding:12px;
+    font-family:'Roboto Mono', monospace;
+    color:#000;
+    display:none;
+    text-align:left;
+    font-size:16px;
+    line-height:1.5;
+"></div>
+
+</div> <!-- CLOSES calculator ONLY ONCE -->
+ 
+
+    
+
+
+<div class="explanation">
+<h2>Fractions Calculator</h2>
+    <br>
+<p><strong>How to use:</strong><br>
+Enter any two values to find the missing third. The calculator handles the math instantly.</p>
+<br>
+<p><strong>Bonus feature:</strong><br>
+Tick “Show Steps” to see a step-by-step working for the solution.</p>
+<br>
+    <h2>How Fractions Work</h2>
+    <p>A fraction represents a division between two numbers: the top number (numerator) divided by the bottom number (denominator).</p>
+    
+    <ul>
+        <li><b>Top number</b> = numerator</li>
+        <li><b>Bottom number</b> = denominator</li>
+    </ul>
+  <br>
+    <br>
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <h2>How to Multiply Fractions</h2>
+	<br>
+    <p><strong>Example:</strong> &nbsp;
+        <span class="inline-fraction"><span>2</span><span class="inline-line"></span><span>5</span></span> 
+        × 
+        <span class="inline-fraction"><span>3</span><span class="inline-line"></span><span>4</span></span>
+    </p>
+
+    <ul>
+        <li><strong>Step 1:</strong> Multiply the top numbers:&nbsp; 2 × 3 = 6</li>
+        <li><strong>Step 2:</strong> Multiply the bottom numbers: &nbsp; 5 × 4 = 20</li>
+		<li><strong>Step 3:</strong> Simplfy the fraction:</li>
+		<br>
+		
+    </ul>
+
+    <div class="formula">
+        Result: 
+        <span class="inline-fraction" style="color: #22c55e;"><span>6</span><span class="inline-line" style="background: #22c55e;"></span><span>20</span></span> 
+        = 
+        <span class="inline-fraction" style="color: #22c55e;"><span>3</span><span class="inline-line" style="background: #22c55e;"></span><span>10</span></span>
+    </div>
+   <br>
+    <br>
+	  <br>
+
+    <h2>How to Subtract Fractions</h2>
+	  <br>
+    <p><strong>Example:</strong> &nbsp;
+        <span class="inline-fraction"><span>4</span><span class="inline-line"></span><span>6</span></span> 
+        − 
+        <span class="inline-fraction"><span>2</span><span class="inline-line"></span><span>6</span></span>
+    </p>
+    
+    <ul>
+        <li><strong>Step 1:</strong> Keep the denominator: &nbsp;6</li>
+        <li><strong>Step 2:</strong> Subtract the top numbers:&nbsp; 4 - 2 = 2</li>
+		<li><strong>Step 3:</strong> Simplfy the fraction:</li>
+    </ul>
+ <br>
+    <div class="formula">
+        Result: 
+        <span class="inline-fraction" style="color: #22c55e;"><span>2</span><span class="inline-line" style="background: #22c55e;"></span><span>6</span></span> 
+        = 
+        <span class="inline-fraction" style="color: #22c55e;"><span>1</span><span class="inline-line" style="background: #22c55e;"></span><span>3</span></span>
+    </div>
+	<br>
+    <br>
+	  <br>
+	<h2>How to Divide Fractions</h2>
+<br>
+
+<p><strong>Example:</strong> &nbsp;
+    <span class="inline-fraction"><span>3</span><span class="inline-line"></span><span>5</span></span> 
+    ÷ 
+    <span class="inline-fraction"><span>2</span><span class="inline-line"></span><span>3</span></span>
+</p>
+
+<ul>
+    <li><strong>Step 1:</strong> Keep the first fraction the same</li>
+    <li><strong>Step 2:</strong> Flip the second fraction (reciprocal)&nbsp; 2/3 ➡ 3/2</li>
+    <li><strong>Step 4:</strong> Multiply the fractions:&nbsp; 3/5 × 3/2 = 9/10</li>
+    <li><strong>Step 5:</strong> Simplify if possible</li>
+</ul>
+<br>
+    <br>
+	  <br>
+<div class="formula">
+    Result: 
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>3</span><span class="inline-line" style="background:#22c55e;"></span><span>5</span>
+    </span>
+    ÷
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>2</span><span class="inline-line" style="background:#22c55e;"></span><span>3</span>
+    </span>
+    =
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>9</span><span class="inline-line" style="background:#22c55e;"></span><span>10</span>
+    </span>
+</div>
+<br>
+    <br>
+	  <br>
+	<h2>How to Add Fractions</h2>
+<br>
+
+<p><strong>Example:</strong> &nbsp;
+    <span class="inline-fraction"><span>1</span><span class="inline-line"></span><span>4</span></span> 
+    + 
+    <span class="inline-fraction"><span>1</span><span class="inline-line"></span><span>6</span></span>
+</p>
+
+<ul>
+    <li><strong>Step 1:</strong> Find a common denominator:&nbsp; 6 × 4 = 24</li> 
+    <li><strong>Step 2:</strong> Convert both fractions:&nbsp; 6/24 + 4/24</li>
+    <li><strong>Step 3:</strong> Add the top numbers:&nbsp; 10/24</li>
+    <li><strong>Step 4:</strong> Simplify if possible:&nbsp; 5/12</li>
+</ul>
+<br>
+<br>
+<div class="formula">
+    Result: 
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>1</span><span class="inline-line" style="background:#22c55e;"></span><span>4</span>
+    </span>
+    +
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>1</span><span class="inline-line" style="background:#22c55e;"></span><span>6</span>
+    </span>
+    =
+    <span class="inline-fraction" style="color:#22c55e;">
+        <span>5</span><span class="inline-line" style="background:#22c55e;"></span><span>12</span>
+    </span>
+</div>
+	
+	
+</div>
+
+
+
+
+<script>
+function resetCalc() {
+    document.getElementById('n1').value = '';
+    document.getElementById('d1').value = '';
+    document.getElementById('n2').value = '';
+    document.getElementById('d2').value = '';
+
+    document.getElementById('topAnswer').innerText = '?';
+    document.getElementById('bottomAnswer').innerText = '?';
+    document.getElementById('decimalAnswer').innerText = '';
+
+    const box = document.getElementById('stepsBox');
+    box.innerHTML = '';
+    box.style.display = 'none';
+}
+
+function calculate() {
+
+    let n1 = parseInt(document.getElementById('n1').value);
+    let d1 = parseInt(document.getElementById('d1').value);
+    let n2 = parseInt(document.getElementById('n2').value);
+    let d2 = parseInt(document.getElementById('d2').value);
+
+    const opElement = document.querySelector('input[name="op"]:checked');
+    if (!opElement) return;
+    const op = opElement.value;
+
+    document.getElementById('symbol').innerText =
+        (op === '*') ? '×' : (op === '/') ? '÷' : op;
+
+    if (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2)) {
+        clearOutput();
+        return;
+    }
+
+    if (d1 === 0 || d2 === 0) {
+        showInvalid();
+        return;
+    }
+
+    // normalize negatives
+    if (d1 < 0) { n1 = -n1; d1 = -d1; }
+    if (d2 < 0) { n2 = -n2; d2 = -d2; }
+
+    let resN, resD;
+
+    if (op === '+') {
+        resN = (n1 * d2) + (n2 * d1);
+        resD = d1 * d2;
+    }
+    else if (op === '-') {
+        resN = (n1 * d2) - (n2 * d1);
+        resD = d1 * d2;
+    }
+    else if (op === '*') {
+        resN = n1 * n2;
+        resD = d1 * d2;
+    }
+    else if (op === '/') {
+        if (n2 === 0) {
+            showInvalid();
+            return;
+        }
+        resN = n1 * d2;
+        resD = d1 * n2;
+    }
+
+    // simplify
+    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+    const common = Math.abs(gcd(resN, resD));
+
+    let finalN = resN / common;
+    let finalD = resD / common;
+
+    // fix sign
+    if (finalD < 0) {
+        finalN = -finalN;
+        finalD = -finalD;
+    }
+
+    // output
+    document.getElementById('topAnswer').innerText = finalN;
+    document.getElementById('bottomAnswer').innerText = finalD;
+    document.getElementById('decimalAnswer').innerText =
+        "= " + Number((finalN / finalD).toFixed(3));
+
+    buildSteps(n1, d1, n2, d2, op, resN, resD, finalN, finalD);
+}
+
+// =====================
+// STEPS BUILDER
+// =====================
+function buildSteps(n1, d1, n2, d2, op, resN, resD, finalN, finalD) {
+
+    const box = document.getElementById('stepsBox');
+    const show = document.getElementById('showSteps')?.checked;
+
+    if (!show) {
+        box.style.display = "none";
+        return;
+    }
+
+    box.style.display = "block";
+
+    const opSymbol = (op === '*') ? '×' : (op === '/') ? '÷' : op;
+
+    let out = `Step-by-Step Solution\n\n`;
+    out += `${n1}/${d1} ${opSymbol} ${n2}/${d2}\n\n`;
+
+        if (op === '+') {
+        const lcd = d1 * d2;
+        out += `Common denominator: ${lcd}\n\n`;
+        out += `${n1*d2}/${lcd} + ${n2*d1}/${lcd}\n\n`; // Keep this for clarity!
+        
+        let displayResult = (lcd === 1) ? resN : `${resN}/${lcd}`;
+        out += `Result: ${displayResult}\n`;
+    }
+
+
+    else if (op === '-') {
+        const lcd = d1 * d2;
+        out += `Common denominator: ${lcd}\n\n`;
+        out += `${n1*d2}/${lcd} - ${n2*d1}/${lcd}\n\n`;
+        out += `Result: ${resN}/${lcd}\n`;
+    }
+
+    else if (op === '*') {
+        out += `Multiply numerators: ${n1} × ${n2} = ${n1*n2}\n`;
+        out += `Multiply denominators: ${d1} × ${d2} = ${d1*d2}\n\n`;
+        out += `Result: ${resN}/${resD}\n`;
+    }
+
+        else if (op === '/') {
+        out += `Flip second fraction: ${n2}/${d2} → ${d2}/${n2}\n\n`;
+        // Check if the initial result is a whole number
+        let initialResult = (resD === 1) ? resN : `${resN}/${resD}`;
+        out += `Multiply: ${initialResult}\n`;
+    }
+
+    // ✅ FIXED simplification logic
+    if (resN !== finalN || resD !== finalD) {
+        out += `\nSimplified:\n`;
+        // If finalD is 1, show as whole number, else show fraction
+        out += (finalD === 1) ? finalN : `${finalN}/${finalD}`;
+        out += `\n`; // Add a newline for safety
+    }
+
+    // IMPORTANT: Make sure this line exists at the very end!
+    box.innerText = out;
+}
+
+
+// =====================
+function symbol(op) {
+    if (op === '*') return '×';
+    if (op === '/') return '÷';
+    return op;
+}
+
+function clearOutput() {
+    document.getElementById('topAnswer').innerText = '?';
+    document.getElementById('bottomAnswer').innerText = '?';
+    document.getElementById('decimalAnswer').innerText = '';
+}
+
+function showInvalid() {
+    document.getElementById('topAnswer').innerText = '?';
+    document.getElementById('bottomAnswer').innerText = '?';
+    document.getElementById('decimalAnswer').innerText = 'Invalid';
+	document.getElementById('stepsBox').style.display = 'none'; // Clears old steps
+    document.getElementById('decimalAnswer').innerText = 'Invalid';
+}
+
+function printSteps() {
+    const box = document.getElementById('stepsBox');
+
+    if (!box.innerText.trim() || box.style.display === 'none') {
+        alert("Turn on 'Show Steps' first");
+        return;
+    }
+
+    const win = window.open('', '', 'width=700,height=700');
+
+    win.document.write(`
+        <html>
+        <head>
+            <title>Fraction Steps</title>
+            <style>
+                body { font-family: monospace; padding: 20px; white-space: pre-wrap; }
+            </style>
+        </head>
+        <body>${box.innerText}</body>
+        </html>
+    `);
+
+    win.document.close();
+    win.print();
+}
+</script>
+</body>
+</html>
