@@ -360,45 +360,65 @@ h5{
     transform: translateY(-2px);
 }
 
-@media (max-width: 768px){
-
-    /* SIDEBAR → TOP BAR */
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-        border-right:none;
-        padding:10px;
+@media (max-width: 768px) {
+    /* 1. Reset the body so elements stack vertically on mobile */
+    body {
+        flex-direction: column;
+        display: flex;
+        min-height: auto;
     }
 
-    /* MAIN CONTENT */
-    .main{
-        margin-left:0;
-        width:100%;
-        padding:10px;
+    /* 2. Standardize the top bar on mobile */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+        padding: 15px;
     }
 
-    /* CALCULATOR STACK */
-    .wrap{
-        grid-template-columns:1fr;
-        gap:12px;
+    /* 3. Remove desktop margins and allow full width */
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 15px !important;
     }
 
-    /* CARDS STACK */
-    .grid{
-        flex-direction:column;
-        align-items:center;
+    /* 4. Make calculator panels stack vertically */
+    .wrap {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 30px;
     }
 
-    .card{
-        width:95%;
+    .panel {
+        width: 100%;
     }
 
-    /* EXPLANATION BOX */
-    .ev-container{
-        width:95%;
+    /* 5. Stack navigation cards properly */
+    .grid, .card-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 345px; /* Matches calculator panel width */
+    }
+
+    /* 6. Expand explanatory boxes to full width */
+    .ev-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 15px 0;
     }
 }
+
 
 
 

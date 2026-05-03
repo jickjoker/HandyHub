@@ -303,40 +303,80 @@ img, input, button {
     max-width:100%;
 }
 
-@media (max-width: 768px){
-
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-        border-right:none;
-        padding:10px;
+/* =========================
+   RESPONSIVE FIXES FOR MOBILE
+========================= */
+@media (max-width: 768px) {
+    /* 1. Reset the body to stack vertically */
+    body {
+        flex-direction: column !important;
+        display: flex !important;
+        min-height: auto;
     }
 
-    .main{
-        margin-left:0;
-        width:100%;
-        padding:12px;
+    /* 2. Transform the fixed sidebar into a top bar */
+    .sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid #1f2937;
+        padding: 15px !important;
     }
 
-    .game,
-    .info-box{
-        width:100%;
-        max-width:500px;
+    /* 3. Give main content full width and remove desktop margin */
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 15px 60px 15px !important;
     }
 
-    h1{
-        font-size:28px;
+    /* 4. Fix fixed height and allow the game container to expand */
+    .game {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important; /* Forces box to grow with stacked buttons */
+        min-height: auto !important;
+        padding: 16px !important;
+        margin-bottom: 30px !important;
     }
 
-    .question{
-        font-size:18px;
+    /* 5. Make the info box fill the screen */
+    .info-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 20px 0 !important;
+        padding: 15px !important;
     }
 
-    .answers{
-        flex-direction:column;
+    /* 6. Typography scaling for mobile */
+    h1 {
+        font-size: 26px !important;
+    }
+
+    .question {
+        font-size: 18px !important;
+        padding: 15px 10px !important;
+    }
+
+    /* 7. Stack answers vertically to prevent horizontal stretching */
+    .answers {
+        flex-direction: column !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+
+    .answers button {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+    }
+
+    .triangle-img {
+        max-width: 80% !important;
     }
 }
+
 
 </style>
 </head>

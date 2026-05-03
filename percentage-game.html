@@ -401,20 +401,71 @@ h1{
 
 /* MEDIA QUERIES */
 
-/* TABLETS & PHONES */
-@media (max-width: 768px){
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-        border-right:none;
-        padding:10px;
+/* =========================
+   RESPONSIVE FIXES FOR MOBILE
+========================= */
+@media (max-width: 768px) {
+    /* 1. Reset body layout to stack vertically */
+    body {
+        flex-direction: column !important;
+        display: flex !important;
+        min-height: auto;
     }
 
-    .main{
-        margin-left:0;
-        width:100%;
-        padding:10px;
+    /* 2. Transform the sidebar into a standard top bar */
+    .sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid #1f2937;
+        padding: 15px !important;
+    }
+
+    /* 3. Give main content the full width */
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 10px 60px 10px !important;
+    }
+
+    /* 4. Let the game and content boxes take up full width */
+    .game, 
+    .info-box, 
+    .math-help-box, 
+    .pyramid {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 15px !important;
+    }
+
+    /* 5. Improve mobile usability for the game grid and answers */
+    .grid {
+        margin-top: 30px;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 320px; /* Limits cards from over-stretching */
+    }
+
+    .answers {
+        flex-direction: column; /* Stacks button choices vertically */
+        width: 100%;
+    }
+
+    .answers button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .section-title {
+        margin-top: 40px;
+        font-size: 26px;
     }
 }
 
@@ -432,11 +483,15 @@ h1{
         padding: 10px;
         font-size: 20px;
     }
+    .answers {
+        flex-direction: row !important; /* Forces buttons side-by-side */
+    }
     .answers button {
         padding: 8px;
         font-size: 16px;
     }
 }
+
 </style>
 </head>
 

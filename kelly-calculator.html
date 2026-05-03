@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kelly Criterion Calculator</title>
+<meta name="description" content="Free Kelly Criterion Calculator for optimal bet sizing. Instantly calculate edge, stake size, and bankroll risk for smarter betting decisions.">nm
+<meta name="keywords" content="Kelly Criterion, betting calculator, bankroll management, EV betting, stake calculator">
+<meta name="author" content="Your Name">
+
+<!-- SOCIAL SHARING (Open Graph) -->
+<meta property="og:title" content="Kelly Criterion Calculator">
+<meta property="og:description" content="Calculate optimal bet size using the Kelly Criterion. Simple, fast bankroll management tool.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/kelly-calculator.png">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/kelly-calculator">
+
+<!-- TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kelly Criterion Calculator">
+<meta name="twitter:description" content="Optimize your betting strategy with the Kelly Criterion calculator.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/kelly-calculator.png">
 
 
 </head>
@@ -365,20 +381,51 @@ input:focus{
 
 /* layout */
 /* layout */
-@media (max-width: 768px){
-
-    .game,
-    .info-box,
-    .panel,
-    .container{
-        width:95%;
-        max-width:100%;
+/* =========================
+   RESPONSIVE FIXES FOR MOBILE
+========================= */
+@media (max-width: 768px) {
+    
+    /* 1. Stack body elements normally */
+    body {
+        display: block;
+        padding: 10px;
     }
 
-    .main{
-        align-items:stretch; /* IMPORTANT */
+    /* 2. Un-fix the sidebar so it sits at the top of the mobile screen */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+        padding: 20px 15px;
+    }
+
+    /* 3. Give the main area full width on mobile */
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 10px 60px 10px !important;
+        align-items: stretch;
+    }
+
+    /* 4. Ensure container and panels expand properly */
+    .container {
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .panel, 
+    .panel-light {
+        width: 100%;
+        min-width: 0;
+        flex: none;
     }
 }
+
 
 </style>
 
