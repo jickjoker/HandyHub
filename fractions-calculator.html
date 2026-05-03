@@ -22,31 +22,34 @@ window.addEventListener("DOMContentLoaded", function() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Speed Distance Time Calculator | HandyHub</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Quickly solve speed, distance, and time problems with this interactive calculator. Enter any two values and get the third instantly with detailed explanations.">
+<title>Fractions Calculator | HandyHub</title>
 
-<meta name="keywords" content="speed calculator, distance calculator, time calculator, speed distance time, online calculator, solve speed problems, travel time, physics calculator">
-
+<meta name="description" content="Free online fractions calculator. Add, subtract, multiply, and divide fractions instantly with step-by-step clarity. Simple, fast, and accurate.">
+<meta name="keywords" content="fractions calculator, fraction solver, add fractions, subtract fractions, multiply fractions, divide fractions, math tool, HandyHub">
 <meta name="author" content="HandyHub">
 
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://jickjoker.github.io/HandyHub/speed-distance-time-calculator.html">
-
-<!-- Open Graph -->
-<meta property="og:title" content="Speed Distance Time Calculator | HandyHub">
-<meta property="og:description" content="Solve speed, distance, and time problems instantly. Enter any two values and get the third automatically with step-by-step explanations.">
+<!-- Open Graph (for social sharing) -->
+<meta property="og:title" content="Fractions Calculator | HandyHub">
+<meta property="og:description" content="Solve fractions instantly. Add, subtract, multiply, and divide fractions with ease.">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/fractions-calculator.png">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/fractions-calculator.html">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
-<meta property="og:site_name" content="HandyHub">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 
-<!-- Twitter -->
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Speed Distance Time Calculator | HandyHub">
-<meta name="twitter:description" content="Interactive speed, distance, and time calculator with instant answers and explanations.">
-<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/triangle.png">
+<meta name="twitter:title" content="Fractions Calculator | HandyHub">
+<meta name="twitter:description" content="Fast and simple fractions calculator for all your math needs.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/fractions-calculator.png">
+
+<!-- Favicon (optional) -->
+<link rel="icon" href="favicon.ico">
+
+
 
 
 
@@ -698,7 +701,6 @@ function resetCalc() {
 }
 
 function calculate() {
-
     let n1 = parseInt(document.getElementById('n1').value);
     let d1 = parseInt(document.getElementById('d1').value);
     let n2 = parseInt(document.getElementById('n2').value);
@@ -748,20 +750,19 @@ function calculate() {
         resD = d1 * n2;
     }
 
-    // simplify
+    // simplify logic
     const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
     const common = Math.abs(gcd(resN, resD));
 
     let finalN = resN / common;
     let finalD = resD / common;
 
-    // fix sign
     if (finalD < 0) {
         finalN = -finalN;
         finalD = -finalD;
     }
 
-    // output
+    // output to UI
     document.getElementById('topAnswer').innerText = finalN;
     document.getElementById('bottomAnswer').innerText = finalD;
     document.getElementById('decimalAnswer').innerText =
@@ -770,11 +771,7 @@ function calculate() {
     buildSteps(n1, d1, n2, d2, op, resN, resD, finalN, finalD);
 }
 
-// =====================
-// STEPS BUILDER
-// =====================
 function buildSteps(n1, d1, n2, d2, op, resN, resD, finalN, finalD) {
-
     const box = document.getElementById('stepsBox');
     const show = document.getElementById('showSteps')?.checked;
 
@@ -784,60 +781,39 @@ function buildSteps(n1, d1, n2, d2, op, resN, resD, finalN, finalD) {
     }
 
     box.style.display = "block";
-
     const opSymbol = (op === '*') ? '×' : (op === '/') ? '÷' : op;
-
     let out = `Step-by-Step Solution\n\n`;
     out += `${n1}/${d1} ${opSymbol} ${n2}/${d2}\n\n`;
 
-        if (op === '+') {
-        const lcd = d1 * d2;
-        out += `Common denominator: ${lcd}\n\n`;
-        out += `${n1*d2}/${lcd} + ${n2*d1}/${lcd}\n\n`; // Keep this for clarity!
-        
-        let displayResult = (lcd === 1) ? resN : `${resN}/${lcd}`;
+    if (op === '+' || op === '-') {
+        const commonDenom = d1 * d2;
+        const val1 = n1 * d2;
+        const val2 = n2 * d1;
+        out += `Common denominator: ${commonDenom}\n\n`;
+        out += `${val1}/${commonDenom} ${op} ${val2}/${commonDenom}\n\n`;
+        let displayResult = (commonDenom === 1) ? resN : `${resN}/${commonDenom}`;
         out += `Result: ${displayResult}\n`;
-    }
-
-
-    else if (op === '-') {
-        const lcd = d1 * d2;
-        out += `Common denominator: ${lcd}\n\n`;
-        out += `${n1*d2}/${lcd} - ${n2*d1}/${lcd}\n\n`;
-        out += `Result: ${resN}/${lcd}\n`;
-    }
-
+    } 
     else if (op === '*') {
-        out += `Multiply numerators: ${n1} × ${n2} = ${n1*n2}\n`;
-        out += `Multiply denominators: ${d1} × ${d2} = ${d1*d2}\n\n`;
-        out += `Result: ${resN}/${resD}\n`;
-    }
-
-        else if (op === '/') {
+        out += `Multiply numerators: ${n1} × ${n2} = ${n1 * n2}\n`;
+        out += `Multiply denominators: ${d1} × ${d2} = ${d1 * d2}\n\n`;
+        let displayResult = (resD === 1) ? resN : `${resN}/${resD}`;
+        out += `Result: ${displayResult}\n`;
+    } 
+    else if (op === '/') {
         out += `Flip second fraction: ${n2}/${d2} → ${d2}/${n2}\n\n`;
-        // Check if the initial result is a whole number
-        let initialResult = (resD === 1) ? resN : `${resN}/${resD}`;
-        out += `Multiply: ${initialResult}\n`;
+        out += `Multiply: ${n1}/${d1} × ${d2}/${n2} = ${resN}/${resD}\n`;
+        if (resD === 1 && resN !== finalN) {
+            out += `Result: ${resN}\n`;
+        }
     }
 
-    // ✅ FIXED simplification logic
     if (resN !== finalN || resD !== finalD) {
         out += `\nSimplified:\n`;
-        // If finalD is 1, show as whole number, else show fraction
         out += (finalD === 1) ? finalN : `${finalN}/${finalD}`;
-        out += `\n`; // Add a newline for safety
     }
 
-    // IMPORTANT: Make sure this line exists at the very end!
     box.innerText = out;
-}
-
-
-// =====================
-function symbol(op) {
-    if (op === '*') return '×';
-    if (op === '/') return '÷';
-    return op;
 }
 
 function clearOutput() {
@@ -850,35 +826,21 @@ function showInvalid() {
     document.getElementById('topAnswer').innerText = '?';
     document.getElementById('bottomAnswer').innerText = '?';
     document.getElementById('decimalAnswer').innerText = 'Invalid';
-	document.getElementById('stepsBox').style.display = 'none'; // Clears old steps
-    document.getElementById('decimalAnswer').innerText = 'Invalid';
+    document.getElementById('stepsBox').style.display = 'none';
 }
 
 function printSteps() {
     const box = document.getElementById('stepsBox');
-
     if (!box.innerText.trim() || box.style.display === 'none') {
         alert("Turn on 'Show Steps' first");
         return;
     }
-
     const win = window.open('', '', 'width=700,height=700');
-
-    win.document.write(`
-        <html>
-        <head>
-            <title>Fraction Steps</title>
-            <style>
-                body { font-family: monospace; padding: 20px; white-space: pre-wrap; }
-            </style>
-        </head>
-        <body>${box.innerText}</body>
-        </html>
-    `);
-
+    win.document.write(`<html><head><title>Fraction Steps</title><style>body { font-family: monospace; padding: 20px; white-space: pre-wrap; }</style></head><body>${box.innerText}</body></html>`);
     win.document.close();
     win.print();
 }
+
 </script>
 </body>
 </html>
