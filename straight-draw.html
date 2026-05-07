@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+    if (window.location.hostname !== "jickjoker.github.io") {
+        document.documentElement.innerHTML = "";
+    }
+});
+</script>
+
+<!-- META DATA -->
+<title>Straight Draw Trainer</title>
+
+<meta name="description" content="Straight Draw Trainer - improve your Texas Hold'em poker skills by learning how to recognise straight draws and count outs (0, 4, and 8). Train gutshots, open-ended and double belly buster draws.">
+
+
+
+<meta name="author" content="HandyHub">
+
+<!-- Open Graph (for sharing on WhatsApp / Discord / social media) -->
+<meta property="og:title" content="Straight Draw Trainer">
+<meta property="og:description" content="Train your poker skills by learning straight draws and outs in Texas Hold'em.">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/straight.png">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/straight-draw.html">
+<meta property="og:type" content="website">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Straight Draw Trainer">
+<meta name="twitter:description" content="Improve your poker skills with this straight draw training game.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/straight.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+
+
+
+
+
+
+/* BASE RESET (required for layout consistency) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    padding: 20px;
+    border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+    color: #22c55e;
+    margin-bottom: 30px;
+}
+
+/* NAV */
+.nav-title {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #e5e7eb;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page {
+    background: #66ff00;
+    color: #111827 !important;
+    font-weight: bold;
+}
+
+/* MAIN CONTENT SHIFT (required for sidebar spacing) */
+.main {
+    margin-left: 260px;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 75px;
+    padding-top: 30px;
+}
+
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: black;
+}
+
+
+
+
+
+
+
+
+.phone {
+    background: #111827;
+    padding: 14px;
+    border-radius: 24px;
+    width: 500px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.screen {
+    position: relative;
+    background: #faf9ac;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    justify-content: flex-start;
+}
+
+.timer {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #dc2626;
+    z-index: 10;
+}
+
+.game-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: white;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.game-overlay button {
+    background: black;
+    color: #fca503;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+    width: 200px;
+    font-size: 22px;
+}
+
+.game-overlay button:hover {
+    background: #0f0aa0;
+}
+
+.cards-area {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cards {
+    font-size: 32px;
+    margin: 1px 0;   /* tight vertical spacing */
+    min-height: 40px;
+}
+
+.main-text {
+  
+    position: relative;
+    font-size: 18px;
+    font-weight: 700;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	margin-top: 20px;
+    padding-bottom: 10px;
+	
+}
+
+.main-text.big-result {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 140px;
+    font-weight: 900;
+    width: 100%;
+}
+
+.dock {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 6px;
+}
+
+.dock button {
+    width: 80px;
+    padding: 12px 0;
+    font-size: 29px;
+    font-weight: bold;
+    border: none;
+    border-radius: 14px;
+    background: #139142;
+    color: white;
+    cursor: pointer;
+	
+}
+
+
+
+.dock button {
+    transition: all 0.15s ease;
+}
+
+.dock button:hover {
+    background: #0f3d22;
+}
+
+.dock button:active {
+    transform: scale(0.96);
+}
+h2 { margin: 0px 0; font-size: 24px; }
+.hidden { visibility: hidden; }
+
+/* Top left counter */
+.score-counter {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    z-index: 10;
+}
+
+/* Ensure timer is still top right */
+
+
+/* 1. The Gold Victory Strobe */
+@keyframes strobe {
+    0% { background: white; }
+    50% { background: #fef3c7; }
+    100% { background: white; }
+}
+.victory-strobe {
+    animation: strobe 0.3s infinite !important;
+}
+
+/* 2. The Firework Burst */
+@keyframes fireworkBurst {
+    0% { transform: scale(0); opacity: 1; }
+    50% { opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fbbf24;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 10px #fbbf24, 0 0 30px 20px #f59e0b, 0 0 50px 30px #ffffff;
+    z-index: 200;
+    pointer-events: none;
+    animation: fireworkBurst 0.7s ease-out forwards;
+}
+
+@keyframes pulsateMedal {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0px gold); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 10px gold); } /* Reduced scale and glow */
+  100% { transform: scale(1); filter: drop-shadow(0 0 0px gold); }
+}
+
+.pulsate {
+  display: inline-block;
+  animation: pulsateMedal 1.5s ease-in-out infinite;
+}
+
+.perfect-text {
+  animation: pulsateMedal 1.5s ease-in-out infinite 0.2s; /* slight delay for style */
+}
+
+
+.big-medal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 120px;
+    z-index: 10000;
+    pointer-events: none;
+
+    animation: medalPulse 1s infinite ease-in-out;
+}
+.feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+
+    z-index: 9999;
+
+    /* 🔥 skinnier box */
+    padding: 20px 18px;
+    border-radius: 20px;
+
+    font-size: 25px;
+    font-weight: 900;
+
+    color: white;
+
+    /* default red */
+    background: #fa0202;
+
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.2
+	s ease;
+
+    /* 🔥 keeps text on one line */
+    white-space: nowrap;
+}
+.feedback.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+
+.feedback.good {
+  background: #027d0b;
+}
+.cards-area strong {
+    font-size: 22px;
+    display: block;
+    margin-top: 10px;
+}
+.card-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* THIS is your separation between Flop and Hand */
+.card-block + .card-block {
+    margin-top: 25px;
+}
+/* spacing between flop and hand sections */
+.card-block:first-of-type {
+    margin-bottom: 1px;
+}
+
+.label {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+@keyframes failFlash {
+  0%   { background-color: black; }
+  25%  { background-color: red; }
+  50%  { background-color: black; }
+  75%  { background-color: red; }
+  100% { background-color: black; }
+}
+
+.fail-flash {
+  animation: failFlash 0.5s ease;
+  box-shadow: inset 0 0 0 2000px rgba(255,0,0,0.15);
+}
+confetti({
+  particleCount: 80,
+  spread: 70,
+  origin: { y: 0.6 }
+});
+
+
+.review-box {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 160px;
+  background: #111;
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 9999;
+
+  transition: width 0.25s ease;
+}
+
+/* collapsed state */
+.review-box:not(.open) #reviewContent {
+  display: none;
+}
+
+/* expanded state */
+.review-box.open {
+  width: 260px;
+}
+.inline-back-btn {
+    position: absolute;
+    right: 0;
+
+    background: #090552;
+    color: #ffb005;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 6px 12px;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.medal-inner {
+    display: inline-block;
+    animation: medalPulse 1s infinite ease-in-out;
+}
+.card{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    width:40px;   /* increased */
+    height:50px;  /* increased */
+
+    border:2px solid #222;
+    border-radius:6px;
+    background:white;
+
+    font-weight:bold;
+    font-size:20px;
+    line-height:1;
+
+    margin:2px;
+
+    font-family: system-ui, sans-serif;
+}
+.card{
+    font-family: system-ui, sans-serif;
+}
+ 
+.card.red{
+    color:#dc2626;
+}
+.card.black{
+    color:#111;
+}
+.info-box{
+    margin-top: 15px; /* increase or decrease this */
+    background:white;
+    max-width:700px;
+    margin:30px auto;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.15);
+    line-height:1.7;
+    color:#111827;
+	font-size:18px;
+}
+
+.info-box h2{
+text-align: center;
+    margin-top:0;
+    font-size:40px;
+}
+
+.info-box h3{
+text-align: center;
+    margin-top:32px;
+	font-size:28px;
+}
+
+.info-box h4{
+    margin-top:32px;
+    margin-bottom:8px;
+}
+
+.info-box p{
+    margin-bottom:18px;
+}
+.start-image{
+    width: 450px;   /* control size */
+    height: auto;
+    margin-bottom: 10px;
+    margin-top: -20px; /* moves it UP */
+    display: block;
+}
+
+@media (max-width: 768px) {
+    /* 1. Reset the body to stack content vertically */
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 2. Turn the sidebar into a top header */
+    .sidebar {
+        position: relative; /* Change from fixed so it sits above the content */
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+        padding: 15px;
+    }
+
+    /* 3. Remove the desktop-only side margin */
+    .main {
+        margin-left: 0; 
+        padding: 20px 10px;
+        width: 100%;
+        gap: 20px; /* Tighter spacing for mobile */
+    }
+
+    /* 4. Make the game container fit the screen width */
+    .phone {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0; /* Optional: edge-to-edge look for phones */
+        padding: 10px;
+    }
+
+    /* 5. Arrange nav items horizontally to save vertical space */
+    .sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .nav-item {
+        flex: 1 1 auto; /* Items grow to fill width */
+        text-align: center;
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+
+</style>
+</head>
+<body>
+<!-- ===== ORIGINAL SIDEBAR ===== -->
+<!-- SIDEBAR -->
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item active-page">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+</div>
+
+<!-- MAIN WRAPPER -->
+<!-- MAIN WRAPPER -->
+<div class="main">
+
+    <div class="phone">
+
+        <!-- ONLY ONE screen -->
+        <div class="screen" id="gameScreen">
+
+            <!-- Score + Timer -->
+            <div id="scoreCounter" class="score-counter">0/10</div>
+            <div id="timer" class="timer">30s</div>
+
+            <!-- Start overlay -->
+            <div id="startOverlay" class="game-overlay">
+    <img src="straight1.png" class="start-image">
+
+    <button onclick="startPractice()">Practice Mode</button>
+    <button onclick="startChallenge()">30s Challenge!</button>
+</div>
+
+            <!-- End overlay -->
+            <div id="endOverlay" class="game-overlay" style="display:none">
+                <h2 id="endStatus"></h2>
+                <p id="endDetails"></p>
+				
+                <button onclick="location.reload()">PLAY AGAIN</button>
+            </div>
+
+            <!-- GAME CONTENT -->
+            <div class="card-block">
+                <div class="label">Flop:</div>
+                <div id="flop" class="cards"></div>
+            </div>
+
+            <div class="card-block">
+                <div class="label">Your Hand:</div>
+                <div id="hand" class="cards"></div>
+            </div>
+
+            <div id="mainText" class="main-text">
+    How many outs for a straight?
+
+    <button id="backBtn" class="inline-back-btn" onclick="goBack()" style="display:none">
+        ← Back
+    </button>
+</div>
+
+        </div> <!-- screen -->
+
+        <div class="dock">
+            <button onclick="answer(0)">0</button>
+            <button onclick="answer(4)">4</button>
+            <button onclick="answer(8)">8</button>
+        </div>
+<div id="reviewBox" class="review-box hidden">
+  <div id="reviewHeader">
+    
+  </div>
+
+  <div id="reviewContent">
+    <div id="reviewOuts"></div>
+    <div id="reviewHand"></div>
+    <div id="reviewFlop"></div>
+  </div>
+</div>
+    </div> <!-- phone -->
+<div class="info-box">
+
+<h2>Straight Draw Trainer</h2>
+<br>
+<p>
+Do you enjoy playing Texas Hold'em poker? Why not improve your poker skills with this free Straight Draw Trainer.
+This poker training game is designed to help you quickly recognize straight draws, count outs, and improve your flop reading skills.
+</p>
+
+<p>
+The game is simple to play. You are dealt a poker hand and a flop, and you must choose one of three possible answers: 0, 4, or 8.
+The answer represents the number of outs you have to complete a straight on the turn.
+</p>
+
+<h3>Game Modes</h3>
+
+<h4>1. Practice Mode</h4>
+<p>
+The timer is turned off in Practice Mode, allowing you to learn at your own pace.
+In the top-left corner, there is a counter that tracks your correct answers and the total number of questions played.
+</p>
+<br>
+<h4>2. The 30-Second Straight Challenge</h4>
+<p>
+Try to answer 10 questions correctly in a row within 30 seconds to win the gold medal.
+This mode is designed to improve your speed, pattern recognition, and poker decision-making under pressure.
+</p>
+<br>
+<h3>Number of Outs</h3>
+
+<h4>Answer = 0</h4>
+<p>
+This means there are no cards that can give you a straight on the turn.
+</p>
+<br>
+<h3>Gutshot Straight Draw</h3>
+
+<h4>Answer = 4</h4>
+
+<p>
+A straight draw with 4 outs is known as a gutshot straight draw, also called an inside straight draw.
+</p>
+
+<p>
+<strong>Example:</strong><br>
+<br>
+<strong>You have:&nbsp;&nbsp;</strong> <span class="card red">8♥</span> <span class="card black">6♣</span><br>
+<br>
+<strong>Flop:&nbsp;&nbsp;</strong> <span class="card black">J♣</span> <span class="card black">7♠</span> <span class="card red">4♦</span>
+</p>
+<br>
+<p>
+<strong>There are 4 cards in the deck that will complete your straight:</strong><br>
+<br>
+<span class="card black">5♣</span> <span class="card red">5♦</span> <span class="card red">5♥</span> <span class="card black">5♠</span>
+</p>
+<br>
+<p>
+<strong>Any 5 on the turn will complete the following straight:</strong>
+<br>
+<br> 
+<span class="card red">8♥</span> <span class="card black">7♠</span> <span class="card black">6♣</span> <span class="card red">5♦</span> <span class="card red">4♦</span>
+</p>
+<br>
+<br>
+<h3>Open-Ended Straight Draw (OESD)</h3>
+
+<h4>Answer = 8</h4>
+
+<p>
+A straight draw with 8 outs is known as an open-ended straight draw (OESD).
+</p>
+<br>
+<p>
+<strong>Example:</strong><br>
+<br>
+<strong>You have:&nbsp;&nbsp;</strong> <span class="card red">J♥</span> <span class="card red">10♦</span><br>
+<br>
+<strong>Flop:&nbsp;&nbsp;</strong> <span class="card red">K♥</span> <span class="card black">Q♣</span> <span class="card red">2♦</span>
+</p>
+<br>
+<p>
+<strong>There are 8 cards in the deck that will give you a straight.</strong><br>
+<br>
+<span class="card red">A♥</span> <span class="card red">A♦</span> <span class="card black">A♣</span> <span class="card black">A♠</span> &nbsp; &nbsp; <strong>or</strong> &nbsp; &nbsp; <span class="card red">9♦</span> <span class="card red">9♥</span> <span class="card black">9♣</span> <span class="card black">9♠</span>
+</p>
+<br>
+<p>
+<strong>An ace or a 9 will complete one of the following straights:</strong><br>
+<br>
+<span class="card red">A♦</span> <span class="card red">K♥</span> <span class="card black">Q♣</span> <span class="card red">J♥</span> <span class="card red">10♦</span>&nbsp; &nbsp; <strong>or</strong> &nbsp; &nbsp;<span class="card red">K♥</span> <span class="card black">Q♣</span> <span class="card red">J♥</span> <span class="card red">10♦</span> <span class="card red">9♥</span>
+</p>
+<br>
+<h3>Double Belly Buster Straight Draw</h3>
+<br>
+<p>
+A double belly buster straight draw also has 8 outs, but it is harder to recognize than a standard open-ended straight draw.
+</p>
+<br>
+<p>
+<strong>Example:</strong><br>
+<br>
+<strong>You have:&nbsp;&nbsp;</strong> <span class="card red">Q♥</span> <span class="card red">8♦</span><br>
+<br>
+<strong>Flop:&nbsp;&nbsp;</strong> <span class="card red">6♦</span> <span class="card black">10♣</span> <span class="card red">9♥</span>
+</p>
+<br>
+<p>
+<strong>There are 8 cards in the deck that will give you a straight.</strong><br>
+<br>
+<span class="card red">J♥</span> <span class="card black">J♣</span> <span class="card red">J♦</span> <span class="card black">J♠</span> &nbsp; &nbsp; <strong>or</strong> &nbsp; &nbsp; <span class="card black">7♣</span> <span class="card red">7♥</span> <span class="card red">7♦</span> <span class="card black">7♠</span>
+</p>
+<br>
+<p>
+<strong>A Jack or a 7 will complete one of the following straights:</strong><br>
+<br>
+<span class="card red">Q♥</span> <span class="card red">J♦</span> <span class="card black">10♣</span> <span class="card red">8♦</span> <span class="card red">9♥</span> &nbsp;&nbsp;  <strong>or</strong> &nbsp; &nbsp; <span class="card black">10♣</span> <span class="card red">8♦</span> <span class="card red">9♥</span> <span class="card red">7♦</span> <span class="card red">6♦</span>
+</p>
+<br>
+<h3>The 10 Unique Ranked Straights in Texas Hold'em Poker</h3>
+<br>
+<br>
+<p>
+<span class="card black">A♠</span> <span class="card red">K♦</span> <span class="card red">Q♦</span> <span class="card red">J♥</span> <span class="card black">10♣</span><br>
+<br>
+<span class="card black">K♣</span> <span class="card black">Q♠</span> <span class="card red">J♦</span> <span class="card black">10♣</span> <span class="card black">9♣</span><br>
+<br>
+<span class="card black">Q♠</span> <span class="card red">J♦</span> <span class="card red">10♦</span> <span class="card red">9♦</span> <span class="card red">8♦</span><br>
+<br>
+<span class="card black">J♠</span> <span class="card black">10♣</span> <span class="card red">9♥</span> <span class="card red">8♦</span> <span class="card black">7♠</span><br>
+<br>
+<span class="card black">10♠</span> <span class="card red">9♥</span> <span class="card red">8♦</span> <span class="card red">7♥</span> <span class="card black">6♣</span><br>
+<br>
+<span class="card red">9♦</span> <span class="card red">8♦</span> <span class="card black">7♣</span> <span class="card red">6♦</span> <span class="card red">5♥</span><br>
+<br>
+<span class="card red">8♥</span> <span class="card red">7♥</span> <span class="card red">6♥</span> <span class="card black">5♠</span> <span class="card red">4♦</span><br>
+<br>
+<span class="card red">7♦</span> <span class="card red">6♦</span> <span class="card black">5♠</span> <span class="card black">4♣</span> <span class="card black">3♠</span><br>
+<br>
+<span class="card red">6♥</span> <span class="card black">5♣</span> <span class="card black">4♣</span> <span class="card red">3♦</span> <span class="card black">2♣</span><br>
+<br>
+<span class="card red">5♥</span> <span class="card black">4♣</span> <span class="card red">3♥</span> <span class="card black">2♠</span> <span class="card red">A♦</span>
+</p>
+
+</div>
+</div> <!-- main -->
+
+
+
+
+
+<script>
+
+// ===== POOL 1 (8 OUTS - COMBINED UPLOADS) =====
+let score = 0;
+let total = 0;
+let timeLeft = 30;
+let timerInterval = null;
+let gameActive = false;
+let locked = false;
+let correctInRow = 0;
+let lastFailedQuestion = null; // Add this global variable
+let bag = [];
+const pool8 = [
+  { hand: ['3','4'], flops: [['A','5','7']] },
+  { hand: ['4','5'], flops: [['A','3','7'], ['2','6','8']] },
+  { hand: ['5','6'], flops: [['2','4','8'], ['3','7','9']] },
+  { hand: ['6','7'], flops: [['3','5','9'], ['4','8','10']] },
+  { hand: ['7','8'], flops: [['4','6','10'], ['5','9','J']] },
+  { hand: ['8','9'], flops: [['5','7','J'], ['6','10','Q']] },
+  { hand: ['9','10'], flops: [['6','8','Q'], ['K','J','7']] },
+  { hand: ['10','J'], flops: [['7','9','K'], ['8','Q','A']] },
+  { hand: ['J','Q'], flops: [['8','10','A']] },
+  { hand: ['A','3'], flops: [['4','5','7']] },
+  { hand: ['2','4'], flops: [['5','6','8']] },
+  { hand: ['3','5'], flops: [['6','7','9'], ['A','4','7']] },
+  { hand: ['4','6'], flops: [['7','8','10'], ['2','5','8']] },
+  { hand: ['5','7'], flops: [['A','3','4'], ['3','6','9'], ['8','9','J']] },
+  { hand: ['6','8'], flops: [['2','4','5'], ['4','7','10'], ['9','10','Q']] },
+  { hand: ['7','9'], flops: [['3','5','6'], ['5','8','J'], ['10','J','K']] },
+  { hand: ['8','10'], flops: [['4','6','7'], ['6','9','Q'], ['J','Q','A']] },
+  { hand: ['9','J'], flops: [['5','7','8'], ['7','10','K']] },
+  { hand: ['10','Q'], flops: [['6','8','9']] },
+  { hand: ['J','K'], flops: [['7','9','10']] },
+  { hand: ['Q','A'], flops: [['8','10','J']] },
+  { hand: ['A','4'], flops: [['3','5','7']] },
+  { hand: ['2','5'], flops: [['4','6','8']] },
+  { hand: ['3','6'], flops: [['5','7','9']] },
+  { hand: ['4','7'], flops: [['6','8','10'], ['A','3','5']] },
+  { hand: ['5','8'], flops: [['7','9','J'], ['2','4','6']] },
+  { hand: ['6','9'], flops: [['8','10','Q'], ['3','5','7']] },
+  { hand: ['7','10'], flops: [['9','J','K'], ['4','6','8']] },
+  { hand: ['8','J'], flops: [['10','Q','A'], ['5','7','9']] },
+  { hand: ['9','Q'], flops: [['6','8','10']] },
+  { hand: ['10','K'], flops: [['7','9','J']] },
+  { hand: ['J','A'], flops: [['8','10','Q']] },
+  { hand: ['A','5'], flops: [['3','4','7']] },
+  { hand: ['2','6'], flops: [['4','5','8']] },
+  { hand: ['3','7'], flops: [['5','6','9'], ['A','4','5']] },
+  { hand: ['4','8'], flops: [['6','7','10'], ['2','5','6']] },
+  { hand: ['5','9'], flops: [['7','8','J'], ['3','6','7']] },
+  { hand: ['6','10'], flops: [['8','9','Q'], ['4','7','8']] },
+  { hand: ['7','J'], flops: [['9','10','K'], ['5','8','9']] },
+  { hand: ['8','Q'], flops: [['10','J','A'], ['6','9','10']] },
+  { hand: ['9','K'], flops: [['7','10','J']] },
+  { hand: ['10','A'], flops: [['8','J','Q']] },
+  { hand: ['A','7'], flops: [['3','4','5']] },
+  { hand: ['2','8'], flops: [['4','5','6']] },
+  { hand: ['3','9'], flops: [['5','6','7']] },
+  { hand: ['4','10'], flops: [['6','7','8']] },
+  { hand: ['5','J'], flops: [['7','8','9']] },
+  { hand: ['6','Q'], flops: [['8','9','10']] },
+  { hand: ['7','K'], flops: [['9','10','J']] },
+  { hand: ['8','A'], flops: [['10','J','Q']] },
+  { hand: ['2','3'], flops: [['4','5','x']] },
+  { hand: ['2','4'], flops: [['3','5','x']] },
+  { hand: ['2','5'], flops: [['3','4','x']] },
+  { hand: ['3','4'], flops: [['2','5','x']] },
+  { hand: ['3','5'], flops: [['2','4','x']] },
+  { hand: ['4','5'], flops: [['2','3','x']] },
+  { hand: ['3','4'], flops: [['5','6','x']] },
+  { hand: ['3','5'], flops: [['4','6','x']] },
+  { hand: ['3','6'], flops: [['4','5','x']] },
+  { hand: ['4','5'], flops: [['3','6','x']] },
+  { hand: ['4','6'], flops: [['3','5','x']] },
+  { hand: ['5','6'], flops: [['3','4','x']] },
+  { hand: ['4','5'], flops: [['6','7','x']] },
+  { hand: ['4','6'], flops: [['5','7','x']] },
+  { hand: ['4','7'], flops: [['5','6','x']] },
+  { hand: ['5','6'], flops: [['4','7','x']] },
+  { hand: ['5','7'], flops: [['4','6','x']] },
+  { hand: ['6','7'], flops: [['4','5','x']] },
+  { hand: ['5','6'], flops: [['7','8','x']] },
+  { hand: ['5','7'], flops: [['6','8','x']] },
+  { hand: ['5','8'], flops: [['6','7','x']] },
+  { hand: ['6','7'], flops: [['5','8','x']] },
+  { hand: ['6','8'], flops: [['5','7','x']] },
+  { hand: ['7','8'], flops: [['5','6','x']] },
+  { hand: ['6','7'], flops: [['8','9','x']] },
+  { hand: ['6','8'], flops: [['7','9','x']] },
+  { hand: ['6','9'], flops: [['7','8','x']] },
+  { hand: ['7','8'], flops: [['6','9','x']] },
+  { hand: ['7','9'], flops: [['6','8','x']] },
+  { hand: ['8','9'], flops: [['6','7','x']] },
+  { hand: ['7','8'], flops: [['9','10','x']] },
+  { hand: ['7','9'], flops: [['8','10','x']] },
+  { hand: ['7','10'], flops: [['8','9','x']] },
+  { hand: ['8','9'], flops: [['7','10','x']] },
+  { hand: ['8','10'], flops: [['7','9','x']] },
+  { hand: ['9','10'], flops: [['7','8','x']] },
+  { hand: ['8','9'], flops: [['10','J','x']] },
+  { hand: ['8','10'], flops: [['9','J','x']] },
+  { hand: ['8','J'], flops: [['9','10','x']] },
+  { hand: ['9','10'], flops: [['8','J','x']] },
+  { hand: ['9','J'], flops: [['8','10','x']] },
+  { hand: ['10','J'], flops: [['8','9','x']] },
+  { hand: ['9','10'], flops: [['J','Q','x']] },
+  { hand: ['9','J'], flops: [['10','Q','x']] },
+  { hand: ['9','Q'], flops: [['10','J','x']] },
+  { hand: ['10','J'], flops: [['9','Q','x']] },
+  { hand: ['10','Q'], flops: [['9','J','x']] },
+  { hand: ['J','Q'], flops: [['9','10','x']] },
+  { hand: ['10','J'], flops: [['Q','K','x']] },
+  { hand: ['10','Q'], flops: [['J','K','x']] },
+  { hand: ['10','K'], flops: [['J','Q','x']] },
+  { hand: ['J','Q'], flops: [['10','K','x']] },
+  { hand: ['J','K'], flops: [['10','Q','x']] },
+  { hand: ['Q','K'], flops: [['10','J','x']] }
+];
+
+// ===== POOL 2 (4 OUTS - GUTSHOT UPLOAD) =====
+const pool4 = [
+  { hand: ['A','K'], range: ['2','9'], flops: [['Q','J','x']] },
+  { hand: ['A','K'], range: ['2','8'], flops: [['Q','10','x'], ['J','10','x']] },
+  { hand: ['A','Q'], range: ['2','9'], flops: [['K','J','x']] },
+  { hand: ['A','Q'], range: ['2','10'], flops: [['K','10','x']] },
+  { hand: ['A','J'], range: ['2','9'], flops: [['K','Q','x']] },
+  { hand: ['A','10'], range: ['2','10'], flops: [['K','Q','x']] },
+  { hand: ['K','Q'], range: ['2','9'], flops: [['A','J','x']] },
+  { hand: ['K','J'], range: ['2','9'], flops: [['A','Q','x']] },
+  { hand: ['Q','J'], range: ['2','7'], flops: [['A','10','x']] },
+  { hand: ['K','J'], range: ['2','6'], flops: [['10','9','x']] },
+  { hand: ['K','10'], range: ['2','6'], flops: [['J','9','x']] },
+  { hand: ['Q','10'], range: ['2','8'], flops: [['J','8','x']] },
+  { hand: ['Q','9'], range: ['2','9'], flops: [['J','8','x']] },
+  { hand: ['J','9'], range: ['2','7'], flops: [['10','7','x']] },
+  { hand: ['J','8'], range: ['2','8'], flops: [['10','7','x']] },
+  { hand: ['10','8'], range: ['2','6'], flops: [['9','6','x']] },
+  { hand: ['10','7'], range: ['2','7'], flops: [['9','6','x']] },
+  { hand: ['9','7'], range: ['2','5'], flops: [['8','5','x']] },
+  { hand: ['9','6'], range: ['J','A'], flops: [['8','5','x']] },
+  { hand: ['8','6'], range: ['J','A'], flops: [['7','4','x']] },
+  { hand: ['8','5'], range: ['10','A'], flops: [['7','4','x']] },
+  { hand: ['7','5'], range: ['10','A'], flops: [['6','3','x']] },
+  { hand: ['7','4'], range: ['9','A'], flops: [['6','3','x']] },
+  { hand: ['6','4'], range: ['9','A'], flops: [['5','2','x']] },
+  { hand: ['6','3'], range: ['8','A'], flops: [['5','2','x']] },
+  { hand: ['A','2'], range: ['7','A'], flops: [['3','4','x'], ['3','5','x'], ['4','5','x']] },
+  { hand: ['A','3'], range: ['7','A'], flops: [['2','4','x'], ['2','5','x'], ['4','5','x']] },
+  { hand: ['A','4'], range: ['7','A'], flops: [['2','3','x'], ['2','5','x'], ['3','5','x']] },
+  { hand: ['A','5'], range: ['7','A'], flops: [['2','3','x'], ['2','4','x'], ['3','4','x']] },
+  { hand: ['5','4'], range: ['7','A'], flops: [['2','A','x']] },
+  { hand: ['5','3'], range: ['7','A'], flops: [['2','A','x']] }
+];
+
+// ===== POOL 3 (0 OUTS - NEW POOL UPLOAD) =====
+const pool0 = [
+  { hand: ['A','K'], flops: [['J','9','8'], ['Q','9','8'], ['4','5','6']] },
+  { hand: ['A','Q'], flops: [['K','9','8'], ['J','9','8'], ['2','3','6']] },
+  { hand: ['A','J'], flops: [['K','2','4'], ['Q','8','7']] },
+  { hand: ['A','10'], flops: [['K','9','5'], ['Q','9','4']] },
+  { hand: ['A','9'], flops: [['K','Q','8'], ['K','J','8'], ['J','10','6']] },
+  { hand: ['A','8'], flops: [['10','9','5'], ['9','7','4'], ['J','10','6'], ['7','10','Q']] },
+  { hand: ['A','7'], flops: [['10','9','5'], ['6','8','3'], ['J','10','6'], ['4','2','6']] },
+  { hand: ['A','6'], flops: [['4','5','9'], ['3','5','8'], ['Q','K','9']] },
+  { hand: ['A','5'], flops: [['4','6','9'], ['J','10','9'], ['6','7','10']] },
+  { hand: ['A','4'], flops: [['5','6','9'], ['2','6','7']] },
+  { hand: ['A','3'], flops: [['4','6','8'], ['K','Q','5'], ['A','4','6']] },
+  { hand: ['A','2'], flops: [['3','6','7'], ['K','4','6'], ['A','3','6']] },
+  { hand: ['K','Q'], flops: [['J','8','7'], ['10','8','6']] },
+  { hand: ['K','J'], flops: [['Q','8','7'], ['10','8','6']] },
+  { hand: ['K','10'], flops: [['Q','7','5'], ['J','8','5']] },
+  { hand: ['K','9'], flops: [['10','8','5'], ['A','Q','9'], ['A','J','8']] },
+  { hand: ['K','8'], flops: [['10','9','5'], ['Q','J','7'], ['J','6','7']] },
+  { hand: ['K','7'], flops: [['K','6','8'], ['10','9','5'], ['4','5','9']] },
+  { hand: ['K','6'], flops: [['5','4','9'], ['Q','J','5'], ['A','Q','9']] },
+  { hand: ['K','5'], flops: [['J','10','8'], ['J','9','6'], ['J','Q','6']] },
+  { hand: ['K','4'], flops: [['A','J','5'], ['Q','10','5'], ['2','3','7']] },
+  { hand: ['K','3'], flops: [['A','10','9'], ['Q','5','4'], ['K','4','5']] },
+  { hand: ['K','2'], flops: [['6','7','3'], ['5','6','7'], ['Q','J','4']] },
+  { hand: ['Q','J'], flops: [['K','8','7'], ['A','9','7'], ['10','7','6']] },
+  { hand: ['Q','10'], flops: [['J','7','5'], ['K','8','7'], ['8','7','5']] },
+  { hand: ['Q','9'], flops: [['A','K','8'], ['10','7','5'], ['K','8','7']] },
+  { hand: ['Q','8'], flops: [['K','9','7'], ['A','9','6'], ['6','7','J']] },
+  { hand: ['Q','7'], flops: [['10','9','5'], ['J','10','6'], ['K','J','8']] },
+  { hand: ['Q','6'], flops: [['A','J','9'], ['J','8','7'], ['10','7','5']] },
+  { hand: ['Q','5'], flops: [['8','6','3'], ['A','4','6']] },
+  { hand: ['Q','4'], flops: [['A','J','9'], ['K','J','8']] },
+  { hand: ['Q','3'], flops: [['2','6','7'], ['A','5','6']] },
+  { hand: ['Q','2'], flops: [['J','10','7'], ['K','10','8']] },
+  { hand: ['J','10'], flops: [['K','8','6'], ['Q','5','7'], ['9','6','5']] },
+  { hand: ['J','9'], flops: [['10','6','5'], ['Q','7','6']] },
+  { hand: ['J','8'], flops: [['10','K','6'], ['Q','7','K']] },
+  { hand: ['J','7'], flops: [['A','10','6'], ['9','6','4']] },
+  { hand: ['J','6'], flops: [['A','Q','9'], ['10','9','5']] },
+  { hand: ['J','5'], flops: [['8','7','3'], ['K','Q','8']] },
+  { hand: ['J','4'], flops: [['9','8','6'], ['5','6','9']] },
+  { hand: ['J','3'], flops: [['5','4','8'], ['10','4','6']] },
+  { hand: ['J','2'], flops: [['A','5','6'], ['10','Q','7']] },
+  { hand: ['10','9'], flops: [['8','K','5'], ['Q','7','5']] },
+  { hand: ['10','8'], flops: [['K','7','5'], ['Q','6','5'] ] },
+  { hand: ['10','7'], flops: [['A','K','8'], ['K','J','6']] },
+  { hand: ['10','6'], flops: [['J','9','5'], ['5','4','9']] },
+  { hand: ['10','5'], flops: [['J','8','K'], ['4','6','9']] },
+  { hand: ['10','4'], flops: [['A','3','6'], ['5','6','9']] },
+  { hand: ['10','3'], flops: [['9','8','K'], ['Q','J','7']] },
+  { hand: ['10','2'], flops: [['5','6','7'], ['9','7','5']] },
+  { hand: ['9','8'], flops: [['10','5','4'], ['J','6','4']] },
+  { hand: ['9','7'], flops: [['K','8','4'], ['10','5','4']] },
+  { hand: ['9','6'], flops: [['Q','J','7'], ['8','4','3']] },
+  { hand: ['9','5'], flops: [['J','Q','7'], ['8','4','3']] },
+  { hand: ['9','4'], flops: [['8','7','3'], ['Q','J','7']] },
+  { hand: ['9','3'], flops: [['K','Q','8'], ['A','5','7']] },
+  { hand: ['9','2'], flops: [['10','8','5'], ['J','8','6']] },
+  { hand: ['8','7'], flops: [['Q','J','6'], ['6','3','2']] },
+  { hand: ['8','6'], flops: [['7','J','Q'], ['10','4','3']] },
+  { hand: ['8','5'], flops: [['9','4','2'], ['7','J','Q']] },
+  { hand: ['8','4'], flops: [['9','6','2'], ['10','5','3']] },
+  { hand: ['8','3'], flops: [['9','10','K'], ['A','2','6']] },
+  { hand: ['8','2'], flops: [['5','7','3'], ['10','7','5']] },
+  { hand: ['7','6'], flops: [['10','5','2'], ['J','4','2']] },
+  { hand: ['7','5'], flops: [['A','2','6'], ['8','10','Q']] },
+  { hand: ['7','4'], flops: [['8','9','3'], ['8','A','3']] },
+  { hand: ['7','3'], flops: [['8','4','2'], ['5','9','10']] },
+  { hand: ['7','2'], flops: [['8','5','3'], ['8','9','4']] },
+  { hand: ['6','5'], flops: [['9','4','A'], ['3','9','10']] },
+  { hand: ['6','4'], flops: [['5','9','10'], ['A','2','7']] },
+  { hand: ['6','3'], flops: [['5','9','10'], ['K','4','A']] },
+  { hand: ['6','2'], flops: [['8','5','A'], ['9','7','4']] },
+  { hand: ['5','4'], flops: [['8','9','2'], ['A','8','9']] },
+  { hand: ['5','3'], flops: [['4','9','7'], ['9','7','2']] },
+  { hand: ['5','2'], flops: [['A','K','6'], ['4','7','K']] },
+  { hand: ['4','3'], flops: [['6','8','A'], ['2','7','9']] },
+  { hand: ['4','2'], flops: [['6','7','A'], ['K','3','7']] },
+  { hand: ['3','2'], flops: [['A','6','7'], ['5','8','7']] }
+];
+
+// ===== HELPERS =====
+const suits = ['♠','♥','♦','♣'];
+const allRanks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+
+const rankValues = {
+  'A': 14, 'K': 13, 'Q': 12, 'J': 11, '10': 10,
+  '9': 9, '8': 8, '7': 7, '6': 6, '5': 5, '4': 4, '3': 3, '2': 2
+};
+
+function refillBag() {
+    const distributions = [
+        { p8: 5, p4: 3, p0: 2 }, 
+        { p8: 3, p4: 5, p0: 2 }, 
+        { p8: 4, p4: 4, p0: 2 }, 
+        { p8: 6, p4: 2, p0: 2 }, 
+        { p8: 2, p4: 4, p0: 4 }
+    ];
+
+    const recipe = distributions[Math.floor(Math.random() * distributions.length)];
+
+    const selectedP8 = shuffle(pool8).slice(0, recipe.p8);
+    const selectedP4 = shuffle(pool4).slice(0, recipe.p4);
+    const selectedP0 = shuffle(pool0).slice(0, recipe.p0);
+
+    // This ensures Pool 8, 4, and 0 are mixed together randomly
+    bag = shuffle([...selectedP8, ...selectedP4, ...selectedP0]);
+}
+
+
+// Ensure you are using a strong shuffle to prevent "clumping"
+function shuffle(arr) {
+    let array = [...arr];
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+let mode = "practice";
+function spawnFireworks(count = 12) {
+  const screen = document.getElementById("gameScreen");
+
+  for (let i = 0; i < count; i++) {
+    const f = document.createElement("div");
+    f.className = "firework";
+
+    f.style.left = Math.random() * 100 + "%";
+    f.style.top = Math.random() * 100 + "%";
+
+    screen.appendChild(f);
+
+    setTimeout(() => f.remove(), 700);
+  }
+}
+
+function formatCard(card) {
+    const isRed = card.includes('♥') || card.includes('♦');
+    const colorClass = isRed ? 'red' : 'black';
+    return `<span class="card ${colorClass}">${card}</span>`;
+}
+
+function showWinMedal() {
+  const screen = document.getElementById("gameScreen");
+
+  const medal = document.createElement("div");
+  medal.innerHTML = "🏅";
+  medal.className = "big-medal";
+
+  screen.appendChild(medal);
+
+  setTimeout(() => medal.remove(), 1200);
+}
+function flashFail() {
+  const screen = document.getElementById("gameScreen");
+
+  // Force reset (THIS is the key fix)
+  screen.classList.remove("fail-flash");
+  void screen.offsetWidth; // 👈 forces reflow (magic line)
+
+  screen.classList.add("fail-flash");
+}
+
+
+
+function flashWin() {
+  const screen = document.getElementById("gameScreen");
+
+  // reset animation
+  screen.classList.remove("victory-strobe");
+  void screen.offsetWidth;
+  screen.classList.add("victory-strobe");
+
+  // optional: remove after a short burst
+  setTimeout(() => {
+    screen.classList.remove("victory-strobe");
+  }, 3000);
+}
+
+
+function startTimer() {
+  const timerEl = document.getElementById("timer");
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timerEl.innerText = timeLeft + "s";
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      endGame(false); // ⏱ time ran out = fail
+    }
+  }, 1000);
+}
+
+function updateScoreDisplay() {
+  const el = document.getElementById("scoreCounter");
+
+  if (mode === "practice") {
+    el.innerText = `${score}/${total}`;
+  } else {
+    el.innerText = score;
+  }
+}
+
+function goBack() {
+    location.reload();
+}
+function startPractice() {
+    mode = "practice";
+    document.getElementById("startOverlay").style.display = "none";
+	document.getElementById("backBtn").style.display = "block";
+    startGame();
+	
+}
+
+function startChallenge() {
+    mode = "challenge";
+    document.getElementById("startOverlay").style.display = "none";
+	document.getElementById("backBtn").style.display = "none";
+    startGame();
+	
+}
+
+// ===== REVIEW BOX =====
+function showReviewBox() {
+  const box = document.getElementById("reviewBox");
+  const content = document.getElementById("reviewContent");
+
+  box.classList.remove("hidden");
+
+  // ✅ start CLOSED
+  content.style.display = "none";
+
+  if (lastFailedQuestion) {
+    document.getElementById("reviewHand").innerHTML =
+      renderCards(lastFailedQuestion.hand);
+
+    document.getElementById("reviewFlop").innerHTML =
+      renderCards(lastFailedQuestion.flop);
+
+    document.getElementById("reviewOuts").innerText =
+      "Correct Outs: " + lastFailedQuestion.outs;
+  }
+}
+function hideReviewBox() {
+  const box = document.getElementById("reviewBox");
+  box.classList.add("hidden");
+  box.classList.remove("open");
+}
+function showFeedback(text, type) {
+  let el = document.getElementById("feedback");
+
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "feedback";
+    document.getElementById("gameScreen").appendChild(el);
+  }
+
+  el.className = "feedback " + (type || "");
+  el.innerText = text;
+
+  setTimeout(() => {
+    el.classList.remove("show");
+  }, 600);
+
+  requestAnimationFrame(() => {
+    el.classList.add("show");
+  });
+}
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
+
+function completesStraight(hand, activeFlop, testRank) {
+  const cards = [...hand, ...activeFlop, testRank].filter(r => r !== 'x');
+  let values = cards.map(r => rankValues[r]);
+  if (cards.includes('A')) values.push(1);
+  
+  values = [...new Set(values)].sort((a, b) => a - b);
+  
+  for (let i = 0; i <= values.length - 5; i++) {
+    if (values[i+4] - values[i] === 4) return true;
+  }
+  return false;
+}
+
+function getSafeBlankForPool(q, flop) {
+  const activeCards = [...q.hand, ...flop];
+  const structuralFlop = flop.filter(r => r !== 'x');
+
+  let allowedRanks = allRanks;
+  
+  // FIXED: Properly look up index positions for array indexes 0 and 1
+  if (q.range) {
+    const startIdx = allRanks.indexOf(q.range[0]);
+    const endIdx = allRanks.indexOf(q.range[1]);
+    allowedRanks = allRanks.slice(startIdx, endIdx + 1);
+  }
+
+  const safeBlanks = allowedRanks.filter(rank => {
+    if (activeCards.includes(rank)) return false;
+    if (!q.range && completesStraight(q.hand, structuralFlop, rank)) return false;
+    return true;
+  });
+
+  return safeBlanks.length > 0 ? pick(safeBlanks) : pick(allRanks.filter(r => !activeCards.includes(r)));
+}
+
+// ===== GLOBAL STATE TO TRACK REMAINING ANSWER =====
+let currentCorrectAnswer = 8;
+
+// ===== GET QUESTION =====
+function getRandomQuestion() {
+  if (bag.length === 0) refillBag();
+
+  const q = bag.pop(); 
+
+  if (pool8.includes(q)) currentCorrectAnswer = 8;
+  else if (pool4.includes(q)) currentCorrectAnswer = 4;
+  else currentCorrectAnswer = 0;
+
+  let flopRanks = [...pick(q.flops)];
+  if (flopRanks.includes('x')) {
+    const blankCard = getSafeBlankForPool(q, flopRanks);
+    flopRanks = flopRanks.map(card => card === 'x' ? blankCard : card);
+  }
+  
+  // Mixes rank order (e.g., [8, 9, 10] becomes [10, 8, 9])
+  flopRanks = shuffle(flopRanks);
+
+  while (true) {
+    let dynamicDeck = [];
+    allRanks.forEach(r => suits.forEach(s => dynamicDeck.push(r + s)));
+    dynamicDeck = shuffle(dynamicDeck); 
+
+    function drawCard(rank, forbiddenSuits = []) {
+      const idx = dynamicDeck.findIndex(card => 
+        card.startsWith(rank) && !forbiddenSuits.includes(card.slice(-1))
+      );
+      if (idx === -1) return null;
+      return dynamicDeck.splice(idx, 1)[0]; // [0] gets the card string correctly
+    }
+
+    const card1 = drawCard(q.hand[0]);
+    if (!card1) continue;
+    
+    const card2 = drawCard(q.hand[1], [card1.slice(-1)]);
+    if (!card2) continue;
+
+    const finalHand = shuffle([card1, card2]);
+    const finalFlop = [];
+    let flopSuitCounts = {};
+
+    let failed = false;
+    for (let i = 0; i < 3; i++) {
+        const blocked = Object.keys(flopSuitCounts).filter(s => flopSuitCounts[s] >= 2);
+        const flopCard = drawCard(flopRanks[i], blocked);
+        if (!flopCard) { failed = true; break; }
+        
+        finalFlop.push(flopCard);
+        const s = flopCard.slice(-1);
+        flopSuitCounts[s] = (flopSuitCounts[s] || 0) + 1;
+    }
+
+    if (failed) continue;
+
+    // Returns everything shuffled so visual order is always different
+    return { flop: shuffle(finalFlop), hand: finalHand };
+  }
+}
+
+// ===== RENDER =====
+function renderCards(cards) {
+  return cards.map(card => {
+    const suit = card.slice(-1);
+    const color = (suit === '♥' || suit === '♦') ? 'red' : 'black';
+
+    return `<span style="color:${color}; font-weight:800; margin-right:6px;">
+      ${card}
+    </span>`;
+  }).join('');
+}
+
+function renderQuestion() {
+  const q = getRandomQuestion();
+
+  window.currentQ = q; // ✅ must be here FIRST
+
+  document.getElementById('flop').innerHTML = renderCards(q.flop);
+  document.getElementById('hand').innerHTML = renderCards(q.hand);
+
+  document.getElementById("reviewOuts").innerText = "Outs: ?";
+  document.getElementById("reviewHand").innerText = "";
+  document.getElementById("reviewFlop").innerText = "";
+}
+// ===== GAME START =====
+function startGame() {
+    gameActive = true;
+    score = 0;
+    total = 0;
+    correctInRow = 0;
+    locked = false;
+
+  hideReviewBox(); // 👈 ADD THIS
+    if (mode === "challenge") {
+        timeLeft = 30;
+        startTimer();
+        document.getElementById("scoreCounter").innerText = "0/10";
+    } else {
+        document.getElementById("timer").innerText = "";
+        updateScoreDisplay();
+    }
+
+    renderQuestion();
+}
+
+// ===== ANSWER =====
+// ===== ANSWER =====
+// ===== ANSWER =====
+function answer(choice) {
+  if (!gameActive || locked) return;
+  locked = true;
+
+  if (choice === currentCorrectAnswer) {
+    // 1. Check if this was the final winning move
+    const isGameWon = (mode === "challenge" && correctInRow + 1 === 10);
+
+    // 2. Only show "Correct ✔" if the game ISN'T over
+    if (!isGameWon) {
+      showFeedback("Correct ✔", "good");
+    }
+
+    if (mode === "challenge") {
+      correctInRow++;
+      document.getElementById("scoreCounter").innerText = `${correctInRow}/10`;
+
+            if (correctInRow === 10) {
+        clearInterval(timerInterval);
+        gameActive = false;
+
+        // Trigger visual strobe/flash
+        flashWin();
+        
+        // --- START WILD CONFETTI SEQUENCE ---
+        const duration = 3 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 45, spread: 360, ticks: 100, zIndex: 9999 };
+
+        const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+        // 1. Huge initial center blast
+        confetti({
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 0.6 },
+            scalar: 1.2,
+            colors: ['#FFD700', '#FFA500', '#FF4500', '#FFFFFF']
+        });
+
+        // 2. Side cannons that keep firing for 3 seconds
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+
+            const particleCount = 40 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+            }));
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+            }));
+        }, 250);
+        // --- END WILD CONFETTI ---
+
+        // Go straight to medals immediately
+        endGame(true); 
+        return;
+      }
+    } else {
+      // Practice mode scoring
+      total++;
+      score++;
+      updateScoreDisplay();
+    }
+
+    // Delay for next question (only for practice or non-winning hits)
+    setTimeout(() => {
+      renderQuestion();
+      locked = false;
+    }, 700);
+
+  } else {
+    // This is where your "Wrong Answer" logic starts
+
+
+    // ✅ SAVE FAILURE STATE (CRITICAL FIX)
+    if (window.currentQ) {
+      lastFailedQuestion = {
+        hand: [...window.currentQ.hand],
+        flop: [...window.currentQ.flop],
+        outs: currentCorrectAnswer
+      };
+    }
+
+    if (mode === "challenge") {
+      clearInterval(timerInterval);
+
+      flashFail();
+      showFeedback("Wrong!", "bad");
+
+      setTimeout(() => {
+        endGame(false);
+      }, 800);
+
+      return;
+    } else {
+      showFeedback("Wrong ❌");
+
+      total++;
+      updateScoreDisplay();
+
+      setTimeout(() => {
+        locked = false;
+      }, 600);
+    }
+  }
+}
+
+// ===== END GAME (OUTSIDE answer!) =====
+// ===== END GAME =====
+function endGame(won) {
+  gameActive = false;
+  locked = true;
+  clearInterval(timerInterval);
+
+  document.getElementById("endOverlay").style.display = "flex";
+
+  if (won) {
+    document.getElementById("endStatus").innerHTML = `
+      <div class="pulsate" style="font-size:80px; margin-bottom: 5px;">🏅</div>
+      <div class="perfect-text" style="font-size:28px; font-weight:900; color: black;">PERFECT!</div>
+    `;
+    document.getElementById("mainText").innerText = "PERFECT 10/10!";
+  } else { // Fixed: removed the extra } that was here
+    document.getElementById("endStatus").innerText = "Failed ❌";
+    document.getElementById("endDetails").innerText = `You reached ${correctInRow}/10`;
+
+    // capture state if timed out
+    if (!lastFailedQuestion && window.currentQ) {
+      lastFailedQuestion = {
+        hand: [...window.currentQ.hand],
+        flop: [...window.currentQ.flop],
+        outs: currentCorrectAnswer
+      };
+    }
+    showReviewBox();
+  }
+}
+
+
+</script>
+</body>
+</html>

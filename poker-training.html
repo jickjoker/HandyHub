@@ -57,10 +57,18 @@
         }
 
         .main{
-            margin-left:260px;
-            width:calc(100% - 260px);
-            padding:40px;
-        }
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:40px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:flex-start;
+
+    text-align:center;
+}
 
         h1{
             font-size:32px;
@@ -77,7 +85,7 @@
     color:#111827 !important;
     font-weight:bold;
 }
-        }
+        
 
         .grid{
             display:flex;
@@ -112,6 +120,24 @@
         }
 		
 	
+.card{
+    width:260px;
+    background:#111827;
+    border-radius:12px;
+    padding:20px;
+    text-decoration:none;
+    color:white;
+    border:1px solid #1f2937;
+    transition:0.2s;
+}
+
+.card-img{
+    width:70%;
+    max-height:120px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+}
 @media (max-width: 768px) {
     /* 1. Stack the body elements vertically instead of horizontally */
     body {
@@ -176,12 +202,15 @@
 
 <!-- MAIN CONTENT -->
 <div class="main">
-
-    <h1>Coming Soon</h1>
-    
-
- 
-    </div>
+<h1>Poker Training</h1>
+    <p><p>Train your poker skills with interactive games and tools designed to improve hand reading, draw recognition, and decision-making.</p></p>
+<div class="grid">
+    <a class="card" href="straight-draw.html">
+        <div class="card-title">Straight Draw Trainer</div>
+        <img class="card-img" src="straight.png" alt="Straight Draw Trainer">
+    </a>
+</div>
+</div>
 
 </div>
 
