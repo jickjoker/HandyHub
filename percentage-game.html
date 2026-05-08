@@ -108,7 +108,7 @@ body{
     display:flex;
     flex-direction:column;
     align-items:center;
-    text-align:center;
+    
 }
 
 /* GAME GRID (same system as tools) */
@@ -160,6 +160,7 @@ body{
 
 /* GAME (Updated for Responsiveness) */
 .game{
+    font-weight:bold;
     width: 95%;
     max-width: 600px;
     min-height:315px;
@@ -202,7 +203,7 @@ h1{
 }
 
 .question{
-    font-size: clamp(18px, 4vw, 28px);
+    font-size: clamp(16px, 4vw, 28px);
     text-align:center;
     padding:20px;
 }
@@ -222,8 +223,9 @@ h1{
     border-radius:10px;
     background:#02080F;
     color:white;
-    font-size:18px;
+    font-size:22px;
     cursor:pointer;
+	font-weight:bold;
 }
 
 .answers button:hover{
@@ -313,15 +315,15 @@ h1{
 /* LOWER CONTENT (Updated for Responsiveness) */
 .section-title{
     color:#FFAA17;
-    text-align:center;
+    
     font-size:35px;
-    margin-top:80px;
+    margin-top:120px;
     margin-bottom:10px;
 }
 
 .info-box, .math-help-box, .pyramid {
     width: 95%;
-    max-width: 600px;
+    max-width: 500px;
     margin: 20px auto;
     padding: 16px;
 }
@@ -549,8 +551,8 @@ h1{
     <li>Click <strong>Start</strong> to begin.</li>
     <li>Choose the correct answer from 3 options.</li>
     <li>Aim for the <strong>Gold Medal!</strong>:<br><br>
-      <span class="medal-badge">Score 8/10 = Bronze 🥉</span>
-      <span class="medal-badge">Score 9/10 = Silver 🥈</span>
+      <span class="medal-badge">Score 8/10 = Bronze 🥉</span><br>
+      <span class="medal-badge">Score 9/10 = Silver 🥈</span><br>
       <span class="medal-badge">Score 10/10 = Gold 🥇</span>
     </li>
   </ol>
@@ -560,19 +562,22 @@ h1{
   
   <div class="formula-card">
     <strong>1. To find the Part:</strong>
-    <code>Part = Whole × (Percentage / 100)</code>
+    <code>&nbsp; Part = Whole × (Percentage / 100)</code><br>
+	<br>
     <em>Example: 30% of 150? → 150 × 0.3 = <strong>45</strong></em>
   </div>
 
   <div class="formula-card" style="border-left-color: #f39c12;">
     <strong>2. To find the Percentage:</strong>
-    <code>% = (Part ÷ Whole) × 100</code>
+    <code>&nbsp; % = (Part ÷ Whole) × 100</code><br>
+	<br>
     <em>Example: 24 is what % of 80? → (24 ÷ 80) × 100 = <strong>30%</strong></em>
   </div>
 
   <div class="formula-card" style="border-left-color: #c0392b;">
     <strong>3. To find the Whole:</strong>
-    <code>Whole = Part ÷ (Percentage / 100)</code>
+    <code>&nbsp; Whole = Part ÷ (Percentage / 100)</code><br>
+	<br>
     <em>Example: 40 is 80% of what? → 40 ÷ 0.8 = <strong>50</strong></em>
   </div>
 <br>
@@ -606,11 +611,7 @@ h1{
 <img src="how-it-works.png" alt="Solution Pyramid">
 </div>
 
-<script>
-if (window.location.hostname !== "jickjoker.github.io") {
-    document.body.innerHTML = "<h1></h1><p></p>";
-}
-</script>
+
 
 <script>
 let correct = 0;
