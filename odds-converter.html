@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odds Converter | Decimal, Fractional & American Odds Tool</title>
+<meta name="title" content="Odds Converter | Decimal, Fractional & American Odds Tool">
+<meta name="description" content="Free odds converter for betting. Instantly convert decimal, fractional, and American odds with real-time updates and implied probability calculation.">
+
+<!-- SEO Keywords (optional but fine for your project) -->
+<meta name="keywords" content="odds converter, betting odds calculator, decimal odds, fractional odds, american odds, implied probability calculator, sportsbook calculator">
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://jickjoker.github.io/HandyHub/odds-converter.html">
+
+<!-- Open Graph (Facebook / Discord / etc) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Odds Converter | Decimal, Fractional & American Odds Tool">
+<meta property="og:description" content="Convert betting odds instantly between decimal, fractional, and American formats with live updates and implied probability.">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/odds-converter.html">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/odds-converter.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Odds Converter | Betting Odds Tool">
+<meta name="twitter:description" content="Instantly convert decimal, fractional, and American odds with implied probability.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/odds-converter.png">
+
+<!-- Favicon (optional if you have one) -->
+<link rel="icon" href="favicon.ico">
+
+<style>
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+body {
+    background: #000;
+    color: white;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    padding: 20px;
+    border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+    color: #22c55e;
+    margin-bottom: 30px;
+}
+
+/* ===== NAV ===== */
+.nav-title {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #e5e7eb;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page {
+    background: #66ff00;
+    color: #111827 !important;
+    font-weight: bold;
+}
+
+/* ===== MAIN ===== */
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 50px 30px;
+}
+
+/* ===== TITLE ===== */
+.page-title {
+font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+text-align: center;
+ color:orange;
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 30px;
+	margin-top: -30px;
+}
+
+.page-subtitle {
+
+text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 20px;
+	
+}
+
+/* ===== CONVERTER ===== */
+.converter-box {
+margin: 0 auto 100px auto;
+    margin-bottom: 70px;
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 18px;
+    max-width: 550px;
+ 
+}
+
+/* ===== INPUT ROW ===== */
+.converter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+
+/* ===== INPUT GROUP ===== */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+}
+
+.input-group label {
+ font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+
+/* ===== INPUT ===== */
+.input-group input {
+    width: 150px;
+    padding: 10px 12px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+
+    background: black;
+    color: #ffffff;
+
+    border: 1px solid #263244;
+    border-radius: 10px;
+
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    border-color: #22c55e;
+}
+
+#clearBtn {
+    display: block;
+    margin: 25px auto 0 auto;
+}
+#clearBtn {
+    display: block;
+    margin: 25px auto 0 auto;
+
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 700;
+
+    background: #22c55e;
+    color: #0b1220;
+
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+#clearBtn:active {
+    transform: translateY(0px);
+    opacity: 0.9;
+}
+/* ===== EXPLANATION BOX ===== */
+.explanation-box {
+font-size: 18px;
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.explanation-box h3 {
+text-align: center;
+    margin-bottom: 15px;
+    color: black;
+}
+
+.explanation-box p {
+    margin-bottom: 16px;
+    color: black;
+}
+.guide-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 35px;
+    color: #111827;
+}
+
+.guide-section {
+    margin-bottom: 50px;
+    padding-bottom: 35px;
+    border-bottom: 0px solid #d1d5db;
+}
+
+.guide-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.guide-section h3 {
+    font-size: 40px;
+    margin-bottom: 18px;
+    color: #bd081a;
+}
+
+.guide-section h4 {
+ 
+    margin-top: 18px;
+    margin-bottom: 10px;
+    font-size: 26px;
+    color: green;
+}
+
+
+
+.formula {
+    background: transparent;
+    border: none;
+    padding: 2px 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #111827;
+}
+.example {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+.how-to-use h3 {
+    margin-bottom: 8px;
+    color: #111827;
+    font-size: 35px;
+}
+
+.how-to-use p {
+    margin: 0;
+    color: #374151;
+}
+
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item active-page">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+    <div class="page-title">
+        Odds Converter
+    </div>
+
+    <div class="page-subtitle">
+        Enter to Convert Instantly
+    </div>
+
+    <!-- ===== CONVERTER ===== -->
+    <div class="converter-box">
+
+        <div class="converter-row">
+
+            <div class="input-group">
+                <label>Fractional Odds</label>
+                <input type="text" id="fractional" placeholder="5/2">
+            </div>
+
+            <div class="input-group">
+                <label>Decimal Odds</label>
+                <input type="text" id="decimal" placeholder="3.50">
+            </div>
+
+            <div class="input-group">
+                <label>American Odds</label>
+                <input type="text" id="american" placeholder="+250">
+            </div>
+
+            <div class="input-group">
+                <label>Implied Probability</label>
+                <input type="text" id="probability" placeholder="28.57%">
+            </div>
+
+        </div>
+<button id="clearBtn">Clear All</button>
+    </div>
+
+    <!-- ===== EXPLANATION ===== -->
+    <div class="explanation-box">
+
+        <!-- ===== EXPLANATION ===== -->
+<div class="explanation-box">
+
+    <!-- ===== EXPLANATION ===== -->
+<div class="explanation-box">
+<div class="how-to-use">
+    <h3>How to Use the Odds Converter</h3>
+
+    <p>
+        Simply enter a value into any field and the converter will
+        automatically update all other odds formats instantly.
+    </p>
+</div>
+<br>
+    
+
+    <!-- DECIMAL ODDS -->
+    <div class="guide-section">
+	<br>
+
+        <h3>Decimal Odds</h3>
+
+        <p>
+            Decimal odds represent the total return for every 1 unit wagered, including your original stake.
+            For example, decimal odds of <strong>3.50</strong> mean that every $1 wagered returns
+            <strong>$3.50</strong> in total (<strong>$2.50 profit + $1.00 stake</strong>).
+        </p>
+<br>
+<br>
+        <h4>How to Convert Decimal Odds to Fractional Odds</h4>
+
+         <p>
+           Subtract 1 from the decimal odds.
+            </p>
+			<p>
+                Place the result over 1 and simplify until both the numerator (top)
+                and denominator (bottom) are whole numbers.
+         </p>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting 4.50 to Fractional Odds</strong><br><br>
+
+            4.5 - 1 = 3.5  <br>Result: 3.5 / 1<br>
+			
+            Multiply both by 2 to get whole numbers:<br>
+            3.5 x 2 = 7 &nbsp and &nbsp&nbsp 1 x 2 = 2.<br>
+            Fractional Odds:  <strong>7/2</strong>
+        </div>
+		<br>
+<p>
+            <strong>Note:</strong> UK bookmakers do not display decimals within fractions.
+            This is why you must multiply both numbers by the same value until they are both whole integers.
+         </p>
+<br>
+<br>
+        <h4>How to Convert Decimal Odds to Positive American Odds</h4>
+
+        <p>Use this formula for decimal odds of 2.00 or higher.</p>
+<br>
+<br>
+        <div class="formula">
+            Formula: (Decimal Odds - 1) x 100
+        </div>
+
+        <div class="example">
+            <strong>Example: Converting 3.50 to American Odds</strong><br><br>
+
+            • (3.5 - 1) x 100 = 2.5 x 100<br>
+            • American Odds: <strong>+250</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Decimal Odds to Negative American Odds</h4>
+
+        <p>Use this formula for decimal odds below 2.00.</p>
+<br>
+<br>
+        <div class="formula">
+            Formula: -100 / (Decimal Odds - 1)
+        </div>
+
+        <div class="example">
+            <strong>Example: Converting 1.50 to American Odds</strong><br><br>
+
+            • 1.5 - 1 = 0.5<br>
+            • -100 / 0.5 = -200<br>
+            • American Odds: <strong>-200</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Decimal Odds to Implied Probability</h4>
+
+        <p>
+            Implied probability shows the percentage likelihood of an event happening according to the odds.
+        </p>
+<br>
+<br>
+        <div class="formula">
+            Formula: (1 / Decimal Odds) x 100
+        </div>
+
+        <div class="example">
+            <strong>Example: Converting 5.00 to Implied Probability</strong><br><br>
+
+            • 1 / 5 = 0.20<br>
+            • 0.20 x 100 = 20%<br>
+            • Implied Probability:<strong>20%</strong>
+        </div>
+
+    </div>
+
+    <!-- FRACTIONAL ODDS -->
+    <div class="guide-section">
+
+        <h3>Fractional Odds</h3>
+
+        <p>
+            Fractional odds represent the potential profit relative to your stake.
+            For example, odds of <strong>5/2</strong> mean you win <strong>$5</strong>
+            for every <strong>$2</strong> you wager.
+        </p>
+<br>
+
+        <h4>How to Convert Fractional Odds to Decimal Odds</h4>
+
+        <p>
+            To convert a fraction to a decimal, divide the top number by the bottom number and then add 1.
+        </p>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting 5/2 to Decimal Odds</strong><br><br>
+
+            • (5 / 2) + 1 = 2.5 + 1<br>
+            • Decimal Odds: <strong>3.50</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Fractional Odds to Positive American Odds</h4>
+
+        <p>
+            Use this formula if the fraction is greater than 1/1
+            (the numerator is larger than the denominator).
+        </p>
+
+        <div class="formula">
+            Formula: (Numerator / Denominator) x 100
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting 5/2 to American Odds</strong><br><br>
+
+            • (5 / 2) x 100 = 2.5 x 100<br>
+            • American Odds: <strong>+250</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Fractional Odds to Negative American Odds</h4>
+
+        <p>
+            Use this formula if the fraction is less than 1/1 (Odds-On).
+            (the numerator is smaller than the denominator).
+        </p>
+
+        <div class="formula">
+            Formula: -100 / (Numerator / Denominator)
+        </div>
+
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting 1/2 to American Odds</strong><br><br>
+
+            • 1 / 2 = 0.5<br>
+            • -100 / 0.5 = -200<br>
+            • American Odds: <strong>-200</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Fractional Odds to Implied Probability</h4>
+<br>
+<br>
+        <p>
+            Implied probability shows the percentage chance of an event happening based on the odds.
+        </p>
+
+        <div class="formula">
+            Formula: Denominator / (Numerator + Denominator) x 100
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting 4/1 to Implied Probability</strong><br><br>
+
+            • 1 / (4 + 1) = 1 / 5<br>
+            • 0.20 x 100 = 20%<br>
+            • Implied Probability: <strong>20%</strong>
+        </div>
+
+    </div>
+
+    <!-- AMERICAN ODDS -->
+    <div class="guide-section">
+
+        <h3>American Odds</h3>
+
+        <p>
+            American odds, also known as Moneyline odds, use positive (+) and negative (-) numbers.
+            Positive odds show the profit on a $100 stake, while negative odds show how much must be staked to win $100 in profit.
+        </p>
+<br>
+<br>
+        <h4>How to Convert Positive American Odds to Decimal Odds</h4>
+
+        <div class="formula">
+            Formula: (American Odds / 100) + 1
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting +250 to Decimal Odds</strong><br><br>
+
+            • (250 / 100) + 1 = 2.5 + 1<br>
+            • Decimal Odds: <strong>3.50</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Negative American Odds to Decimal Odds</h4>
+
+        <div class="formula">
+            Formula: (100 / |American Odds|) + 1
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting -500 to Decimal Odds</strong><br><br>
+
+            • (100 / 500) + 1 = 0.2 + 1<br>
+            • Decimal Odds: <strong>1.20</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Positive American Odds to Fractional Odds</h4>
+
+        <p>Place the American odds over 100 and simplify the fraction.</p>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting +250 to Fractional Odds</strong><br><br>
+
+            • 250 / 100<br>
+			• = 2.5 / 1  Multiply both by 2 to remove the decimals:
+			• 2.5 × 2 = 5.  1 × 2 = 2.
+            • Simplified: <strong>5/2</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Negative American Odds to Fractional Odds</h4>
+
+        <p>
+            Place 100 over the American odds (ignoring the minus sign) and simplify.
+        </p>
+
+<br>
+        <div class="example">
+            <strong>Example: Converting -500 to Fractional Odds</strong><br><br>
+
+            • 100 / 500<br>
+            • Simplified: <strong>1/5</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Positive American Odds to Implied Probability</h4>
+
+        <div class="formula">
+            Formula: 100 / (American Odds + 100) x 100
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting +900 to Implied Probability</strong><br><br>
+
+            • 100 / (900 + 100) = 100 / 1000 = 0.1<br>
+            • 0.1 x 100 = <strong>10%</strong>
+        </div>
+<br>
+<br>
+        <h4>How to Convert Negative American Odds to Implied Probability</h4>
+
+        <div class="formula">
+            Formula: |American Odds| / (|American Odds| + 100) x 100
+        </div>
+<br>
+<br>
+        <div class="example">
+            <strong>Example: Converting -350 to Implied Probability</strong><br><br>
+
+            • 350 / (350 + 100) = 350 / 450 = 0.7777...<br>
+            • 0.7777 x 100 = <strong>77.8%</strong>
+        </div>
+
+    </div>
+
+</div>
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
+</body>
+</html>
+<script>
+let active = null;
+
+const fractional = document.getElementById("fractional");
+const decimal = document.getElementById("decimal");
+const american = document.getElementById("american");
+const probability = document.getElementById("probability");
+
+// track active input
+fractional.addEventListener("input", () => {
+    active = "fractional";
+    convertFromFractional(fractional.value);
+});
+
+decimal.addEventListener("input", () => {
+    active = "decimal";
+    convertFromDecimal(decimal.value);
+});
+
+american.addEventListener("input", () => {
+    active = "american";
+    convertFromAmerican(american.value);
+});
+
+probability.addEventListener("input", () => {
+    active = "probability";
+    // Strip % and non-numeric chars except decimal point
+    let cleanVal = probability.value.replace(/[^\d.]/g, "");
+    convertFromProbability(cleanVal);
+});
+
+probability.addEventListener("blur", () => {
+    if (probability.value && !probability.value.includes("%")) {
+        probability.value = probability.value + "%";
+    }
+});
+
+const clearBtn = document.getElementById("clearBtn");
+clearBtn.addEventListener("click", () => {
+    active = null;
+    fractional.value = "";
+    decimal.value = "";
+    american.value = "";
+    probability.value = "";
+});
+
+// ===== CORE CONVERSION BASE =====
+function updateAll(decimalOdds) {
+    // Basic validation: Odds must be greater than 1.00
+    if (!decimalOdds || decimalOdds <= 1 || isNaN(decimalOdds) || !isFinite(decimalOdds)) return;
+
+    if (active !== "decimal") {
+        decimal.value = decimalOdds.toFixed(2);
+    }
+
+    if (active !== "fractional") {
+        fractional.value = decimalToFraction(decimalOdds);
+    }
+
+    if (active !== "american") {
+        american.value = decimalToAmerican(decimalOdds);
+    }
+
+    if (active !== "probability") {
+        probability.value = ((1 / decimalOdds) * 100).toFixed(2) + "%";
+    }
+}
+
+// ===== CONVERTERS =====
+function convertFromFractional(val) {
+    let parts = val.split("/");
+    if (parts.length !== 2) return;
+
+    let num = parseFloat(parts[0]);
+    let den = parseFloat(parts[1]);
+
+    if (!den || isNaN(num)) return;
+
+    let decimalOdds = (num / den) + 1;
+    updateAll(decimalOdds);
+}
+
+function convertFromDecimal(val) {
+    let d = parseFloat(val);
+    if (isNaN(d)) return;
+    updateAll(d);
+}
+
+function convertFromAmerican(val) {
+    let a = parseFloat(val);
+    if (isNaN(a)) return;
+    
+    // Ignore the "Dead Zone" between -100 and 100
+    if (a > -100 && a < 100) return;
+
+    let decimalOdds;
+    if (a >= 100) {
+        decimalOdds = (a / 100) + 1;
+    } else {
+        decimalOdds = (100 / Math.abs(a)) + 1;
+    }
+
+    updateAll(decimalOdds);
+}
+
+function convertFromProbability(val) {
+    let p = parseFloat(val);
+    if (!p || p <= 0 || p >= 100) return; // Prevent division by zero or negative probability
+
+    let decimalOdds = 100 / p;
+    updateAll(decimalOdds);
+}
+
+// ===== HELPERS =====
+function decimalToFraction(dec) {
+    let target = dec - 1;
+    if (target <= 0) return "";
+    
+    let tolerance = 1.0E-6;
+    let h1 = 1, h2 = 0;
+    let k1 = 0, k2 = 1;
+    let b = target;
+    let iterations = 0;
+    
+    do {
+        let a = Math.floor(b);
+        let aux = h1; h1 = a * h1 + h2; h2 = aux;
+        aux = k1; k1 = a * k1 + k2; k2 = aux;
+        if (b - a === 0) break; // Avoid division by zero
+        b = 1 / (b - a);
+        iterations++;
+    } while (Math.abs(target - h1 / k1) > target * tolerance && iterations < 10);
+
+    return h1 + "/" + k1;
+}
+
+function decimalToAmerican(dec) {
+    if (dec >= 2) {
+        return "+" + Math.round((dec - 1) * 100);
+    } else {
+        return "-" + Math.round(100 / (dec - 1));
+    }
+}
+
+</script>
