@@ -1,0 +1,918 @@
+
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pot Odds Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ===== SEO BASIC ===== -->
+<meta name="description" content="Free Pot Odds Calculator for poker. Instantly calculate pot odds, break-even percentage, and make +EV decisions with clear step-by-step breakdowns.">
+
+<meta name="keywords" content="poker calculator, pot odds calculator, poker odds, break even percentage, EV poker, poker tools">
+
+<meta name="author" content="HandyHub">
+
+<!-- ===== CANONICAL URL ===== -->
+<link rel="canonical" href="https://jickjoker.github.io/HandyHub/pot-odds.html">
+
+<!-- ===== OPEN GRAPH ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pot Odds Calculator | HandyHub">
+<meta property="og:description" content="Calculate poker pot odds and break-even percentage instantly. Learn if your call is profitable with clear breakdowns.">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/pot-odds.png">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/pot-odds.html">
+<meta property="og:site_name" content="HandyHub">
+
+<!-- ===== TWITTER CARD ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pot Odds Calculator | HandyHub">
+<meta name="twitter:description" content="Instant poker pot odds calculator with break-even % and step-by-step breakdowns.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/pot-odds.png">
+
+<!-- ===== GOOGLE ANALYTICS ===== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-0CBQ3FWL4T');
+</script>
+
+<style>
+/* ===== RESET ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ===== FONTS ===== */
+
+body,
+.nav-item,
+.nav-title,
+.input-group label,
+.input-group input,
+.result-message{
+    font-family:'Inter', sans-serif;
+}
+
+.result-label,
+.result-value,
+#breakText,
+.title{
+    font-family:'Orbitron', sans-serif;
+}
+
+/* ===== BODY ===== */
+
+body{
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* ===== SIDEBAR ===== */
+
+/* SIDEBAR (same as homepage) */
+        .sidebar{
+            position:fixed;
+            left:0;
+            top:0;
+            width:260px;
+            height:100vh;
+            background:#111827;
+            padding:20px;
+            border-right:1px solid #1f2937;
+        }
+.sidebar h2{
+    color:#22c55e;
+	 margin-bottom:30px;
+}
+
+        .nav-title{
+            font-size:12px;
+            color:#9ca3af;
+            margin-bottom:10px;
+            text-transform:uppercase;
+        }
+
+        .nav-item{
+            display:block;
+            padding:10px 12px;
+            margin-bottom:6px;
+            border-radius:8px;
+            color:#e5e7eb;
+            text-decoration:none;
+        }
+
+        .nav-item:hover{
+            background:rgba(255,255,255,0.08);
+        }
+
+        .main{
+            margin-left:260px;
+            width:calc(100% - 260px);
+            padding:40px;
+			padding-bottom:900px;
+			
+        }
+
+        h1{
+            font-size:32px;
+            margin-bottom:10px;
+        }
+
+        p{
+            color:#9ca3af;
+            margin-bottom:30px;
+        }
+		
+        .nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* ===== MAIN ===== */
+
+.main{
+margin-top:-30px;
+    margin-left:260px;
+margin-bottom:800px;
+    width:calc(100% - 260px);
+
+    padding:50px 20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* ===== TITLE ===== */
+
+.title{
+    font-size:35px;
+    font-weight:700;
+
+   color: orange;
+
+    letter-spacing:2px;
+
+    margin-bottom:30px;
+}
+
+/* ===== CALCULATOR ===== */
+
+/* ===== CALCULATOR WRAPPER ===== */
+.calculator{
+    width:100%;
+    max-width:620px;
+
+    background: linear-gradient(145deg, #0b102f, #0e1240);
+    border-radius:20px;
+
+    padding:22px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.45);
+
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+/* ===== INPUTS ===== */
+.input-row{
+    display:flex;
+    gap:14px;
+    margin-bottom:16px;
+    width:100%;
+}
+
+.input-group{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#bfc7d5;
+    margin-bottom:8px;
+    text-align:center;
+}
+
+.input-group input{
+    width:100%;
+    height:56px;
+
+    padding:0 12px;
+
+    border-radius:12px;
+    border:1px solid #1f2937;
+
+    background:#050505;
+    color:white;
+
+    font-size:22px;
+    font-weight:700;
+
+    text-align:center;
+
+    transition:0.2s ease;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,0.2);
+    transform:scale(1.01);
+}
+
+/* ===== RESULTS ===== */
+.results-box{
+    background:rgba(0,0,0,0.6);
+    border-radius:14px;
+    padding:16px;
+    border:1px solid #111827;
+}
+
+.result-grid{
+    display:flex;
+    gap:14px;
+    margin-bottom:10px;
+}
+
+.result-card{
+    flex:1;
+    background:#050505;
+    border-radius:12px;
+    padding:14px;
+    text-align:center;
+    border:1px solid #111827;
+}
+
+.result-label{
+    font-size:14px;
+    font-weight:700;
+    color:#ff4d4d;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:6px;
+}
+
+.result-value{
+    font-size:32px;
+    font-weight:800;
+    color:white;
+}
+
+/* ===== BREAK EVEN TEXT ===== */
+.result-message{
+    text-align:center;
+    font-size:15px;
+    color:#cbd5e1;
+    opacity:0;
+    transition:0.2s ease;
+}
+
+#breakText{
+    font-family:'Inter', sans-serif;
+    font-size:18px;
+    font-weight:800;
+    color:#facc15;
+}
+
+/* ===== BUTTON ===== */
+.clear-btn{
+    width:30%;
+    height:38px;
+
+    margin:14px auto 0;
+    display:block;
+
+    border:none;
+    border-radius:10px;
+
+    background:#22c55e;
+    color:#0b102f;
+
+    font-size:13px;
+    font-weight:800;
+    text-transform:uppercase;
+
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.clear-btn:hover{
+    background:#16a34a;
+    transform:translateY(-1px);
+}
+
+.calc-toggle{
+    margin-top:12px;
+    text-align:center;
+    cursor:pointer;
+
+    font-size:16px;
+    color:white;
+
+    user-select:none;
+}
+
+.calc-toggle:hover{
+    color:#63fa05;
+}
+
+.calc-box{
+    margin-top:10px;
+
+    background:#ffffff;
+    color:#111827;
+
+    border-radius:12px;
+    padding:14px;
+
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+
+    white-space:pre-line;
+
+    border:1px solid #e5e7eb;
+}
+
+.explanation {
+    margin-top: 65px;
+    width: 95%;          /* Responsive for mobile */
+    max-width: 520px;    /* Locked for desktop */
+    background: white;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+}
+
+.explanation h2 {
+    text-align:center;
+    color: black;
+    margin-bottom: 10px;
+    font-size: px;
+}
+
+.explanation p {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.explanation .formula {
+    text-align:center;
+    background: #111827; /* Dark blue-black */
+    color: #22c55e;      /* Green text */
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+}
+
+.explanation ul {
+    margin-top: 20px;
+    padding-left: 18px;
+}
+
+.explanation li {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+/* Real Stacked Fractions for Text */
+.inline-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    align-items: center;
+    padding: 0 4px;
+}
+
+/* This forces the spans inside to act like blocks so they stack */
+.inline-fraction span {
+    display: block;
+    line-height: 1.1;
+}
+
+.inline-line {
+    width: 100%;
+    height: 1px;
+    background: black;
+    margin: 2px 0;
+}
+/* Minimalist Table Styling */
+.poker-cheat-sheet-wrapper {
+    margin: 25px 0;
+    font-family: inherit; /* Matches your site's font */
+    color: #000;
+}
+.poker-minimal-table {
+    width: 100%;
+    max-width: 500px;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #ffffff; /* White background for the table */
+    color: #000000 !important; /* FORCES text to be black */
+    border: 2px solid #22c55e; /* Green border to match your sidebar */
+}
+
+.poker-minimal-table th, 
+.poker-minimal-table td {
+    padding: 12px;
+    border: 1px solid #ddd; /* Light inner borders */
+    text-align: left;
+}
+.poker-minimal-table thead {
+    background-color: #f9f9f9; /* Subtle contrast for header */
+}
+.poker-minimal-table th {
+    font-weight: bold;
+    border-bottom: 2px solid #000; /* Thicker line under header */
+}
+.red-heart {
+  color: red;
+}
+/* ===== MOBILE ===== */
+@media (max-width:850px){
+    .result-grid{
+        flex-direction:column;
+    }
+
+    .input-row{
+        flex-direction:column;
+    }
+
+    .clear-btn{
+        width:100%;
+    }
+}
+.sidebar .nav-section{
+    margin-bottom:18px;
+}
+
+.sidebar .nav-title{
+    margin-bottom:10px;
+}
+
+.sidebar .nav-item{
+    margin-bottom:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+
+<div class="sidebar">
+
+    <h2>HandyHub</h2>
+
+    <div class="nav-section">
+        <div class="nav-title">Home</div>
+        <a href="index.html" class="nav-item">Welcome</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Math</div>
+        <a href="math-tools.html" class="nav-item">Math Tools</a>
+        <a href="math-games.html" class="nav-item">Math Games</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Poker</div>
+        <a href="poker-tools.html" class="nav-item active-page">Poker Tools</a>
+        <a href="poker-training.html" class="nav-item">Poker Training</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-title">Betting</div>
+        <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+        <a href="betting-training.html" class="nav-item">Betting Training</a>
+    </div>
+
+</div>
+<!-- ===== MAIN ===== -->
+
+<div class="main">
+<h1 class="title">
+    <!-- Red Suits -->
+    <span style="color: red;">&diams; &hearts;</span> 
+    
+    <!-- White Main Text (Inherited from .title) -->
+    Pot Odds Calculator 
+    
+    <!-- Yellow Suits -->
+    <span style="color: yellow;">&spades; &clubs;</span>
+</h1>
+
+
+    <div class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="input-row">
+
+            <div class="input-group">
+                <label>Pot Size Before Opponent Bet</label>
+                <input type="number" id="potSize" placeholder="100">
+            </div>
+
+            <div class="input-group">
+                <label>Opponent's Bet</label>
+                <input type="number" id="betSize" placeholder="50">
+            </div>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results-box">
+
+            <div class="result-grid">
+
+                <div class="result-card">
+                    <div class="result-label">Pot Odds</div>
+                    <div class="result-value" id="potOdds">-</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Break Even %</div>
+                    <div class="result-value" id="breakEven">-</div>
+                </div>
+
+            </div>
+
+           <div class="result-message">
+    You need to win
+    <span id="breakText">-</span>
+    of the time to break even.
+	
+</div>
+<button class="clear-btn" id="clearBtn">
+    Clear All
+</button>
+        </div>
+
+    </div>
+	
+<div class="calc-toggle" id="toggleCalc">
+    Show calculation  ▼
+</div>
+
+<div class="calc-box" id="calcBox" style="display:none;">
+    <pre id="calcText"></pre>
+</div>
+
+<div class="explanation">
+
+    <h2>Pot Odds Explained</h2>
+<br>
+<br>
+    <p>
+        <strong>What are pot odds?</strong><br>
+		<br>
+        Pot odds compare the cost of calling a bet to the amount of money you can win in the pot. 
+        They are one of the most important concepts in poker because they help you evaluate risk versus reward.
+    </p>
+
+    <br>
+  <br>
+    <p>
+        <strong>Example:</strong><br>
+		<br>
+        The pot is <strong>$5</strong> and your opponent bets <strong>$1</strong>.
+    </p>
+
+    <ul>
+        <li>Current pot (including the bet): &nbsp;<strong>$6</strong></li>
+		<br>
+        <li>Cost to call&nbsp; <strong>$1</strong></li>
+		<br>
+        <li>Risk/Reward:  You are risking &nbsp;<strong>$1&nbsp;</strong> to win <strong>&nbsp;$6</strong>.</li>
+		<br>
+        <li>Pot odds: <strong>6 : 1</strong>&nbsp;&nbsp;   or &nbsp; <strong>6/1</strong></li>
+    </ul>
+<br>
+    <br>
+<br>
+<br>
+    <p>
+        <strong>Why pot odds matter:</strong>
+    </p>
+
+    <ul>
+        <li>Helps you decide if a call is mathematically profitable.</li>
+		<br>
+        <li>Improves decision making using probability instead of emotion.</li>
+		<br>
+        <li>They allow you to compare your winning chances against the price you are receiving.</li>
+    </ul>
+<br>
+    <br>
+	<br>
+<br>
+<br>
+    <h2>Break-Even Percentage</h2>
+<br>
+    <p>
+        The break-even percentage tells you the minimum amount of the time you must win for a call to neither make nor lose money long term.
+    </p>
+
+    <br>
+	<p>
+<strong>The Break-even Formula:</strong><br>
+<br>
+(Your Call) / (Total Pot + Your call) = <strong>Break-even %</strong>
+    </p>
+
+    <br>
+<br>
+    <p>
+        <strong>Example Calculation:</strong>
+    </p>
+
+    <ul>
+        <li>Current Pot = <strong>$20</strong></li>
+        <li>Opponent Bet = <strong>$5</strong></li>
+        <li>Your Call = <strong>$5</strong></li>
+        <li>Total Pot = <strong>$30</strong></li>
+    </ul>
+<br>	
+<p>
+The total pot including your call: 
+</p>
+<br>
+<p>
+<strong>$20</strong> + <strong>$5</strong> + <strong>$5</strong>  = <strong>$30</strong>.
+</p>
+<br>
+<p>
+Divide your call into the total pot: 
+</p>
+<br>
+<p>
+<strong>$5 / </strong><strong>$30</strong> = <strong>Break-even 16.67%</strong>
+   </p>
+
+    
+    <br>
+
+    <p>
+        If your chance of winning is higher than <strong>16.67%</strong>, calling is profitable in the long run.
+    </p>
+<br>
+    <br>
+<br>
+    <h2>Expected Value Proof</h2>
+<br>
+    <p>
+        At exactly <strong>16.67%</strong> equity, the call breaks even over time.
+    </p>
+<br>
+<p>
+<strong>WINS:</strong>
+	   </p>
+</p>
+<br>
+     <p>
+       <strong>16.67%</strong> of the time you win <strong>$25</strong>
+	   </p>
+	   <br>
+	   <p>
+	   <strong>Win</strong> =&nbsp; <strong>0.1667</strong>&nbsp; × &nbsp;<strong>$25</strong>&nbsp; = &nbsp;<strong>+ $4.16</strong>.
+	   </p>
+	   <p>
+	   <br>
+	   <br>
+	   <p>
+<strong>LOSSES:</strong>
+	   </p>
+<p>
+ <br>
+        <strong>83.33%</strong> of the time you lose <strong>$5</strong>
+    </p>
+ <br>
+<p>
+        <strong>Lose</strong> = &nbsp;<strong>0.833</strong>&nbsp; × &nbsp;<strong>$5</strong>&nbsp; = &nbsp;<strong>- $4.16</strong>.
+		</p>
+		<br>
+     <p>
+	 <p>
+	 <br>
+<strong>RESULT:</strong>
+	   </p>
+	   <br>
+	   <p>
+        <strong>&nbsp;&nbsp;$4.16&nbsp;</strong> <strong>&nbsp; - &nbsp;$4.16</strong>&nbsp; ≈ &nbsp;<strong>0</strong>
+   </p>
+
+    <br>
+
+    <p>
+        This means the call neither wins nor loses money on average.
+    </p>
+	<br>
+	<br>
+	<br>
+	<br>
+	<h2>Bet Sizes Cheat Sheet</h2>
+<div class="poker-cheat-sheet-wrapper">
+    
+    <table class="poker-minimal-table">
+        <thead>
+            <tr>
+                <th>If they bet...</th>
+                <th>Pot Odds</th>
+                <th>Break-Even %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1/4 Pot</td>
+                <td>5 : 1</td>
+                <td><strong>17%</strong></td>
+            </tr>
+            <tr>
+                <td>1/3 Pot</td>
+                <td>4 : 1</td>
+                <td><strong>20%</strong></td>
+            </tr>
+            <tr>
+                <td>1/2 Pot</td>
+                <td>3 : 1</td>
+                <td><strong>25%</strong></td>
+            </tr>
+            <tr>
+                <td>3/4 Pot</td>
+                <td>2.3 : 1</td>
+                <td><strong>30%</strong></td>
+            </tr>
+            <tr>
+                <td>Full Pot</td>
+                <td>2 : 1</td>
+                <td><strong>33%</strong></td>
+            </tr>
+            <tr>
+                <td>2x Overbet</td>
+                <td>1.5 : 1</td>
+                <td><strong>40%</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<p>
+       <strong>How to use the cheat sheet:</strong>
+    </p>
+<p>
+<br>
+
+        If the pot is <strong>$300</strong> and your opponent bets <strong>$100</strong> &nbsp;(<strong>1/3</strong> pot):
+		</p>
+		<br>
+		<p>
+		Total Pot: <strong>$300</strong> + <strong>$100</strong> = <strong>$400</strong>
+		</p>
+		<br>
+		<p>
+		Your Call: <strong>$100</strong>
+		</p>
+		<br>
+		<p>
+		Math: <strong>$100</strong> / <strong>$400</strong> = <strong>20%</strong>
+		</p>
+		<br>
+		<p>
+		A <strong>1/3</strong> pot bet always gives you <strong>4:1</strong> pot odds, meaning your break-even percentage is <strong>20%</strong>.
+		</p>
+    
+	
+</div>
+
+</div>
+<script>
+
+
+
+
+
+const potInput = document.getElementById("potSize");
+const betInput = document.getElementById("betSize");
+
+const potOddsEl = document.getElementById("potOdds");
+const breakEvenEl = document.getElementById("breakEven");
+const messageEl = document.getElementById("message");
+
+
+
+function calculatePotOdds(){
+    const pot = parseFloat(document.getElementById("potSize").value); 
+    const bet = parseFloat(document.getElementById("betSize").value); 
+
+    // If inputs are empty, 0, or not numbers, hide message and reset values
+    if(!pot || !bet) {
+        document.getElementById("potOdds").innerText = "-";
+        document.getElementById("breakEven").innerText = "-";
+        document.getElementById("breakText").innerText = "-";
+       document.querySelector('.result-message').style.opacity = '0';
+        return;
+    }
+
+    // Total pot includes original pot + opponent's bet + your call
+    const totalPotAfterCall = pot + bet + bet; 
+
+    // Calculate break even percentage
+    const breakEven = (bet / totalPotAfterCall) * 100;
+    
+    // Format to 2 decimal places, but remove trailing zeros (e.g., 25.00 becomes 25)
+    const formattedBreakEven = (Math.round(breakEven * 100) / 100) + "%";
+
+    // Pot Odds Ratio (Reward : Risk) -> (Pot + Opponent Bet) : Your Call
+    const reward = pot + bet;
+    const ratio = (reward / bet).toFixed(1).replace(".0","");
+	const calcText = `
+     POT ODDS
+
+(pot + bet) / bet
+= (${pot} + ${bet}) / ${bet}
+= ${(pot + bet)} / ${bet}
+= ${ratio}/1
+
+
+    BREAK EVEN
+
+bet / (pot + 2 × bet)
+= ${bet} / (${pot} + ${bet * 2})
+= ${bet} / ${(pot + bet * 2)}
+= ${formattedBreakEven}
+`;
+
+document.getElementById("calcText").innerText = calcText;
+
+
+    // Update all display elements
+    document.getElementById("potOdds").innerText = `${ratio}/1`;
+    document.getElementById("breakEven").innerText = formattedBreakEven;
+    document.getElementById("breakText").innerText = formattedBreakEven;
+
+    // Show the result message
+    document.querySelector('.result-message').style.opacity = '1';
+}
+// toggle open/close
+const toggle = document.getElementById("toggleCalc");
+const box = document.getElementById("calcBox");
+
+toggle.addEventListener("click", () => {
+    if (box.style.display === "none") {
+        box.style.display = "block";
+        toggle.innerText = "Hide calculation ⬆ ";
+    } else {
+        box.style.display = "none";
+        toggle.innerText = "Show calculation ▼";
+    }
+});
+// Event Listeners
+document.getElementById("potSize").addEventListener("input", calculatePotOdds);
+document.getElementById("betSize").addEventListener("input", calculatePotOdds);
+// CLEAR BUTTON
+const clearBtn = document.getElementById("clearBtn");
+
+clearBtn.addEventListener("click", () => {
+
+    // Clear inputs
+    document.getElementById("potSize").value = "";
+    document.getElementById("betSize").value = "";
+
+    // Reset outputs
+    document.getElementById("potOdds").innerText = "-";
+    document.getElementById("breakEven").innerText = "-";
+    document.getElementById("breakText").innerText = "-";
+
+    // Hide result message
+    document.querySelector('.result-message').style.opacity = '0';
+
+    // Clear calculation box
+    document.getElementById("calcText").innerText = "";
+
+    // Collapse calculation section
+    box.style.display = "none";
+    toggle.innerText = "Show calculation ▼";
+
+});
+</script>
