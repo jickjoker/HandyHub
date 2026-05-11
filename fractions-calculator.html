@@ -404,14 +404,50 @@ input[type=number] {
 }
 
 
-@media (max-width: 768px) {
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px 10px; /* Reduced padding so calculator has room */
+@media (max-width: 500px) {
+    /* 1. Prevent vertical escape by making the box auto-expand */
+    .calculator {
+        height: auto !important; 
+        padding-bottom: 50px !important; /* Creates a "safe zone" for the decimal text */
     }
-}
 
+    /* 2. Position the decimal answer relatively so it stays inside */
+    .decimal-answer {
+        position: relative !important;
+        top: 20px !important; /* Pushes it below the fractions */
+        left: 0 !important;
+        transform: none !important;
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    /* 3. Tighten horizontal spacing to prevent screen break */
+    .inputs {
+        gap: 6px !important;
+        margin-bottom: 20px !important; /* Shrink that huge 50px gap */
+    }
+
+    .fraction {
+        width: 65px !important; /* Slimmer boxes */
+    }
+
+    .fraction input {
+        width: 65px !important;
+        font-size: 18px !important;
+    }
+
+    .fraction-line {
+        width: 65px !important;
+    }
+
+    .answer-box {
+        width: 85px !important;
+    }
+    
+    /* 4. Scale down the title so it doesn't push the frame wide */
+    h1 {
+        font-size: 28px !important;
+    }
 
 
 
