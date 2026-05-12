@@ -268,7 +268,7 @@ margin-bottom:800px;
 }
 
 .result-value{
-    font-size:32px;
+    font-size:28px;
     font-weight:800;
     color:white;
 }
@@ -277,6 +277,7 @@ margin-bottom:800px;
 .result-message{
     text-align:center;
     font-size:15px;
+	  font-weight:800;
     color:#cbd5e1;
     opacity:0;
     transition:0.2s ease;
@@ -291,8 +292,8 @@ margin-bottom:800px;
 
 /* ===== BUTTON ===== */
 .clear-btn{
-    width:30%;
-    height:38px;
+    width:100%;
+    height:25px;
 
     margin:14px auto 0;
     display:block;
@@ -606,7 +607,13 @@ margin-bottom:800px;
                 <div class="result-card">
                     <div class="result-label">Break Even %</div>
                     <div class="result-value" id="breakEven">-</div>
+					
                 </div>
+</div>
+<button class="clear-btn" id="clearBtn">
+    Clear All
+</button>
+        </div>
 
             </div>
 
@@ -615,11 +622,6 @@ margin-bottom:800px;
     <span id="breakText">-</span>
     of the time to break even.
 	
-</div>
-<button class="clear-btn" id="clearBtn">
-    Clear All
-</button>
-        </div>
 
     </div>
 	
@@ -919,7 +921,7 @@ document.getElementById("calcText").innerText = calcText;
 
 
     // Update all display elements
-    document.getElementById("potOdds").innerText = `${ratio}/1`;
+    document.getElementById("potOdds").innerText = `${ratio} / 1`;
     document.getElementById("breakEven").innerText = formattedBreakEven;
     document.getElementById("breakText").innerText = formattedBreakEven;
 
