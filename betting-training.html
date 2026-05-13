@@ -8,108 +8,132 @@
 
     <style>
         *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        }
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
 
-        body {
-            background:black;
-            color:white;
-            display:flex;
-            min-height:100vh;
-        }
+body {
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
 
-        /* SIDEBAR (same as homepage) */
-        .sidebar{
-            position:fixed;
-            left:0;
-            top:0;
-            width:260px;
-            height:100vh;
-            background:#111827;
-            padding:20px;
-            border-right:1px solid #1f2937;
-        }
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
 .sidebar h2{
     color:#22c55e;
-	margin-bottom:30px;
+    margin-bottom:30px;
 }
-        .nav-title{
-            font-size:12px;
-            color:#9ca3af;
-            margin-bottom:10px;
-            text-transform:uppercase;
-        }
 
-        .nav-item{
-            display:block;
-            padding:10px 12px;
-            margin-bottom:6px;
-            border-radius:8px;
-            color:#e5e7eb;
-            text-decoration:none;
-        }
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
 
-        .nav-item:hover{
-            background:rgba(255,255,255,0.08);
-        }
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
 
-        .main{
-            margin-left:260px;
-            width:calc(100% - 260px);
-            padding:40px;
-        }
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
 
-        h1{
-            font-size:32px;
-            margin-bottom:10px;
-        }
-
-        p{
-            color:#9ca3af;
-            margin-bottom:30px;
-        }
-		
-        .nav-item.active-page{
+.nav-item.active-page{
     background:#66ff00;
     color:#111827 !important;
     font-weight:bold;
 }
-        }
 
-        .grid{
-            display:flex;
-            gap:20px;
-            flex-wrap:wrap;
-        }
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:40px;
 
-        .card{
-            width:260px;
-            background:#111827;
-            border-radius:12px;
-            padding:20px;
-            text-decoration:none;
-            color:white;
-            border:1px solid #1f2937;
-            transition:0.2s;
-        }
+    display:flex;
+    flex-direction:column;
 
-        .card:hover{
-            transform:scale(1.03);
-        }
+    align-items:center;       /* keeps layout centered */
+    justify-content:flex-start;
+    text-align:center;
+}
 
-        .card-title{
-            font-size:16px;
-            font-weight:bold;
-        }
+.main h1{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:8px;
+}
 
-        .card-desc{
-            font-size:13px;
-            color:#9ca3af;
-            margin-top:8px;
-        }
+.main p{
+    color:#9ca3af;
+    margin-bottom:30px;
+}
+
+/* CARDS */
+.grid{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+	margin-top:60px;
+}
+
+
+.card-img{
+    width:70%;
+    max-height:120px;
+    object-fit:contain;
+    display:block;
+    margin:10px auto;
+}
+
+.card{
+    width:260px;
+    background:#111827;
+    border-radius:12px;
+    padding:20px;
+    text-decoration:none;
+    color:white;
+    border:1px solid #1f2937;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.card-title{
+    font-size:15px;
+    font-weight:600;
+    text-align:center;
+}
+
+.card-desc{
+    font-size:13px;
+    color:#9ca3af;
+    margin-top:8px;
+}
+
 
 @media (max-width: 768px) {
     /* 1. Stack the body elements vertically instead of horizontally */
@@ -168,18 +192,24 @@
     <a href="poker-training.html" class="nav-item">Poker Training</a>
 
     <div class="nav-title">Betting</div>
-    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
-	<a href="betting-training.html" class="nav-item active-page">Betting Training</a>
+	<a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item active-page">Betting Training</a>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main">
 
-    <h1>Coming Soon</h1>
-    
+    <h1>Betting Training</h1>
+    <p>Train your ability to spot value bets, understand EV, and read odds with confidence.</p>
 
- 
-    </div>
+    <div class="grid">
+        <a class="card" href="betting-odds.html">
+            <div class="card-title">Odds Trainer</div>
+            <img class="card-img" src="betting-odds.png" alt="Odds Trainer">
+        </a>
+              
+
+</div>
 
 </div>
 

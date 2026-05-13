@@ -34,14 +34,7 @@
 <meta name="twitter:description" content="Instant poker pot odds calculator with break-even % and step-by-step breakdowns.">
 <meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/pot-odds.png">
 
-<!-- ===== GOOGLE ANALYTICS ===== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CBQ3FWL4T"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-0CBQ3FWL4T');
-</script>
+
 
 <style>
 /* ===== RESET ===== */
@@ -268,7 +261,7 @@ margin-bottom:800px;
 }
 
 .result-value{
-    font-size:28px;
+    font-size:32px;
     font-weight:800;
     color:white;
 }
@@ -607,13 +600,7 @@ margin-bottom:800px;
                 <div class="result-card">
                     <div class="result-label">Break Even %</div>
                     <div class="result-value" id="breakEven">-</div>
-					
                 </div>
-</div>
-<button class="clear-btn" id="clearBtn">
-    Clear All
-</button>
-        </div>
 
             </div>
 
@@ -622,6 +609,11 @@ margin-bottom:800px;
     <span id="breakText">-</span>
     of the time to break even.
 	
+</div>
+<button class="clear-btn" id="clearBtn">
+    Clear All
+</button>
+        </div>
 
     </div>
 	
@@ -921,7 +913,7 @@ document.getElementById("calcText").innerText = calcText;
 
 
     // Update all display elements
-    document.getElementById("potOdds").innerText = `${ratio} / 1`;
+    document.getElementById("potOdds").innerText = `${ratio}/1`;
     document.getElementById("breakEven").innerText = formattedBreakEven;
     document.getElementById("breakText").innerText = formattedBreakEven;
 

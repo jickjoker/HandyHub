@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Primary SEO -->
+<title>Odds Trainer | Betting Probability Game</title>
+<meta name="description" content="Train your brain to convert betting odds into implied probability. Practice fractional, decimal, and American odds in a fast-paced challenge game.">
+
+<!-- URL -->
+<link rel="canonical" href="https://jickjoker.github.io/HandyHub/betting-odds.html">
+
+<!-- Open Graph (Facebook / Discord / WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Odds Trainer | Betting Probability Game">
+<meta property="og:description" content="Turn betting odds into instant implied probability. Practice or play a 45-second challenge and test your skill.">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/betting-odds.png">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/betting-odds.html">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Odds Trainer | Betting Probability Game">
+<meta name="twitter:description" content="Learn to convert betting odds into implied probability instantly. Practice or challenge mode.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/betting-odds.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Odds Trainer</title>
+
+<style>
+
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+/* ===== BODY ===== */
+body{
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+    overflow-y:auto;
+}
+
+.sidebar h2{
+    color:#22c55e;
+    margin-bottom:30px;
+    font-size:24px;
+}
+
+/* ===== NAV ===== */
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    margin-top:20px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+    font-size:16px;
+    transition:0.2s;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* ===== MAIN ===== */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+
+    padding:30px 20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* ===== PAGE TITLE ===== */
+.page-title{
+ margin-top:-20px;
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.page-subtitle{
+    color:#9ca3af;
+    margin-bottom:40px;
+    font-size:18px;
+}
+.game-wrapper {
+position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* This forces the box UNDER the game */
+    align-items: center;    /* Keeps everything centered */
+    justify-content: center;
+}
+
+/* ===== TV SCREEN ===== */
+.tv-screen{
+    width:100%;
+    max-width:620px;
+position: relative;
+    min-height:300px;
+ margin-bottom:50px;
+    background:#050505;
+
+   border:15px solid #36043b;
+    border-radius:18px;
+
+    padding: 10px 18px 18px 18px; /* Reduced top padding from 18px to 10px */
+    /* ... rest of your styles ... */
+
+    box-shadow:
+0 0 25px rgba(0,0,0,0.7),
+0 0 15px rgba(37,99,235,0.35),
+0 0 40px rgba(37,99,235,0.15),
+inset 0 0 15px rgba(255,255,255,0.02);
+}
+
+.menu-area{
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+#game-ui{
+    flex:1;
+position: relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+	padding-top: 0px;
+}
+#game-ui .answers{
+    margin-top:90px;
+}
+
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -1px;   /* Negative margin pulls it UP into the padding area */
+    margin-bottom: 30px; /* Space between timer and the question */
+    padding-right: -30px; 
+}
+/* ===== CHALLENGE BARS ===== */
+.progress-wrap{
+    display:flex;
+    gap:6px;
+}
+
+
+.progress-bar{
+    width:12px;
+    height:20px;
+
+    border-radius:3px;
+
+    border:1px solid #374151;
+}
+
+.progress-bar.active{
+    background:#66ff00;
+    border-color:#66ff00;
+
+    box-shadow:0 0 10px #66ff00;
+}
+
+/* ===== TIMER ===== */
+.timer{
+    font-size:20px;
+
+    padding:6px 12px;
+
+    border-radius:10px;
+
+    border:2px solid #eab308;
+    color:#eab308;
+}
+
+
+/* ===== QUESTION ===== */
+.question-area {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 60px; /* Increased from 22px to 60px */
+}
+.odds {
+    font-size: 40px;
+    font-weight: 900;
+    color: #fcf805;
+    line-height: 1;
+}
+
+
+
+.question-text {
+    font-family: 'Orbitron', sans-serif;
+
+    font-size: 72px;
+    font-weight: 900;
+
+    letter-spacing: 4px;
+
+    color: white;
+}
+/* ===== ANSWERS ===== */
+.answers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+ #game-ui {
+   flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Changed from space-between */
+    padding-top: 5px;
+}
+
+#game-ui .answers {
+    margin-top: 90px;
+
+}
+#game-ui .back-button {
+    position: absolute;
+    top: 5px;      /* Pulls it even higher up */
+    right: 5px;      /* Moves it closer to the right edge */
+    z-index: 9999;
+    padding: 6px 12px;
+    padding: 8px 14px;
+    background: #1f2937;
+    color: white;
+    border: 1px solid #374151;
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+#game-ui .back-button:hover {
+    background: #374151;
+}
+
+.back-button:hover {
+    background: #374151;
+}
+.menu-area .answers{
+    margin-top:55px;
+}
+.answer-btn{
+    background:#2b0423;
+color:white;
+transition: background 0.1s, transform 0.1s;
+    border:1px solid #374151;
+    border-radius:14px;
+
+    padding:16px 10px;
+
+    font-size:28px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.answer-btn.correct, 
+.answer-btn.incorrect {
+    transition: 0s !important; 
+    transform: scale(1.1); /* The 'pop' makes it feel faster */
+}
+
+.answer-btn:hover{
+    border-color:#66ff00;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 0 12px rgba(102,255,0,0.2);
+}
+/* Success State */
+.answer-btn.correct {
+    background: #00ff00 !important; 
+    border-color: #ffffff !important;
+    box-shadow: 0 0 30px #00ff00, inset 0 0 10px #000000;
+    color: #000000 !important; /* Black text looks sharper on bright green */
+    transform: scale(1.05); /* Slight pop out effect */
+}
+
+/* Error State */
+.answer-btn.incorrect {
+    background: #ff0000 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 30px #ff0000, inset 0 0 10px #000000;
+    color: #ffffff !important;
+    transform: scale(0.95); /* Slight shrink effect for "error" */
+}
+#feedbackText{
+    position:absolute;
+    margin-top:120px;
+    font-size:28px;
+    font-weight:bold;
+    color:#66ff00;
+    opacity:0;
+    transition:0.2s;
+}
+#medal-container {
+    padding: 30px;
+    background: rgba(102, 255, 0, 0.1);
+    border: 2px solid #66ff00;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+
+#medal-text {
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px !important;
+}
+
+
+
+/* ===== EXPLANATION BOX ===== */
+.explanation{
+
+    width:100%;
+    max-width:600px;
+
+    margin-top:30px;
+
+    background:white;
+
+    border:1px solid #1f2937;
+    border-radius:18px;
+
+    padding:25px;
+}
+
+.explanation h2{
+    margin-bottom:15px;
+    color:black;
+}
+
+.explanation p{
+    line-height:1.7;
+    color:black;
+}
+/* ===== MEDAL CELEBRATION ===== */
+
+#medal-container{
+    animation: medalPop 0.7s ease;
+}
+
+#medal-icon{
+    display:block;
+    margin-bottom:15px;
+    animation: medalBounce 1s infinite alternate;
+}
+
+.bronze-win{
+    box-shadow:
+    0 0 25px #cd7f32,
+    0 0 60px rgba(205,127,50,0.4);
+}
+
+.silver-win{
+    box-shadow:
+    0 0 25px #c0c0c0,
+    0 0 60px rgba(192,192,192,0.5);
+}
+
+.gold-win{
+    animation: goldFlash 0.5s infinite alternate;
+
+    box-shadow:
+    0 0 30px gold,
+    0 0 80px rgba(255,215,0,0.9),
+    0 0 140px rgba(255,215,0,0.5);
+}
+
+@keyframes medalPop{
+    0%{
+        transform:scale(0.2);
+        opacity:0;
+    }
+
+    70%{
+        transform:scale(1.15);
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes medalBounce{
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(-10px);
+    }
+}
+
+@keyframes goldFlash{
+    from{
+        border-color:#ffe066;
+    }
+
+    to{
+        border-color:#ffffff;
+    }
+}
+/* ===== GOLD CONFETTI ===== */
+
+.confetti-piece{
+    position:fixed;
+
+    width:10px;
+    height:14px;
+
+    top:-20px;
+
+    z-index:99999;
+
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+
+    0%{
+        transform:
+        translateY(0)
+        rotate(0deg);
+
+        opacity:1;
+    }
+
+    100%{
+        transform:
+        translateY(110vh)
+        rotate(720deg);
+
+        opacity:0;
+    }
+}
+
+/* SUPER FLASHY GOLD */
+
+/* ===== ULTRA GOLD CELEBRATION ===== */
+
+.gold-win{
+
+    position:relative;
+
+    animation:
+    goldPulse 0.18s infinite alternate,
+    goldShake 0.05s infinite,
+    rainbowGlow 0.5s infinite linear;
+
+    box-shadow:
+    0 0 20px #fff176,
+    0 0 60px gold,
+    0 0 120px orange,
+    0 0 220px yellow,
+    0 0 320px white;
+
+    overflow:hidden;
+}
+
+/* HUGE FLASH BURST */
+
+.gold-win::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-200px;
+
+    background:
+    radial-gradient(circle,
+    rgba(255,255,255,0.9) 0%,
+    rgba(255,215,0,0.5) 20%,
+    transparent 60%);
+
+    animation: flashBurst 1s infinite;
+
+    pointer-events:none;
+}
+
+/* RAINBOW GLOW */
+
+@keyframes rainbowGlow{
+
+    0%{ filter:hue-rotate(0deg) brightness(1.2); }
+    100%{ filter:hue-rotate(360deg) brightness(1.6); }
+}
+
+/* SCREEN SHAKE */
+
+@keyframes goldShake{
+
+    0%{ transform:translate(0px,0px) rotate(0deg); }
+
+    25%{ transform:translate(3px,-2px) rotate(1deg); }
+
+    50%{ transform:translate(-3px,2px) rotate(-1deg); }
+
+    75%{ transform:translate(2px,1px) rotate(1deg); }
+
+    100%{ transform:translate(-2px,-1px) rotate(-1deg); }
+}
+
+/* BREATHING EFFECT */
+
+@keyframes goldPulse{
+
+    from{
+        transform:scale(1);
+    }
+
+    to{
+        transform:scale(1.08);
+    }
+}
+
+/* EXPLOSION FLASH */
+
+@keyframes flashBurst{
+
+    0%{
+        transform:scale(0.2);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(2);
+        opacity:0;
+    }
+}
+#medal-icon{
+    display:block;
+    margin-bottom:15px;
+}
+
+.gold-win #medal-icon{
+
+    animation:
+    crownSpin 1.2s infinite linear,
+    crownBounce 0.25s infinite alternate;
+
+    font-size:90px !important;
+
+    filter:
+    drop-shadow(0 0 10px gold)
+    drop-shadow(0 0 30px yellow)
+    drop-shadow(0 0 60px white);
+}
+
+@keyframes crownSpin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes crownBounce{
+
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(-18px);
+    }
+}
+#fail-container {
+    background: rgba(255,0,0,0.08);
+    border: 2px solid #ff4d4d;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(255,0,0,0.3);
+}
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+    }
+
+    .odds{
+        font-size:70px;
+    }
+
+    .question-text{
+        font-size:32px;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .answer-btn{
+        font-size:34px;
+    }
+
+    .top-bar{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item active-page">Betting Training</a>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+    <h1 class="page-title">Odds Trainer</h1>
+
+    <!-- ===== GAME WRAPPER ===== -->
+    <div class="game-wrapper">
+  
+        <!-- ===== TV SCREEN ===== -->
+        <div class="tv-screen">
+    <!-- STEP 1: ODDS SELECTION -->
+	 
+    <div id="step-1" class="menu-area">
+        <h2 style="color: #f7ef05; margin-bottom: 20px; text-align:center;">Select Odds Type</h2>
+        <div class="answers">
+            <button class="answer-btn" onclick="selectOdds('fractional')">Fractional</button>
+            <button class="answer-btn" onclick="selectOdds('decimal')">Decimal</button>
+            <button class="answer-btn" onclick="selectOdds('american')">American</button>
+            
+        </div>
+    </div>
+
+    <!-- STEP 2: MODE SELECTION (Hidden by default) -->
+    <div id="step-2" class="menu-area" style="display:none;">
+	 
+
+        <h2 style="color: #f7ef05; margin-bottom: 20px; text-align:center;">Select Game Mode</h2>
+        <div class="answers" style="grid-template-columns: 1fr 1fr;">
+            <button class="answer-btn" onclick="selectMode('practice')">Practice</button>
+			 
+            <button class="answer-btn" onclick="selectMode('challenge')">45s Challenge</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: THE ACTUAL GAME (Hidden by default) -->
+    <div id="game-ui" style="display:none;">
+	   <button class="back-button" onclick="backToMenu()">← Back</button>
+	   <div id="medal-container" style="display:none; text-align:center; margin-bottom: 10px;">
+    <span id="medal-icon" style="font-size: 40px;"></span>
+    <div id="medal-text" style="color: gold; font-weight: bold; margin-bottom: 5px;"></div>
+    <button onclick="backToMenu()" class="back-button" style="position:static; display:inline-block;">Back to Odds Selection</button>
+</div>
+<div id="fail-container" style="display:none; text-align:center; padding:30px;">
+    <div id="fail-text" style="font-size:40px; color:#ff4d4d; font-weight:bold;">
+        FAILED
+    </div>
+
+    <div id="fail-score" style="font-size:24px; margin-top:10px; color:white;">
+        0/10
+    </div>
+
+    <button onclick="backToMenu()" class="answer-btn" style="margin-top:20px;">
+        Play Again
+    </button>
+</div>
+        <div class="top-bar">
+            <div class="progress-wrap" id="challenge-bars">
+                <div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div>
+                <div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div><div class="progress-bar"></div>
+            </div>
+            <div class="timer" id="timer-display">00:45</div>
+            <div id="practice-score" style="display:none; color:#facc15; font-weight:bold;">Score: 0/0</div>
+        </div>
+
+        <div class="question-area">
+		<div id="feedbackText"></div>
+            <div class="odds" id="oddsText">--</div>
+            <div class="question-text"> &nbsp;?</div>
+        </div>
+
+        <div class="answers">
+            <button class="answer-btn" id="btn0"></button>
+            <button class="answer-btn" id="btn1"></button>
+            <button class="answer-btn" id="btn2"></button>
+        </div>
+    </div>
+</div>
+
+
+</div>
+    <!-- ===== EXPLANATION ===== -->
+    <div class="explanation">
+
+    <h2>Think you know odds?</h2>
+
+    <p>
+        Train your brain to instantly convert odds into implied probability.
+        <br><br>
+        No calculator. No hesitation. Just pure instinct.
+        <br><br>
+        After a bit of practice, you’ll start seeing odds like a human odds machine!
+    </p>
+
+    <br>
+<br>
+    <h2>Odds Modes</h2>
+
+    <p>
+        Fractional<br>
+        Decimal<br>
+        American<br><br>
+        Master all three.
+    </p>
+
+    <br>
+<br>
+<br>
+    <h2>Game Modes</h2>
+
+    <p>
+        <b>Practice Mode:</b> Play at your own speed with instant feedback.<br><br>
+
+        <b>45-Second Challenge:</b> 10 questions. 45 seconds.<br>
+        The answers are designed to be tricky, only real understanding wins.
+    </p>
+
+    <br>
+<br>
+<br>
+    <h2>Medals</h2>
+
+    <p>
+        <strong>8/10</strong> &nbsp;  🥉 Bronze<br>
+        <strong>9/10</strong> &nbsp;  🥈 Silver<br>
+        <strong>10/10</strong>&nbsp;  🥇 Gold<br><br>
+
+         <strong>Get gold to unlock a full celebration!</strong>
+    </p>
+<br>
+    <br>
+<br>
+    <h2>Question Bank</h2>
+
+    <p>
+        There are <strong>90</strong> questions per odds mode.
+    </p>
+<br>
+<br>
+    <br>
+
+    <h2>How To Convert Odds to Implied Probability</h2>
+<br>
+    <p>
+        <b>Decimal Odds:</b><br>
+         <strong>Formula:</strong> (1 / Decimal Odds) x 100
+		 <br>
+		 <br>
+<strong>Example:</strong> Converting<strong> 5.00</strong> to Implied Probability
+<br>
+<br>
+• 1 / 5 = 0.20<br>
+• 0.20 × 100 = 20%<br>
+• Implied Probability:&nbsp;<strong>20% </strong>
+<br>
+<br>
+<br>
+        <b>Fractional Odds:</b><br>
+	
+         <strong>Formula:</strong> &nbsp;Denominator / (Numerator + Denominator) x 100
+<br>
+<br>
+<strong>Example:</strong> Converting <strong>4/1</strong> to Implied Probability
+<br>
+
+• 1 / (4 + 1) = 1 / 5 = 0.20<br>
+• 0.20 × 100 = 20%<br>
+• Implied Probability:&nbsp; <strong>20%</strong> 
+<br>
+<br>
+<br>
+        <b>American Odds (Positive):</b><br>
+         <strong>Formula:</strong>&nbsp; 100 / (American Odds + 100) x 100
+<br>
+<br>
+<strong>Example:</strong> Converting <strong>+900</strong> to Implied Probability
+<br>
+
+• 100 / (900 + 100) = 100 / 1000 = 0.1<br>
+• 0.1 × 100 = &nbsp; 10%<br>
+• Implied Probability:&nbsp;<strong>10% </strong>
+<br>
+	<br>
+	<br>
+        <b>American Odds (Negative):</b><br>
+         <strong>Formula:</strong> &nbsp;|American Odds| / (|American Odds| + 100) x 100
+<br>
+<br>
+<strong>Example:</strong> Converting <strong>-350</strong> to Implied Probability
+<br>
+• 350 / (350 + 100) = 350 / 450 = 0.7777...<br>
+• 0.7777 × 100 = &nbsp;77.8%<br>
+• Implied Probability:&nbsp;<strong>77.8% </strong>
+    </p>
+
+</div>
+
+</div>
+
+</body>
+</html>
+<script>
+
+const oddsData = [
+    { fractional: "1/100", decimal: "1.01", american: "-10000", probability: "99%" },
+    { fractional: "1/50", decimal: "1.02", american: "-5000", probability: "98%" },
+    { fractional: "1/33", decimal: "1.03", american: "-3333", probability: "97.1%" },
+    { fractional: "1/25", decimal: "1.04", american: "-2500", probability: "96.2%" },
+    { fractional: "1/20", decimal: "1.05", american: "-2000", probability: "95.2%" },
+    { fractional: "1/10", decimal: "1.1", american: "-1000", probability: "90.9%" },
+    { fractional: "1/6", decimal: "1.17", american: "-588", probability: "85.5%" },
+    { fractional: "1/5", decimal: "1.2", american: "-500", probability: "83.3%" },
+    { fractional: "2/9", decimal: "1.22", american: "-450", probability: "81.8%" },
+    { fractional: "1/4", decimal: "1.25", american: "-400", probability: "80%" },
+    { fractional: "2/7", decimal: "1.29", american: "-350", probability: "77.8%" },
+    { fractional: "3/10", decimal: "1.3", american: "-333", probability: "76.9%" },
+    { fractional: "1/3", decimal: "1.33", american: "-300", probability: "75%" },
+    { fractional: "4/11", decimal: "1.36", american: "-275", probability: "73.3%" },
+    { fractional: "2/5", decimal: "1.4", american: "-250", probability: "71.4%" },
+    { fractional: "4/9", decimal: "1.44", american: "-225", probability: "69.2%" },
+    { fractional: "1/2", decimal: "1.5", american: "-200", probability: "66.7%" },
+    { fractional: "8/15", decimal: "1.53", american: "-188", probability: "65.2%" },
+    { fractional: "11/20", decimal: "1.55", american: "-182", probability: "64.5%" },
+    { fractional: "4/7", decimal: "1.57", american: "-175", probability: "63.6%" },
+    { fractional: "3/5", decimal: "1.6", american: "-167", probability: "62.5%" },
+    { fractional: "8/13", decimal: "1.62", american: "-163", probability: "61.9%" },
+    { fractional: "4/6", decimal: "1.67", american: "-150", probability: "60%" },
+    { fractional: "7/10", decimal: "1.7", american: "-143", probability: "58.8%" },
+    { fractional: "8/11", decimal: "1.73", american: "-138", probability: "57.9%" },
+    { fractional: "4/5", decimal: "1.8", american: "-125", probability: "55.6%" },
+    { fractional: "5/6", decimal: "1.83", american: "-120", probability: "54.5%" },
+    { fractional: "9/10", decimal: "1.9", american: "-111", probability: "52.6%" },
+    { fractional: "10/11", decimal: "1.91", american: "-110", probability: "52.4%" },
+    { fractional: "1/1", decimal: "2", american: "+100", probability: "50%" },
+    { fractional: "21/20", decimal: "2.05", american: "+105", probability: "48.8%" },
+    { fractional: "11/10", decimal: "2.1", american: "+110", probability: "47.6%" },
+    { fractional: "23/20", decimal: "2.15", american: "+115", probability: "46.5%" },
+    { fractional: "6/5", decimal: "2.2", american: "+120", probability: "45.5%" },
+    { fractional: "5/4", decimal: "2.25", american: "+125", probability: "44.4%" },
+    { fractional: "13/10", decimal: "2.3", american: "+130", probability: "43.5%" },
+    { fractional: "11/8", decimal: "2.38", american: "+138", probability: "42.1%" },
+    { fractional: "7/5", decimal: "2.4", american: "+140", probability: "41.7%" },
+    { fractional: "6/4", decimal: "2.5", american: "+150", probability: "40%" },
+    { fractional: "8/5", decimal: "2.6", american: "+160", probability: "38.5%" },
+    { fractional: "13/8", decimal: "2.62", american: "+163", probability: "38.1%" },
+    { fractional: "17/10", decimal: "2.7", american: "+170", probability: "37%" },
+    { fractional: "7/4", decimal: "2.75", american: "+175", probability: "36.4%" },
+    { fractional: "9/5", decimal: "2.8", american: "+180", probability: "35.7%" },
+    { fractional: "15/8", decimal: "2.88", american: "+188", probability: "34.8%" },
+    { fractional: "2/1", decimal: "3", american: "+200", probability: "33.3%" },
+    { fractional: "11/5", decimal: "3.2", american: "+220", probability: "31.2%" },
+    { fractional: "9/4", decimal: "3.25", american: "+225", probability: "30.8%" },
+    { fractional: "12/5", decimal: "3.4", american: "+240", probability: "29.4%" },
+    { fractional: "5/2", decimal: "3.5", american: "+250", probability: "28.6%" },
+    { fractional: "13/5", decimal: "3.6", american: "+260", probability: "27.8%" },
+    { fractional: "11/4", decimal: "3.75", american: "+275", probability: "26.7%" },
+    { fractional: "3/1", decimal: "4", american: "+300", probability: "25%" },
+    { fractional: "16/5", decimal: "4.2", american: "+320", probability: "23.8%" },
+    { fractional: "10/3", decimal: "4.33", american: "+333", probability: "23.1%" },
+    { fractional: "7/2", decimal: "4.5", american: "+350", probability: "22.2%" },
+    { fractional: "4/1", decimal: "5", american: "+400", probability: "20%" },
+    { fractional: "9/2", decimal: "5.5", american: "+450", probability: "18.2%" },
+    { fractional: "5/1", decimal: "6", american: "+500", probability: "16.7%" },
+    { fractional: "11/2", decimal: "6.5", american: "+550", probability: "15.4%" },
+    { fractional: "6/1", decimal: "7", american: "+600", probability: "14.3%" },
+    { fractional: "13/2", decimal: "7.5", american: "+650", probability: "13.3%" },
+    { fractional: "7/1", decimal: "8", american: "+700", probability: "12.5%" },
+    { fractional: "15/2", decimal: "8.5", american: "+750", probability: "11.8%" },
+    { fractional: "8/1", decimal: "9", american: "+800", probability: "11.1%" },
+    { fractional: "17/2", decimal: "9.5", american: "+850", probability: "10.5%" },
+    { fractional: "9/1", decimal: "10", american: "+900", probability: "10%" },
+    { fractional: "10/1", decimal: "11", american: "+1000", probability: "9.1%" },
+    { fractional: "11/1", decimal: "12", american: "+1100", probability: "8.3%" },
+    { fractional: "12/1", decimal: "13", american: "+1200", probability: "7.7%" },
+    { fractional: "13/1", decimal: "14", american: "+1300", probability: "7.1%" },
+    { fractional: "14/1", decimal: "15", american: "+1400", probability: "6.7%" },
+    { fractional: "15/1", decimal: "16", american: "+1500", probability: "6.2%" },
+    { fractional: "16/1", decimal: "17", american: "+1600", probability: "5.9%" },
+    { fractional: "18/1", decimal: "19", american: "+1800", probability: "5.3%" },
+    { fractional: "20/1", decimal: "21", american: "+2000", probability: "4.8%" },
+    { fractional: "25/1", decimal: "26", american: "+2500", probability: "3.8%" },
+    { fractional: "33/1", decimal: "34", american: "+3300", probability: "2.9%" },
+    { fractional: "40/1", decimal: "41", american: "+4000", probability: "2.4%" },
+    { fractional: "50/1", decimal: "51", american: "+5000", probability: "2%" },
+    { fractional: "66/1", decimal: "67", american: "+6600", probability: "1.5%" },
+    { fractional: "75/1", decimal: "76", american: "+7500", probability: "1.3%" },
+    { fractional: "80/1", decimal: "81", american: "+8000", probability: "1.2%" },
+    { fractional: "100/1", decimal: "101", american: "+10000", probability: "1%" },
+    { fractional: "1000/1", decimal: "1001", american: "+100000", probability: "0.1%" }
+];
+
+let game = {
+    type: null,
+    mode: null,
+    score: 0,
+    total: 0,
+    step: 1,
+    challengeStep: 0,
+    timeLeft: 45,
+    timer: null,
+    currentQ: null,
+	usedQuestions: []
+};
+
+
+/* =========================
+   STEP NAVIGATION
+========================= */
+
+function selectOdds(type) {
+    game.type = type;
+
+    document.getElementById("step-1").style.display = "none";
+    document.getElementById("step-2").style.display = "block";
+
+    game.step = 2;
+}
+function selectMode(mode) {
+    game.mode = mode;
+game.usedQuestions = [];
+    // --- RESET UI VISIBILITY ---
+    document.querySelector('.question-area').style.display = 'flex';
+    document.querySelector('#game-ui .answers').style.display = 'grid';
+    // Ensure buttons are clickable again!
+    document.querySelector('#game-ui .answers').style.pointerEvents = 'all'; 
+    document.querySelector('.top-bar').style.display = 'flex';
+    document.getElementById('medal-container').style.display = 'none';
+    document.getElementById('fail-container').style.display = 'none';
+    // Reset state
+    game.score = 0;
+game.total = 0;
+game.timeLeft = 45;
+game.challengeStep = 0;
+
+const answerButtons = document.querySelectorAll('.answer-btn');
+
+answerButtons.forEach(btn => {
+    btn.classList.remove('correct', 'incorrect');
+});
+    
+    // Clear all green progress bars from previous runs
+    const bars = document.querySelectorAll('.progress-bar');
+    bars.forEach(bar => bar.classList.remove('active'));
+
+    document.getElementById("step-2").style.display = "none";
+    document.getElementById("game-ui").style.display = "block";
+
+    if (game.mode === 'practice') {
+        document.getElementById('challenge-bars').style.display = 'none';
+        document.getElementById('timer-display').style.display = 'none';
+        document.getElementById('practice-score').style.display = 'block';
+        document.getElementById('practice-score').textContent = "Score: 0/0"; // Reset text
+        document.querySelector('.back-button').style.display = 'block'; 
+    } else {
+        document.getElementById('challenge-bars').style.display = 'flex';
+        document.getElementById('timer-display').style.display = 'block';
+        document.getElementById('practice-score').style.display = 'none';
+        document.querySelector('.back-button').style.display = 'none';
+        
+        clearInterval(game.timer);
+        startTimer();
+    }
+
+    loadQuestion();
+}
+
+
+function backToMenu() {
+    // Stop any running timer
+    clearInterval(game.timer);
+
+    document.getElementById("game-ui").style.display = "none";
+    document.getElementById("step-2").style.display = "none";
+    document.getElementById("step-1").style.display = "block";
+    
+    // Clean up medal screen just in case
+    document.getElementById('medal-container').style.display = 'none';
+document.getElementById('fail-container').style.display = 'none';
+    game.step = 1;
+    game.mode = null;
+}
+/* =========================
+   FEEDBACK
+========================= */
+
+function showFeedback(isCorrect) {
+    const feedback = document.getElementById('feedbackText');
+
+    feedback.textContent = isCorrect ? "CORRECT" : "WRONG";
+    feedback.style.color = isCorrect ? "#00ff00" : "#ff0000";
+    feedback.style.opacity = 1;
+
+    setTimeout(() => {
+        feedback.style.opacity = 0;
+    }, 400);
+}
+
+/* =========================
+   GAME LOGIC
+========================= */
+
+function loadQuestion() {
+
+    // ===== UNIQUE QUESTIONS IN CHALLENGE =====
+    let availableQuestions = oddsData.filter(q =>
+        !game.usedQuestions.includes(q.probability)
+    );
+
+    // Fallback safety
+    if (availableQuestions.length === 0) {
+        game.usedQuestions = [];
+        availableQuestions = oddsData;
+    }
+
+    game.currentQ =
+        availableQuestions[
+            Math.floor(Math.random() * availableQuestions.length)
+        ];
+
+    // Track used question
+    if (game.mode === 'challenge') {
+        game.usedQuestions.push(game.currentQ.probability);
+    }
+
+    // ===== SHOW QUESTION =====
+    document.getElementById("oddsText").textContent =
+        game.currentQ[game.type];
+
+    // ===== SMARTER ANSWERS =====
+
+    const correctIndex =
+        oddsData.findIndex(
+            q => q.probability === game.currentQ.probability
+        );
+
+    let nearby = [];
+
+    // Grab nearby probabilities
+    for (let i = -4; i <= 4; i++) {
+
+        if (i === 0) continue;
+
+        const idx = correctIndex + i;
+
+        if (idx >= 0 && idx < oddsData.length) {
+            nearby.push(oddsData[idx].probability);
+        }
+    }
+
+    // Shuffle nearby answers
+    nearby.sort(() => Math.random() - 0.5);
+
+    // Build options
+    let options = [
+        game.currentQ.probability,
+        nearby[0],
+        nearby[1]
+    ];
+
+    // Shuffle final buttons
+    options.sort(() => Math.random() - 0.5);
+
+    // ===== RENDER BUTTONS =====
+    options.forEach((opt, i) => {
+
+        const btn = document.getElementById(`btn${i}`);
+
+        btn.textContent = opt;
+
+        btn.onclick = () =>
+            handleAnswer(
+                btn,
+                opt === game.currentQ.probability
+            );
+    });
+}
+
+function handleAnswer(selectedBtn, isCorrect) {
+
+    // Disable buttons temporarily
+    document.querySelector('#game-ui .answers').style.pointerEvents = 'none';
+
+    const buttons = document.querySelectorAll('.answer-btn');
+
+    // Show correct answer
+    buttons.forEach(btn => {
+        if (btn.textContent === game.currentQ.probability) {
+            btn.classList.add('correct');
+        }
+    });
+
+    // Show wrong selection
+    if (!isCorrect) {
+        selectedBtn.classList.add('incorrect');
+    }
+
+    showFeedback(isCorrect);
+
+    game.total++;
+
+    if (isCorrect) {
+        game.score++;
+    }
+
+    // Practice mode score display
+    if (game.mode === 'practice') {
+        document.getElementById('practice-score').textContent =
+            `Score: ${game.score}/${game.total}`;
+    }
+
+    // Challenge mode
+    if (game.mode === 'challenge') {
+
+        const bars = document.querySelectorAll('.progress-bar');
+
+        if (isCorrect) {
+
+            if (game.challengeStep < bars.length) {
+                bars[game.challengeStep].classList.add('active');
+                game.challengeStep++;
+            }
+
+            // ONLY instant gold on 10
+            if (game.challengeStep >= 10) {
+                clearInterval(game.timer);
+
+                setTimeout(() => {
+                    showMedalScreen(10);
+                }, 500);
+
+                return;
+            }
+
+        } else {
+
+            clearInterval(game.timer);
+
+            // Wrong after 9 = silver
+            if (game.challengeStep >= 9) {
+
+                setTimeout(() => {
+                    showMedalScreen(9);
+                }, 500);
+
+            // Wrong after 8 = bronze
+            } else if (game.challengeStep >= 8) {
+
+                setTimeout(() => {
+                    showMedalScreen(8);
+                }, 500);
+
+            } else {
+
+                setTimeout(() => {
+                    finish("Wrong Answer! Challenge Failed.");
+                }, 500);
+            }
+
+            return;
+        }
+    }
+
+    // Load next question
+    setTimeout(() => {
+
+        buttons.forEach(btn => {
+            btn.classList.remove('correct', 'incorrect');
+        });
+
+        document.querySelector('#game-ui .answers').style.pointerEvents = 'all';
+
+        loadQuestion();
+
+    }, 700);
+}
+function launchConfetti() {
+
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const colors = ['#ffd700', '#ffffff', '#ff9900', '#ffcc00'];
+
+    (function frame() {
+
+        confetti({
+            particleCount: 6,
+            angle: 60,
+            spread: 70,
+            origin: { x: 0 },
+            colors: colors
+        });
+
+        confetti({
+            particleCount: 6,
+            angle: 120,
+            spread: 70,
+            origin: { x: 1 },
+            colors: colors
+        });
+
+        confetti({
+            particleCount: 4,
+            spread: 180,
+            origin: { x: 0.5, y: 0.6 },
+            colors: colors
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+
+    })();
+}
+function showMedalScreen(step) {
+
+    document.querySelector('.question-area').style.display = 'none';
+    document.querySelector('#game-ui .answers').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
+    document.querySelector('.back-button').style.display = 'none';
+
+    const medalContainer = document.getElementById('medal-container');
+    const medalIcon = document.getElementById('medal-icon');
+    const medalText = document.getElementById('medal-text');
+
+    medalContainer.style.display = 'block';
+
+    // Reset classes
+    medalContainer.classList.remove(
+        'bronze-win',
+        'silver-win',
+        'gold-win'
+    );
+
+    if (step === 8) {
+
+        medalIcon.textContent = "🥉";
+        medalText.textContent = "BRONZE MEDAL EARNED!";
+
+        medalContainer.classList.add('bronze-win');
+
+    } else if (step === 9) {
+
+        medalIcon.textContent = "🥈";
+        medalText.textContent = "SILVER MEDAL EARNED!";
+
+        medalContainer.classList.add('silver-win');
+
+    } else if (step === 10) {
+
+    medalIcon.textContent = "👑";
+    medalText.textContent = "GOLD MEDAL! ODDS MASTER!";
+
+    medalContainer.classList.add('gold-win');
+
+    launchConfetti();
+
+    document.body.style.background =
+        "radial-gradient(circle, #fff700, #ff9900, #000000)";
+
+    // Extra dramatic flashing
+    document.body.style.animation =
+        "goldFlash 0.15s infinite alternate";
+
+    // Reset after celebration
+    setTimeout(() => {
+
+        document.body.style.animation = "";
+        document.body.style.background = "black";
+
+    }, 5000);
+}
+}
+/* =========================
+   TIMER
+========================= */
+
+function startTimer() {
+
+    game.timer = setInterval(() => {
+
+        game.timeLeft--;
+
+        document.getElementById('timer-display').textContent =
+            `00:${game.timeLeft < 10 ? '0' : ''}${game.timeLeft}`;
+
+        if (game.timeLeft <= 0) {
+
+            clearInterval(game.timer);
+
+            // Time ran out after 9 correct
+            if (game.challengeStep >= 9) {
+
+                showMedalScreen(9);
+
+            // Time ran out after 8 correct
+            } else if (game.challengeStep >= 8) {
+
+                showMedalScreen(8);
+
+            } else {
+
+                finish("Time's Up!");
+
+            }
+        }
+
+    }, 1000);
+
+}
+
+/* =========================
+   FINISH
+========================= */
+
+function finish(msg) {
+
+    clearInterval(game.timer);
+
+    // Hide game UI
+    document.querySelector('.question-area').style.display = 'none';
+    document.querySelector('#game-ui .answers').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
+    document.querySelector('.back-button').style.display = 'none';
+
+    // Show fail container
+    const failContainer = document.getElementById('fail-container');
+    const failText = document.getElementById('fail-text');
+    const failScore = document.getElementById('fail-score');
+
+    failContainer.style.display = 'block';
+
+    // Dynamic messages based on score
+    if (game.challengeStep <= 2) {
+
+        failText.textContent = "DISASTER";
+        failText.style.color = "#ff0000";
+
+    } else if (game.challengeStep <= 4) {
+
+        failText.textContent = "KEEP PRACTICING";
+        failText.style.color = "#ff6600";
+
+    } else if (game.challengeStep <= 6) {
+
+        failText.textContent = "NOT BAD";
+        failText.style.color = "#ffaa00";
+
+    } else {
+
+        failText.textContent = "SO CLOSE";
+        failText.style.color = "#ffff00";
+    }
+
+    failScore.textContent =
+        `${game.challengeStep}/10`;
+
+}
+</script>
