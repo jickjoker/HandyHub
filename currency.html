@@ -292,15 +292,13 @@ display: block;
   margin-top: 8px;
   letter-spacing: 0.3px;
 }
-    }
+    
 
    @media (max-width: 768px) {
-    /* Stack layout vertically */
     body {
         flex-direction: column;
     }
 
-    /* Un-fix sidebar, turn it into a standard top/bottom block or navigation bar */
     .sidebar {
         position: relative;
         width: 100%;
@@ -310,29 +308,69 @@ display: block;
         padding: 15px;
     }
 
-    /* Reset margins and sizing forced by desktop sidebar layout */
+    .sidebar h2 {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .nav-title {
+        display: none;
+    }
+
+    /* Arranges menu links side-by-side */
+    .sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .nav-item {
+        margin-bottom: 0;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
     .main {
         margin-left: 0;
         width: 100%;
-        padding: 20px 12px;
+        padding: 24px 14px;
     }
 
-    /* Drop header sizes to fit smaller phone screens */
     .page-title {
         font-size: 28px;
     }
 
-    /* Prevent text block overflowing the screen bounds */
-    .explanation {
-        width: 100%;
-        margin-top: 40px;
-        font-size: 16px;
+    .page-subtitle {
+        margin-bottom: 20px;
+        font-size: 14px;
     }
 
-    /* Change grid from 4 fixed columns to dynamic wrap or 2 columns */
+    /* Scales grid down to 2 columns on phones */
     .grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
+    }
+
+    .card {
+        height: 72px;
+    }
+
+    /* Ensures the text box fits mobile widths */
+    .explanation {
+        width: 100%;
+        margin-top: 35px;
+        font-size: 15px;
+    }
+
+    /* Prevents flex squishing on narrow screens */
+    .active-input {
+        width: 110px;
+        font-size: 18px;
+    }
+    
+    .active-left {
+        font-size: 18px;
     }
 }
   </style>
