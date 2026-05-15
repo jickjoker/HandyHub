@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Currency Converter | HandyHub</title>
 <meta name="description" content="Live currency converter with real-time rates, fallback data, and fast multi-currency calculations.">
 
@@ -294,41 +295,44 @@ display: block;
     }
 
    @media (max-width: 768px) {
-
+    /* Stack layout vertically */
     body {
         flex-direction: column;
     }
 
+    /* Un-fix sidebar, turn it into a standard top/bottom block or navigation bar */
     .sidebar {
         position: relative;
         width: 100%;
         height: auto;
         border-right: none;
         border-bottom: 1px solid #1f2937;
+        padding: 15px;
     }
 
+    /* Reset margins and sizing forced by desktop sidebar layout */
     .main {
         margin-left: 0;
         width: 100%;
-        padding: 20px;
+        padding: 20px 12px;
     }
 
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+    /* Drop header sizes to fit smaller phone screens */
+    .page-title {
+        font-size: 28px;
     }
 
-    .converter-box {
-        max-width: 100%;
-    }
-
+    /* Prevent text block overflowing the screen bounds */
     .explanation {
-        width: 90%;
+        width: 100%;
         margin-top: 40px;
         font-size: 16px;
     }
 
-    .page-title {
-        font-size: 28px;
+    /* Change grid from 4 fixed columns to dynamic wrap or 2 columns */
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
     }
 }
   </style>
