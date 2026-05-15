@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Converter | HandyHub</title>
+<meta name="description" content="Live currency converter with real-time rates, fallback data, and fast multi-currency calculations.">
+
+<!-- Open Graph (social sharing) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Currency Converter | HandyHub">
+<meta property="og:description" content="Convert currencies instantly with live exchange rates and smart fallback data.">
+<meta property="og:url" content="https://jickjoker.github.io/HandyHub/currency.html">
+<meta property="og:image" content="https://jickjoker.github.io/HandyHub/currency.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Currency Converter | HandyHub">
+<meta name="twitter:description" content="Live currency converter with real-time exchange rates.">
+<meta name="twitter:image" content="https://jickjoker.github.io/HandyHub/currency.png">
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "557b6bebf9404e94a0fd713f43b9f009"}'></script><!-- End Cloudflare Web Analytics -->
+
+<style>
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+body {
+    background: #030712;
+    color: white;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  
+overflow-y: auto;
+    scrollbar-width: thin;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    padding: 20px;
+    border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+    color: #22c55e;
+    margin-bottom: 30px;
+}
+
+/* NAV */
+.nav-title {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #e5e7eb;
+    text-decoration: none;
+}
+.last-updated {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+.nav-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page {
+    background: #66ff00;
+    color: #111827 !important;
+    font-weight: bold;
+}
+
+/* MAIN CONTENT SHIFT (required for sidebar spacing) */
+.main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+/* ===== PAGE ===== */
+
+.page-title{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.page-subtitle{
+    color:#9ca3af;
+    margin-bottom:35px;
+}
+
+/* ===== SELECTED CURRENCY ===== */
+
+/* ===== BOX ===== */
+     .converter-box {
+	 display: flex;
+  flex-direction: column;
+  align-items: stretch;
+	 margin-top:10px;
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;      /* High contrast white layout inside the card frame */
+      border: 1px solid #d1d5db;
+      border-radius: 18px;
+	  padding-top: 28px;
+      padding: 16px;
+      box-sizing: border-box;
+      position: relative;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Live Status Tracker Tag */
+    .status-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+
+  padding: 5px 12px;
+  border-radius: 999px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+    .status-live {
+      background: rgba(37, 99, 235, 0.1);
+      color: #2563eb;
+    }
+    .status-offline {
+      background: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+
+    .title {
+      color: #111827;           /* Pitch charcoal text values */
+      font-size: 22px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-weight: bold;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+/* Chrome, Safari, Edge */
+.active-input::-webkit-outer-spin-button,
+.active-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.explanation {
+   width: 65%;
+  margin-top: 90px;
+display: block;
+  background: white;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+
+  padding: 12px 14px;
+
+  color: black;
+  font-size: 20px;
+  line-height: 1.5;
+}
+/* Firefox */
+.active-input {
+  -moz-appearance: textfield;
+}
+
+    /* ===== ACTIVE TOP ===== */
+    .active-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: #f3f4f6;
+      border: 2px solid #2563eb;
+      margin-bottom: 16px;
+      height: 54px; 
+      box-sizing: border-box;
+    }
+
+    .active-left {
+      display: flex;
+      gap: 12px;
+      font-weight: bold;
+      color: #111827;
+      font-size: 22px;
+      align-items: center;
+    }
+
+    .active-flag {
+      font-size: 26px;
+    }
+
+    .active-input {
+  width: 160px;
+  background: transparent;
+  border: none;
+  color: #111827;
+  text-align: right;
+  font-size: 22px;
+  font-weight: bold;
+  outline: none;
+
+  padding-right: 10px; /* 👈 adds breathing room */
+}
+
+    /* ===== OPTIMIZED GRID (Balanced 4 Columns) ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      height: 80px; 
+      cursor: pointer;
+      transition: 0.2s;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 6px;
+    }
+
+    .card:hover {
+      border-color: #2563eb;
+      background: #f3f4f6;
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      gap: 6px;
+      font-weight: 800; 
+      font-size: 15px;  
+      align-items: center;
+    }
+
+    .card-flag {
+      font-size: 22px; 
+    }
+
+    /* ===== RESULTS ===== */
+    .result-val {
+  font-size: 26px;
+  font-weight: 900;
+  color: #059669;;
+  font-variant-numeric: tabular-nums;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+    }
+
+   @media (max-width: 768px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #1f2937;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .converter-box {
+        max-width: 100%;
+    }
+
+    .explanation {
+        width: 90%;
+        margin-top: 40px;
+        font-size: 16px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+}
+  </style>
+</head>
+<body>
+
+
+<!-- ===== ORIGINAL SIDEBAR ===== -->
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+
+<div class="nav-section">
+    <div class="nav-title">Financial</div>
+    <a href="financial-markets.html" class="nav-item active-page">Financial Markets</a>
+    <a href="financial-tools.html" class="nav-item">Financial Tools</a>
+</div>
+</div>
+<div class="main">
+  <div class="converter-box">
+    <!-- Network Connectivity Status Indicator Display -->
+    <div id="statusIndicator"></div>
+
+    <!-- Header / Active Selector Area -->
+    <div id="active"></div>
+
+    <!-- Symmetrical 4-Column Grid -->
+    <!-- Symmetrical 4-Column Grid -->
+<div class="grid" id="grid"></div>
+
+<div id="lastUpdated" class="last-updated"></div>
+
+<div id="results" style="display: none;"></div>
+</div>
+<div class="explanation">
+  <h3>How it works</h3>
+  <p>
+    Select a currency, enter an amount, and view conversion results instantly.
+  </p>
+<br>
+  <p>
+    <strong>Update frequency:</strong> <br>Live rates refresh automatically every 30 seconds when available. If live data fails, the app switches to local fallback estimates.
+  </p>
+<br>
+  <p>
+    <strong>Data source:</strong><br> Exchange rates are retrieved from a public FX API (open.er-api.com). Values may differ slightly from Google or banks due to timing and rounding differences.
+  </p>
+  <br>
+  <p>
+    <strong>Privacy:</strong> <br>This tool does not use cookies or store personal data. All calculations run locally in your browser.
+  </p>
+</div>
+
+</div> <!-- closes converter-box -->
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
+</div> <!-- closes main -->
+<script>
+
+const currencies = [
+  { code: "USD", flag: "🇺🇸" },
+  { code: "EUR", flag: "🇪🇺" },
+  { code: "GBP", flag: "🇬🇧" },
+  { code: "JPY", flag: "🇯🇵" },
+  { code: "CAD", flag: "🇨🇦" },
+  { code: "AUD", flag: "🇦🇺" },
+  { code: "CHF", flag: "🇨🇭" },
+  { code: "CNY", flag: "🇨🇳" },
+  { code: "INR", flag: "🇮🇳" },
+  { code: "SGD", flag: "🇸🇬" },
+  { code: "ZAR", flag: "🇿🇦" },
+  { code: "PLN", flag: "🇵🇱" }
+];
+
+const localFallbackMatrix = {
+  USD: { EUR: 0.92, GBP: 0.79, JPY: 155.5, CAD: 1.37, AUD: 1.51, CHF: 0.91, CNY: 7.24, INR: 83.5, SGD: 1.35, ZAR: 18.4, PLN: 3.95 },
+  EUR: { USD: 1.09, GBP: 0.86, JPY: 169.1, CAD: 1.49, AUD: 1.64, CHF: 0.99, CNY: 7.87, INR: 90.75, SGD: 1.47, ZAR: 20.0, PLN: 4.29 },
+  GBP: { USD: 1.27, EUR: 1.16, JPY: 196.8, CAD: 1.73, AUD: 1.91, CHF: 1.15, CNY: 9.16, INR: 105.7, SGD: 1.71, ZAR: 23.3, PLN: 5.00 }
+};
+
+// Global App Variables Fixed
+let active = "USD"; 
+let amount = 1;
+let rates = {};
+let isLive = false;
+let lastUpdated = null; 
+let liveInterval = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  load(); 
+});
+
+async function load() {
+  if (!active) return;
+
+  const baseData = localFallbackMatrix[active] || {};
+
+  currencies.forEach(c => {
+    if (c.code === active) rates[c.code] = 1;
+    else if (baseData[c.code]) rates[c.code] = baseData[c.code];
+    else {
+      const activeToUSD = 1 / (localFallbackMatrix["USD"][active] || 1);
+      const targetFromUSD = localFallbackMatrix["USD"][c.code] || 1;
+      rates[c.code] = activeToUSD * targetFromUSD;
+    }
+  });
+
+  isLive = false;
+  render();
+
+  let success = false;
+  try {
+    const res = await fetch(`https://open.er-api.com/v6/latest/${active}`);
+    if (!res.ok) throw new Error("Network response failed");
+    const data = await res.json();
+
+    if (data && data.rates) {
+      rates = data.rates;
+      rates[active] = 1;
+      isLive = true;
+      success = true;
+      lastUpdated = Date.now(); 
+    }
+  } catch (e) {
+    console.log("Using local fallback data");
+  }
+
+  render();
+
+  if (success) {
+    if (liveInterval) clearInterval(liveInterval);
+    liveInterval = setInterval(() => {
+      load();
+    }, 30000);
+  }
+}
+
+function renderLastUpdated() {
+  const el = document.getElementById("lastUpdated");
+  if (!el) return;
+
+  if (!active || !isLive || !lastUpdated) {
+    el.textContent = "";
+    return;
+  }
+
+  const seconds = Math.floor((Date.now() - lastUpdated) / 1000);
+  if (seconds < 1) {
+    el.textContent = "Last updated just now";
+    return;
+  }
+  if (seconds < 60) {
+    el.textContent = `Last updated ${seconds}s ago`;
+  } else {
+    const mins = Math.floor(seconds / 60);
+    el.textContent = `Last updated ${mins}m ago`;
+  }
+}
+
+function formatValue(value, currencyCode) {
+  if (value === 0) return "0";
+  if (currencyCode === "JPY" && value > 1) return Math.round(value).toLocaleString();
+  if (value < 1 && value > 0) return value.toFixed(4);
+  if (value >= 1000000) return (value / 1000000).toFixed(1) + "M";
+  if (value >= 1000) return value.toFixed(0);
+  return value.toFixed(2);
+}
+
+setInterval(() => {
+  if (isLive) renderLastUpdated();
+}, 1000);
+
+function render() {
+  renderStatus();
+  renderActive();
+  renderGrid();
+  renderLastUpdated(); 
+}
+
+function renderStatus() {
+  const el = document.getElementById("statusIndicator");
+  if (!el) return;
+  if (!active) {
+    el.innerHTML = "";
+    return;
+  }
+  if (isLive) {
+    el.innerHTML = `<span class="status-badge status-live">● LIVE</span>`;
+  } else {
+    el.innerHTML = `<span class="status-badge status-offline">● LOCAL DATA</span>`;
+  }
+}
+
+function renderActive() {
+  const el = document.getElementById("active");
+  if (!el) return;
+
+  if (!active) {
+    el.innerHTML = `<div class="title">Select Currency</div>`;
+    return;
+  }
+
+  const c = currencies.find(x => x.code === active);
+  if (!c) return;
+
+  // Render container structural markup only once if it doesn't exist
+  if (!document.getElementById("amountInput")) {
+    el.innerHTML = `
+      <div class="active-box">
+        <div class="active-left">
+          <span class="active-flag">${c.flag}</span>
+          <span>${c.code}</span>
+        </div>
+        <input
+          type="number"
+          class="active-input"
+          id="amountInput"
+          value="${amount}"
+          oninput="updateAmount(this.value)"
+          placeholder="0.00"
+          min="0"
+          max="1000000"
+        />
+      </div>
+    `;
+    const input = document.getElementById('amountInput');
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  }
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  currencies.forEach(c => {
+    if (active && c.code === active) return;
+
+    const div = document.createElement("div");
+    div.className = "card";
+
+    if (!active) {
+      div.innerHTML = `
+        <div class="card-top">
+          <span class="card-flag">${c.flag}</span>
+          <span>${c.code}</span>
+        </div>
+      `;
+    } else {
+      const rate = rates[c.code] ?? 0;
+      const rawVal = amount * rate;
+      const val = rate > 0 ? formatValue(rawVal, c.code) : "--";
+
+      div.innerHTML = `
+        <div class="card-top">
+          <span class="card-flag">${c.flag}</span>
+          <span>${c.code}</span>
+        </div>
+        <div class="result-val">${val}</div>
+      `;
+    }
+
+    div.onclick = () => {
+      active = c.code;
+      // Reset active field render container structure on swap
+      const activeContainer = document.getElementById("active");
+      if (activeContainer) activeContainer.innerHTML = "";
+      load(); 
+    };
+
+    grid.appendChild(div);
+  });
+}
+
+function updateAmount(val) {
+  let num = Number(val) || 0;
+  if (num > 1000000) num = 1000000;
+  amount = num;
+
+  const input = document.getElementById("amountInput");
+  if (input && input.value != num) {
+    input.value = num;
+  }
+  renderGrid();
+}
+</script>
+
+</body>
+</html>

@@ -78,6 +78,9 @@ body{
 
 /* SIDEBAR (same as homepage) */
         .sidebar{
+		overflow-y: auto;
+scrollbar-width: thin;
+
             position:fixed;
             left:0;
             top:0;
@@ -552,7 +555,12 @@ margin-bottom:800px;
         <div class="nav-title">Betting</div>
         <a href="betting-tools.html" class="nav-item">Betting Tools</a>
         <a href="betting-training.html" class="nav-item">Betting Training</a>
-    </div>
+  <div class="nav-section">
+    <div class="nav-title">Financial</div>
+    <a href="financial-markets.html" class="nav-item">Financial Markets</a>
+    <a href="financial-tools.html" class="nav-item">Financial Tools</a>
+</div>
+    
 
 </div>
 <!-- ===== MAIN ===== -->
@@ -852,7 +860,11 @@ Divide your call into the total pot:
     
 	
 </div>
-
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
 </div>
 <script>
 

@@ -54,6 +54,9 @@ body{
 
 /* ===== SIDEBAR ===== */
 .sidebar{
+overflow-y: auto;
+scrollbar-width: thin;
+
     position:fixed;
     left:0;
     top:0;
@@ -694,6 +697,12 @@ transition: background 0.1s, transform 0.1s;
     <div class="nav-title">Betting</div>
     <a href="betting-tools.html" class="nav-item">Betting Tools</a>
     <a href="betting-training.html" class="nav-item active-page">Betting Training</a>
+<div class="nav-section">
+    <div class="nav-title">Financial</div>
+    <a href="financial-markets.html" class="nav-item">Financial Markets</a>
+    <a href="financial-tools.html" class="nav-item">Financial Tools</a>
+</div>
+    
 
 </div>
 
@@ -892,7 +901,11 @@ transition: background 0.1s, transform 0.1s;
     </p>
 
 </div>
-
+<script>
+if (window.location.hostname !== "jickjoker.github.io") {
+    document.body.innerHTML = "<h1></h1><p></p>";
+}
+</script>
 </div>
 
 </body>
