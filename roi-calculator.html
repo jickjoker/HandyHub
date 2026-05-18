@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROI Calculator</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+
+body{
+    background:black;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+    overflow-y:auto;
+    scrollbar-width:thin;
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:#111827;
+    padding:20px;
+    border-right:1px solid #1f2937;
+}
+
+.sidebar h2{
+    color:#22c55e;
+    margin-bottom:30px;
+}
+
+.nav-title{
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.nav-item{
+    display:block;
+    padding:10px 12px;
+    margin-bottom:6px;
+    border-radius:8px;
+    color:#e5e7eb;
+    text-decoration:none;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.nav-item.active-page{
+    background:#66ff00;
+    color:#111827 !important;
+    font-weight:bold;
+}
+
+/* ===== MAIN ===== */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+
+    padding:14px 20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+
+/* ===== TITLE ===== */
+
+.page-title{
+
+    font-size:32px;
+	color:#f59e0b;
+    margin-bottom:30px;
+}
+
+.page-subtitle{
+    margin-bottom:14px;
+    font-size:14px;
+}
+
+/* ===== CALCULATOR ===== */
+
+.calculator-box{
+    width:100%;
+    max-width:450px;
+    background:#030524;
+    border:1px solid #1f2937;
+     padding:15px;
+    border-radius:16px
+}
+
+/* ===== INPUTS ===== */
+
+
+
+
+.input-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+
+.input-group input{
+    padding:12px;
+    font-size:22px;
+}
+
+
+.repeat-card{
+    padding:12px;
+}
+.repeat-profit{
+    font-size:18px;
+}
+
+.input-group label{
+font-weight:700;
+    display:block;
+    margin-bottom:3px;
+    color:#d1d5db;
+    font-size:15px;
+}
+
+.input-group input{
+font-weight:700;
+    width:100%;
+    padding:6px 8px;
+   border-radius:8px;
+    border:1px solid #374151;
+    background:black;
+    color:white;
+      font-size:18px;
+    outline:none;
+}
+
+.input-group input:focus{
+    border-color:#f59e0b;
+}
+
+/* ===== RESULT CARDS ===== */
+
+.results-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+     gap:6px;
+    margin-bottom:8px;
+}
+
+.result-card{
+    background:black;
+    border:2px solid #1f2937;
+    border-radius:10px;
+
+     height:50px;
+padding:6px 10px;
+
+    display:flex;
+    align-items:center;
+}
+
+.result-content{
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+    font-size:22px;
+    align-items:center;
+}
+
+.result-label{
+ font-weight:800;
+    color:#9ca3af;
+   font-size:15px;
+}
+
+.result-value{
+    font-weight:800;
+    font-size:18px;
+}
+/* ===== PERFORMANCE COLOURS ===== */
+
+.negative{
+    color:#ff0808;
+    border-color:#7f1d1d;
+    /* REMOVED BOX SHADOW */
+}
+
+.small{
+     color:#facc15;
+    border-color:#713f12;
+    /* REMOVED BOX SHADOW */
+}
+
+.strong{
+    color:#22c55e;
+    border-color:#166534;
+    /* REMOVED BOX SHADOW */
+}
+
+.huge{
+     color:#66ff00;
+    border-color:#3f6212;
+    /* REMOVED BOX SHADOWS */
+}
+
+/* ===== INSIGHT ===== */
+
+.insight-box{
+    background:#0f172a;
+    border:1px solid #1f2937;
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:20px;
+    font-size:17px;
+    color:#d1d5db;
+}
+
+/* ===== REPEAT SECTION ===== */
+
+.repeat-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.repeat-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:black;
+    border:1px solid #1f2937;
+    padding:6px 8px;
+    border-radius:8px;
+    
+    /* Smooth color transition when values change */
+    transition: all 0.2s ease; 
+}
+
+
+.repeat-times{
+    font-weight:600;
+    font-size:18px;
+    color:#e5e7eb;; /* ADD THIS */
+}
+
+.repeat-profit{
+    font-size:18px;
+    font-weight:800;
+    /* REMOVED: color: #22c55e; */
+}
+/* ===== INFO BOX ===== */
+
+.info-box{
+    width:100%;
+    max-width:520px;
+    background:white;
+    color:black;
+    padding:28px;
+    border-radius:18px;
+    line-height:1.8;
+    margin-top:90px;
+}
+
+/* ===== TITLES ===== */
+
+.info-box h2{
+    font-size:1.8rem;
+    margin-top:28px;
+    margin-bottom:14px;
+    font-weight:800;
+    color:#111827;
+    border-bottom:2px solid #e5e7eb;
+    padding-bottom:8px;
+}
+
+.info-box h2:first-child{
+    margin-top:0;
+}
+
+/* ===== TEXT ===== */
+
+.info-box p{
+    margin-bottom:16px;
+    font-size:1.05rem;
+}
+
+.info-box strong{
+    font-weight:700;
+}
+
+/* ===== LISTS ===== */
+
+.info-box ul{
+    padding-left:24px;
+    margin-bottom:18px;
+}
+
+.info-box li{
+    margin-bottom:10px;
+}
+
+/* ===== FORMULA ===== */
+
+
+.formula-box{
+max-width:350px;
+    background:#f3f4f6;
+
+    border:2px solid #d1d5db;
+    border-radius:16px;
+    padding:12px;
+    margin:24px 0;
+    text-align:center;
+     font-size:18px;
+    font-weight:700;
+    overflow-x:auto;
+}
+
+.formula-box span{
+    display:block;
+    padding:6px 0;
+}
+
+.formula-line{
+    height:3px;
+    background:black;
+    width:90%;
+    margin:6px auto;
+}
+
+.small-formula{
+    font-size:1.2rem;
+}
+.roi-example-formula{
+    display:flex;
+    align-items:center;
+
+    justify-content:flex-start; /* change this */
+
+    gap:12px;
+    flex-wrap:wrap;
+
+    margin:24px 0;
+}
+
+/* ===== FRACTION BOX ===== */
+
+.roi-fraction-box{
+    background:#f3f4f6;
+
+    border:2px solid #d1d5db;
+    border-radius:12px;
+
+    padding:8px 14px;
+
+    min-width:90px;
+
+    text-align:center;
+}
+
+/* ===== NUMBERS ===== */
+
+.roi-top-number,
+.roi-bottom-number{
+    font-size:1rem;
+    font-weight:700;
+    color:#111827;
+}
+
+/* ===== SMALL DIVIDER ===== */
+
+.roi-divider{
+    width:55px;          /* line length */
+    height:2px;
+
+    background:black;
+
+    margin:4px auto;
+}
+
+/* ===== SIDE TEXT ===== */
+
+.roi-left-text,
+.roi-right-text{
+    font-size:1.1rem;
+    font-weight:700;
+    color:#111827;
+}
+/* ===== MOBILE ===== */
+
+@media(max-width:900px){
+
+    .input-grid,
+    .results-grid,
+    .repeat-grid{
+        grid-template-columns:1fr;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .result-value{
+        font-size:42px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+
+<div class="sidebar">
+
+    <h2>HandyHub</h2>
+
+    <div class="nav-title">Home</div>
+    <a href="index.html" class="nav-item">Welcome</a>
+
+    <div class="nav-title">Math</div>
+    <a href="math-tools.html" class="nav-item">Math Tools</a>
+    <a href="math-games.html" class="nav-item">Math Games</a>
+
+    <div class="nav-title">Poker</div>
+    <a href="poker-tools.html" class="nav-item">Poker Tools</a>
+    <a href="poker-training.html" class="nav-item">Poker Training</a>
+
+    <div class="nav-title">Betting</div>
+    <a href="betting-tools.html" class="nav-item">Betting Tools</a>
+    <a href="betting-training.html" class="nav-item">Betting Training</a>
+
+    <div class="nav-title">Financial</div>
+    <a href="financial-markets.html" class="nav-item">Financial Markets</a>
+    <a href="financial-tools.html" class="nav-item active-page">Financial Tools</a>
+
+</div>
+
+<!-- ===== MAIN ===== -->
+
+<div class="main">
+
+    <h1 class="page-title">ROI Calculator</h1>
+
+   
+    <div class="calculator-box">
+
+    <!-- INPUTS -->
+    <div class="input-grid">
+
+        <div class="input-group">
+            <label>Initial Investment (£)</label>
+            <!-- Changed to type="text" and added inputmode -->
+            <input type="text" id="investment" inputmode="decimal" value="0.00">
+        </div>
+
+        <div class="input-group">
+            <label>Final Return (£)</label>
+            <!-- Changed to type="text" and added inputmode -->
+            <input type="text" id="returnAmount" inputmode="decimal" value="0.00">
+        </div>
+
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-grid">
+
+        <div class="result-card strong" id="profitCard">
+            <div class="result-content">
+                <span class="result-label">Profit</span>
+                <span class="result-value" id="profitDisplay">0</span>
+            </div>
+        </div>
+
+        <div class="result-card strong" id="roiCard">
+            <div class="result-content">
+                <span class="result-label">ROI %</span>
+                <span class="result-value" id="roiDisplay">0</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="repeat-list">
+        <div class="repeat-row">
+            <span class="repeat-times">10 Investments</span>
+            <span class="repeat-profit" id="repeat10">+£0</span>
+        </div>
+        <div class="repeat-row">
+            <span class="repeat-times">50 Investments</span>
+            <span class="repeat-profit" id="repeat50">+£0</span>
+        </div>
+        <div class="repeat-row">
+            <span class="repeat-times">100 Investments</span>
+            <span class="repeat-profit" id="repeat100">+£0</span>
+        </div>
+        <div class="repeat-row">
+            <span class="repeat-times">1000 Investments</span>
+            <span class="repeat-profit" id="repeat1000">+£0</span>
+        </div>
+    </div>
+</div>
+<div class="info-box">
+
+    <h2>How to Use</h2>
+
+    <p>
+        Enter your <strong>Initial Investment</strong> and your 
+        <strong>Total Return</strong>.
+    </p>
+
+    <p>The calculator will automatically display:</p>
+
+    <ul>
+        <li><strong>Net Profit / Loss</strong></li>
+        <li><strong>ROI Percentage</strong></li>
+        <li><strong>Investment Performance</strong></li>
+        <li><strong>Projection Results</strong></li>
+    </ul>
+<br>
+<br>
+<br>
+    <h2>Projection Features</h2>
+
+    <p>
+        The projection feature estimates what could happen if the same 
+        investment performance was repeated multiple times.
+    </p>
+
+    <p>The calculator shows projections for:</p>
+
+    <ul>
+        <li><strong>10 Repetitions</strong></li>
+        <li><strong>50 Repetitions</strong></li>
+        <li><strong>100 Repetitions</strong></li>
+        <li><strong>1000 Repetitions</strong></li>
+    </ul>
+<br>
+<br>
+<br>
+    <h2>What is ROI?</h2>
+
+    <p>
+        <strong>ROI (Return on Investment)</strong> is a financial metric used 
+        to measure the profitability and efficiency of an investment.
+    </p>
+
+    <p>
+        It compares the amount gained or lost relative to the original 
+        investment amount.
+    </p>
+
+    <p>
+        A higher ROI generally means a more profitable investment.
+    </p>
+<br>
+<br>
+<br>
+    <h2>The Formula</h2>
+<p class="formula-explanation">
+    ROI is calculated by dividing your 
+    <strong>net profit</strong> by your 
+    <strong>initial investment</strong>, 
+    then multiplying by <strong>100</strong>.
+</p>
+<br>
+    <div class="formula-box">
+
+    <div class="formula-top">
+        (Total Return − Initial Investment)
+    </div>
+
+    <div class="formula-line"></div>
+
+    <div class="formula-bottom">
+        Initial Investment
+    </div>
+
+    <div class="formula-result">
+        ROI × 100
+    </div>
+
+</div>
+<br>
+<br>
+<br>
+    <h2>Example</h2>
+
+    <p>
+        You play <strong>300 $5 Sit &amp; Go poker tournaments</strong>.
+    </p>
+
+    <ul>
+        <li><strong>Total Buy-ins:</strong> 300 × $5 = $1500</li>
+        <li><strong>Final Return:</strong> $1765</li>
+        <li><strong>Profit:</strong> $1765 − $1500 = $265</li>
+    </ul>
+
+    <div class="roi-example-formula">
+
+    <span class="roi-left-text">ROI =</span>
+
+    <div class="roi-fraction-box">
+
+        <div class="roi-top-number">265</div>
+
+        <div class="roi-divider"></div>
+
+        <div class="roi-bottom-number">1500</div>
+
+    </div>
+
+    <span class="roi-right-text">× 100 = 17.7%</span>
+
+</div>
+<br>
+<br>
+<br>
+    <h2>Understanding the Results</h2>
+
+    <p>
+        <strong>Positive ROI:</strong> Your investment made a profit.
+    </p>
+
+    <p>
+        <strong>Negative ROI:</strong> Your investment lost money.
+    </p>
+
+    <p>
+        <strong>0% ROI:</strong> You broke even with no profit or loss.
+    </p>
+<br>
+<br>
+<br>
+    <h2>Common Uses of ROI</h2>
+
+    <ul>
+        <li>
+            <strong>Investing:</strong> Comparing stocks, crypto, or property investments.
+        </li>
+
+        <li>
+            <strong>Business:</strong> Measuring product or marketing profitability.
+        </li>
+
+        <li>
+            <strong>Poker &amp; Gambling:</strong> Tracking long-term profitability.
+        </li>
+
+        <li>
+            <strong>Sports Betting:</strong> Measuring betting efficiency over time.
+        </li>
+
+        <li>
+            <strong>Personal Finance:</strong> Evaluating savings or side projects.
+        </li>
+    </ul>
+
+</div>
+
+
+<script>
+
+const investmentInput = document.getElementById("investment");
+const returnInput = document.getElementById("returnAmount");
+
+const profitDisplay = document.getElementById("profitDisplay");
+const roiDisplay = document.getElementById("roiDisplay");
+
+const profitCard = document.getElementById("profitCard");
+const roiCard = document.getElementById("roiCard");
+
+const targetTiers = ["negative", "small", "strong", "huge"];
+
+const MAX_VALUE = 999999999;
+
+/* ===== INPUT LIMIT (SAFE NUMERIC VERSION) ===== */
+/* ===== INPUT LIMIT & CLEANUP (STRIPS LEADING ZEROS) ===== */
+/* ===== INPUT LIMIT & DECIMAL CLEANUP ===== */
+/* ===== INPUT LIMIT & DECIMAL CLEANUP ===== */
+/* ===== INPUT LIMIT & DECIMAL CLEANUP ===== */
+[investmentInput, returnInput].forEach(input => {
+    input.addEventListener("input", () => {
+        let val = input.value;
+
+        // 1. Strip any characters that aren't digits or a decimal point
+        val = val.replace(/[^0-9.]/g, '');
+
+        // 2. Prevent multiple decimal points safely
+        const parts = val.split('.');
+        if (parts.length > 2) {
+            val = parts[0] + '.' + parts.slice(1).join('');
+        }
+
+        // 3. Strip leading zeros safely (keeps 0.5, changes 005 to 5)
+        val = val.replace(/^0+(?=[0-9])/, '');
+
+        // 4. Update the input field text
+        input.value = val;
+
+        // 5. Enforce max value limit
+        let numValue = parseFloat(val);
+        if (!isNaN(numValue) && numValue > MAX_VALUE) {
+            input.value = MAX_VALUE.toString();
+        }
+    });
+});
+
+
+
+/* ===== FORMAT MONEY ===== */
+function formatMoney(num) {
+    return "£" + Math.abs(num).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+/* ===== PERFORMANCE CLASS HANDLER ===== */
+function setPerformanceClass(value) {
+
+    let level = "small";
+
+    if (value < 0) level = "negative";
+    else if (value < 25) level = "small";
+    else if (value < 100) level = "strong";
+    else level = "huge";
+
+    [profitCard, roiCard].forEach(card => {
+        card.classList.remove(...targetTiers);
+        card.classList.add(level);
+    });
+
+    document.querySelectorAll(".repeat-list .repeat-row").forEach(row => {
+        row.classList.remove(...targetTiers);
+        row.classList.add(level);
+    });
+}
+
+/* ===== MAIN CALCULATION ===== */
+function calculateROI() {
+
+    const investment = parseFloat(investmentInput.value) || 0;
+    const finalReturn = parseFloat(returnInput.value) || 0;
+
+    const profit = finalReturn - investment;
+
+    let roi = 0;
+    if (investment > 0) {
+        roi = (profit / investment) * 100;
+    }
+
+    /* ===== SIGN HANDLING (FIXED ZERO CASE) ===== */
+    const sign = profit > 0 ? "+" : profit < 0 ? "-" : "";
+
+    profitDisplay.textContent = sign + formatMoney(profit);
+    roiDisplay.textContent = sign + Math.abs(roi).toFixed(1) + "%";
+
+    setPerformanceClass(roi);
+
+    /* ===== REPEAT MULTIPLIERS ===== */
+    [10, 50, 100, 1000].forEach(multiplier => {
+        document.getElementById(`repeat${multiplier}`).textContent =
+            sign + formatMoney(profit * multiplier);
+    });
+}
+
+/* ===== EVENT LISTENERS ===== */
+investmentInput.addEventListener("input", calculateROI);
+returnInput.addEventListener("input", calculateROI);
+
+/* ===== INIT ===== */
+calculateROI();
+</script>
+
+</body>
+</html>
